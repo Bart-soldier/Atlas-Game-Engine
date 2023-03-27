@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL.h>
-#include "window.hpp"
-
+//#include "GraphicsEngine.hpp"
+/*
 //Key press surfaces constants
 enum KeyPressSurfaces {
 	KEY_PRESS_SURFACE_DEFAULT,
@@ -10,17 +10,18 @@ enum KeyPressSurfaces {
 	KEY_PRESS_SURFACE_LEFT,
 	KEY_PRESS_SURFACE_RIGHT,
 	KEY_PRESS_SURFACE_TOTAL
-};
+};*/
 
 class EventHandler {
 	private:
-		Window* m_window;
+		//GraphicsEngine* m_window;
 		SDL_Event m_eventHandler;
 		//The images that correspond to a keypress
-		SDL_Texture* m_keyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
+		//SDL_Texture* m_keyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 
 	public:
-		EventHandler(Window* window);
-		void handleEvent();
+		//EventHandler();
+		//EventHandler(GraphicsEngine* window);
+		bool handleEvent();
 };
 

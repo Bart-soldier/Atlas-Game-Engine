@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string>
 
-class Window {
+class GraphicsEngine {
 	private:
 		// The window we'll be rendering to
 		SDL_Window* m_window = NULL;
@@ -19,14 +19,16 @@ class Window {
 		bool m_exitStatus = false;
 
 	public:
-		Window(int width, int height);
-		void close();
-		SDL_Texture* loadTexture(std::string path);
-		void unloadTexture(SDL_Texture* texture);
-		void updateWindow(SDL_Texture* texture);
-		//void updateWindow(SDL_Texture* texture, int x, int y, int width, int height);
+		GraphicsEngine(int width, int height);
+		~GraphicsEngine();
+		SDL_Texture* createTexture(SDL_Surface* surface);
+		void render(SDL_Texture* texture, int x, int y, int width, int height);
+		void clearScreen();
+		void updateScreen();
+		void drawRectangle();
 
-		SDL_Window* getWindow();
+		int getWidth();
+		int getHeight();
 		bool getExitStatus();
 		void setExitStatus(bool exitStatus);
 };

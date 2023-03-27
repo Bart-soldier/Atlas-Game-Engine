@@ -21,11 +21,13 @@
   <ItemGroup>
     <ClCompile Include="eventhandler.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="window.cpp" />
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="GraphicsEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="eventhandler.hpp" />
-    <ClInclude Include="window.hpp" />
+    <ClInclude Include="texture.hpp" />
+    <ClInclude Include="GraphicsEngine.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
