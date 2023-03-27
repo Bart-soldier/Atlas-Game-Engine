@@ -1,31 +1,32 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
 #include <string>
 
 class Window {
 	private:
-		//The window we'll be rendering to
+		// The window we'll be rendering to
 		SDL_Window* m_window = NULL;
 
-		//The surface contained by the window
-		SDL_Surface* m_surface = NULL;
+		// The window renderer
+		SDL_Renderer* m_renderer = NULL;
 
 		// Screen dimension constants
-		const int SCREEN_WIDTH = 640;
-		const int SCREEN_HEIGHT = 480;
+		int m_width;
+		int m_height;
 
 		bool m_exitStatus = false;
 
 	public:
-		Window();
+		Window(int width, int height);
 		void close();
-		SDL_Surface* loadSurface(std::string path);
-		void unloadSurface(SDL_Surface* surface);
-		void updateSurface(SDL_Surface* surface);
+		SDL_Texture* loadTexture(std::string path);
+		void unloadTexture(SDL_Texture* texture);
+		void updateWindow(SDL_Texture* texture);
+		//void updateWindow(SDL_Texture* texture, int x, int y, int width, int height);
 
 		SDL_Window* getWindow();
-		SDL_Surface* getSurface();
 		bool getExitStatus();
 		void setExitStatus(bool exitStatus);
 };

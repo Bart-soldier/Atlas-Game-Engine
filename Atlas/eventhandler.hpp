@@ -17,7 +17,7 @@ class EventHandler {
 		Window* m_window;
 		SDL_Event m_eventHandler;
 		//The images that correspond to a keypress
-		SDL_Surface* m_keyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
+		SDL_Texture* m_keyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 
 	public:
 		EventHandler(Window* window);

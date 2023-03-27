@@ -6,7 +6,7 @@
 
 int main(int argc, char* args[]) {
 	// Create Window
-	Window* m_window = new Window();
+	Window* m_window = new Window(640, 480);
 	//Create EventHandler
 	EventHandler* m_eventHandler = new EventHandler(m_window);
 
