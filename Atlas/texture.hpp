@@ -1,24 +1,22 @@
 #pragma once
-#include <SDL.h>
-#include <SDL_image.h>
-#include <string>
 #include "GraphicsEngine.hpp"
 
 class Texture {
-private:
-	// The actual hardware texture
-	SDL_Texture* m_texture;
+	private:
+		// The actual hardware texture
+		SDL_Texture* m_texture;
 
-	// The Graphics Engine
-	GraphicsEngine* m_graphicsEngine;
+		// The Graphics Engine
+		GraphicsEngine* m_graphicsEngine;
 
-	// Image dimensions
-	int m_width;
-	int m_height;
+		// Image dimensions
+		int m_width;
+		int m_height;
 
 	public:
 		// Initializes variables
 		Texture(GraphicsEngine* graphicsEngine);
+		Texture(GraphicsEngine* graphicsEngine, std::string path);
 		// Deallocates memory
 		~Texture();
 

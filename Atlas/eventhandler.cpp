@@ -1,4 +1,4 @@
-#include "eventhandler.hpp"
+#include "EventHandler.hpp"
 /*
 EventHandler::EventHandler(GraphicsEngine* window) {
 	m_window = window;

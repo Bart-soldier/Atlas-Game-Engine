@@ -1,12 +1,19 @@
-#include "texture.hpp"
+#include "Texture.hpp"
 
 Texture::Texture(GraphicsEngine* graphicsEngine) {
-	m_graphicsEngine = graphicsEngine;
-
 	// Initialize
+	m_graphicsEngine = graphicsEngine;
 	m_texture = NULL;
 	m_width = 0;
 	m_height = 0;
+}
+
+Texture::Texture(GraphicsEngine* graphicsEngine, std::string path) {
+	// Initialize
+	m_graphicsEngine = graphicsEngine;
+	m_width = 0;
+	m_height = 0;
+	loadFromFile(path);
 }
 
 Texture::~Texture() {

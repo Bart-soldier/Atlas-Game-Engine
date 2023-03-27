@@ -3,8 +3,9 @@
 #include <SDL.h>
 #include <stdlib.h>
 #include "GraphicsEngine.hpp"
-#include "texture.hpp"
-#include "eventhandler.hpp"
+#include "EventHandler.hpp"
+#include "Character.hpp"
+#include "Environment.hpp"
 
 int main(int argc, char* args[]) {
 	// Create Window
@@ -19,11 +20,8 @@ int main(int argc, char* args[]) {
 		return EXIT_FAILURE;
 	}
 
-	Texture* fooTexture = new Texture(graphicsEngine);
-	Texture* backgroundTexture = new Texture(graphicsEngine);
-
-	fooTexture->loadFromFile("resources/foo.png");
-	backgroundTexture->loadFromFile("resources/background.png");
+	Character* player = new Character(graphicsEngine, 240, 190, "resources/foo.png");
+	Environment* background = new Environment(graphicsEngine, 0, 0, "resources/background.png");
 
 	// Main loop
 	while (!exitStatus) {
@@ -33,10 +31,10 @@ int main(int argc, char* args[]) {
 		graphicsEngine->clearScreen();
 
 		// Render background texture to screen
-		backgroundTexture->render(0, 0);
+		background->display();
 
 		// Render Foo' to the screen
-		fooTexture->render(240, 190);
+		player->display();
 
 		// Update screen
 		graphicsEngine->updateScreen();
