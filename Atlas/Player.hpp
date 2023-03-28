@@ -3,6 +3,6 @@
 
 class Player : public Character {
 	public:
-		Player(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path, int speedX, int speedY);
+		Player(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path, int speedX, int speedY, int animationNb);
 };
 

@@ -1,15 +1,21 @@
 #include "Texture.hpp"
 
-Texture::Texture(GraphicsEngine* graphicsEngine) {
+Texture::Texture(GraphicsEngine* graphicsEngine, int animationNb, int directionNb) {
 	// Initialize
 	m_graphicsEngine = graphicsEngine;
 	m_texture = NULL;
+	m_animationNb = animationNb;
+	m_directionNb = directionNb;
+	intializeSpriteClips();
 }
 
-Texture::Texture(GraphicsEngine* graphicsEngine, std::string path) {
+Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int animationNb, int directionNb) {
 	// Initialize
 	m_graphicsEngine = graphicsEngine;
 	loadFromFile(path);
+	m_animationNb = animationNb;
+	m_directionNb = directionNb;
+	intializeSpriteClips();
 }
 
 Texture::~Texture() {
@@ -66,6 +72,22 @@ void Texture::free() {
 	}
 }
 
+void Texture::intializeSpriteClips() {
+	m_spriteClips[m_directionNb * m_animationNb];
+
+	int objWidth = m_width / m_animationNb;
+	int objHeight = m_height / m_directionNb;
+
+	for (int y = 0; y < m_directionNb; y++) {
+		for (int x = 0; x < m_animationNb; x++) {
+			m_spriteClips[(y * m_animationNb) + x].x = x * objWidth;
+			m_spriteClips[(y * m_animationNb) + x].y = y * objHeight;
+			m_spriteClips[(y * m_animationNb) + x].w = objWidth;
+			m_spriteClips[(y * m_animationNb) + x].h = objHeight;
+		}
+	}
+}
+
 void Texture::setColor(Uint8 red, Uint8 green, Uint8 blue) {
 	// Modulate texture
 	SDL_SetTextureColorMod(m_texture, red, green, blue);
@@ -85,8 +107,8 @@ void Texture::setAlpha(int alpha) {
 	SDL_SetTextureAlphaMod(m_texture, m_alpha);
 }
 
-void Texture::render(int x, int y, SDL_Rect* clip) {
-	m_graphicsEngine->render(m_texture, x, y, clip);
+void Texture::render(int x, int y, int lastMov, int frame) {
+	m_graphicsEngine->render(m_texture, x, y, &m_spriteClips[(lastMov * m_animationNb) + frame]);
 }
 
 int Texture::getWidth() {
