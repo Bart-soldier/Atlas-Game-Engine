@@ -15,8 +15,8 @@ GraphicsEngine::GraphicsEngine(int width, int height) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		}
 		else {
-			// Initialize renderer
-			m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+			// Initialize renderer with vsync
+			m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 			if (m_renderer == NULL) {
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 			}
@@ -50,10 +50,17 @@ SDL_Texture* GraphicsEngine::createTexture(SDL_Surface* surface) {
 	return SDL_CreateTextureFromSurface(m_renderer, surface);
 }
 
-void GraphicsEngine::render(SDL_Texture* texture, int x, int y, int width, int height) {
+void GraphicsEngine::render(SDL_Texture* texture, int x, int y, SDL_Rect* clip) {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = {x, y, width, height};
-	SDL_RenderCopy(m_renderer, texture, NULL, &renderQuad);
+	SDL_Rect renderQuad = {x, y, m_width, m_height};
+
+	//Set clip rendering dimensions
+	if (clip != NULL) {
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+	}
+
+	SDL_RenderCopy(m_renderer, texture, clip, &renderQuad);
 }
 
 void GraphicsEngine::clearScreen() {

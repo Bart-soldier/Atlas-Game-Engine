@@ -11,5 +11,5 @@ class SceneElement {
 		SceneElement(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path);
 		~SceneElement();
 
-		void display();
+		virtual void display() = 0;
 };

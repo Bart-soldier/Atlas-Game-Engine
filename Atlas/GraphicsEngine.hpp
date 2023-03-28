@@ -22,7 +22,7 @@ class GraphicsEngine {
 		GraphicsEngine(int width, int height);
 		~GraphicsEngine();
 		SDL_Texture* createTexture(SDL_Surface* surface);
-		void render(SDL_Texture* texture, int x, int y, int width, int height);
+		void render(SDL_Texture* texture, int x, int y, SDL_Rect* clip = NULL);
 		void clearScreen();
 		void updateScreen();
 		void drawRectangle();

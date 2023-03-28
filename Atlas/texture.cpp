@@ -4,15 +4,11 @@ Texture::Texture(GraphicsEngine* graphicsEngine) {
 	// Initialize
 	m_graphicsEngine = graphicsEngine;
 	m_texture = NULL;
-	m_width = 0;
-	m_height = 0;
 }
 
 Texture::Texture(GraphicsEngine* graphicsEngine, std::string path) {
 	// Initialize
 	m_graphicsEngine = graphicsEngine;
-	m_width = 0;
-	m_height = 0;
 	loadFromFile(path);
 }
 
@@ -70,8 +66,27 @@ void Texture::free() {
 	}
 }
 
-void Texture::render(int x, int y) {
-	m_graphicsEngine->render(m_texture, x, y, m_width, m_height);
+void Texture::setColor(Uint8 red, Uint8 green, Uint8 blue) {
+	// Modulate texture
+	SDL_SetTextureColorMod(m_texture, red, green, blue);
+}
+
+void Texture::setBlendMode(SDL_BlendMode blendMode) {
+	// Set blending function
+	SDL_SetTextureBlendMode(m_texture, blendMode);
+}
+
+void Texture::setAlpha(int alpha) {
+	if (alpha < 0) alpha = 0;
+	else if (alpha > 255) alpha = 255;
+	m_alpha = alpha;
+
+	// Modulate texture alpha
+	SDL_SetTextureAlphaMod(m_texture, m_alpha);
+}
+
+void Texture::render(int x, int y, SDL_Rect* clip) {
+	m_graphicsEngine->render(m_texture, x, y, clip);
 }
 
 int Texture::getWidth() {
@@ -80,4 +95,8 @@ int Texture::getWidth() {
 
 int Texture::getHeight() {
 	return m_height;
+}
+
+Uint8 Texture::getAplha() {
+	return m_alpha;
 }

@@ -11,7 +11,7 @@ int main(int argc, char* args[]) {
 	// Create Window
 	GraphicsEngine* graphicsEngine = new GraphicsEngine(640, 480);
 	// Create player
-	Player* player = new Player(graphicsEngine, 240, 190, "resources/foo.png", 5, 5);
+	Player* player = new Player(graphicsEngine, 240, 190, "resources/animated_character.png", 5, 5);
 
 	//Create EventHandler
 	EventHandler* eventHandler = new EventHandler(player);

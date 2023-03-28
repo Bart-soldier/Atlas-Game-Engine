@@ -9,7 +9,3 @@ SceneElement::SceneElement(GraphicsEngine* graphicsEngine, int posX, int posY, s
 SceneElement::~SceneElement() {
 	m_texture->free();
 }
-
-void SceneElement::display() {
-	m_texture->render(m_posX, m_posY);
-}
