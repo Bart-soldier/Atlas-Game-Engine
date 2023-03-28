@@ -3,5 +3,5 @@
 
 class Environment : public SceneElement {
 	public:
-		Environment(GraphicsEngine* graphicsEngine, int x, int y, std::string path);
+		Environment(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path);
 };

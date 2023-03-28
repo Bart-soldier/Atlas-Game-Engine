@@ -2,13 +2,13 @@
 #include "Texture.hpp"
 
 class SceneElement {
-	private:
-		int m_x;
-		int m_y;
+	protected:
+		int m_posX;
+		int m_posY;
 		Texture* m_texture = NULL;
 
 	public:
-		SceneElement(GraphicsEngine* graphicsEngine, int x, int y, std::string path);
+		SceneElement(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path);
 		~SceneElement();
 
 		void display();

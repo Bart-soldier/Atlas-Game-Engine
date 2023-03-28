@@ -1,0 +1,8 @@
+#pragma once
+#include "Character.hpp"
+
+class Player : public Character {
+	public:
+		Player(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path, int speedX, int speedY);
+};
+

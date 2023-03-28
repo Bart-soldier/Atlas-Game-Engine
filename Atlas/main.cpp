@@ -4,15 +4,17 @@
 #include <stdlib.h>
 #include "GraphicsEngine.hpp"
 #include "EventHandler.hpp"
-#include "Character.hpp"
+#include "Player.hpp"
 #include "Environment.hpp"
 
 int main(int argc, char* args[]) {
 	// Create Window
 	GraphicsEngine* graphicsEngine = new GraphicsEngine(640, 480);
+	// Create player
+	Player* player = new Player(graphicsEngine, 240, 190, "resources/foo.png", 5, 5);
+
 	//Create EventHandler
-	//EventHandler* m_eventHandler = new EventHandler(m_window);
-	EventHandler* eventHandler = new EventHandler();
+	EventHandler* eventHandler = new EventHandler(player);
 
 	int exitStatus = false;
 
@@ -20,7 +22,6 @@ int main(int argc, char* args[]) {
 		return EXIT_FAILURE;
 	}
 
-	Character* player = new Character(graphicsEngine, 240, 190, "resources/foo.png");
 	Environment* background = new Environment(graphicsEngine, 0, 0, "resources/background.png");
 
 	// Main loop
