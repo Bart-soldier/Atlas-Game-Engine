@@ -5,7 +5,7 @@ GraphicsEngine::GraphicsEngine(int width, int height) {
 	m_height = height;
 
 	//Initialize SDL
-	if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 	}
 	else {
@@ -34,6 +34,23 @@ GraphicsEngine::GraphicsEngine(int width, int height) {
 				if (TTF_Init() == -1) {
 					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 				}
+
+				//Initialize SDL_mixer
+				if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+					printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+				}
+
+				// TEST
+				// Load music
+				testMusic = Mix_LoadMUS("resources/audio/theme.wav");
+				if (testMusic == NULL) {
+					printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
+				}
+				// If there is no music playing
+				if (Mix_PlayingMusic() == 0) {
+					// Play the music
+					Mix_PlayMusic(testMusic, -1);
+				}
 			}
 		}
 	}
@@ -46,7 +63,13 @@ GraphicsEngine::~GraphicsEngine() {
 	m_renderer = NULL;
 	m_window = NULL;
 
+	// TEST
+	// Free the music
+	Mix_FreeMusic(testMusic);
+	testMusic = NULL;
+
 	// Quit SDL subsystems
+	Mix_Quit();
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();

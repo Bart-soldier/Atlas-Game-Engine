@@ -6,6 +6,7 @@ EventHandler::EventHandler(Player* player) {
 
 bool EventHandler::handleEvent() {
 	SDL_Event eventHandler;
+	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
 	while (SDL_PollEvent(&eventHandler) != 0) {
 		// User requests quit
@@ -48,7 +49,6 @@ bool EventHandler::handleEvent() {
 	}
 
 	// Handle event based on current keystate
-	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 	if (currentKeyStates[SDL_SCANCODE_UP]) {
 		m_player->move(UP);
 	}
