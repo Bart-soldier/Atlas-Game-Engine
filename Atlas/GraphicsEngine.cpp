@@ -29,6 +29,11 @@ GraphicsEngine::GraphicsEngine(int width, int height) {
 				if(!(IMG_Init(imgFlags) & imgFlags)) {
 					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 				}
+
+				//Initialize SDL_ttf
+				if (TTF_Init() == -1) {
+					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+				}
 			}
 		}
 	}
@@ -42,6 +47,7 @@ GraphicsEngine::~GraphicsEngine() {
 	m_window = NULL;
 
 	// Quit SDL subsystems
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

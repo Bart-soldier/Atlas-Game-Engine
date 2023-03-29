@@ -1,9 +1,11 @@
 #include "Texture.hpp"
 
-Texture::Texture(GraphicsEngine* graphicsEngine, int animationNb, int directionNb) {
+Texture::Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color, int animationNb,
+	int directionNb) {
 	// Initialize
 	m_graphicsEngine = graphicsEngine;
-	m_texture = NULL;
+	m_font = font;
+	loadFromRenderedText(text, color);
 	m_animationNb = animationNb;
 	m_directionNb = directionNb;
 	intializeSpriteClips();
@@ -21,6 +23,13 @@ Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int animation
 Texture::~Texture() {
 	// Deallocate
 	free();
+
+	// Free font if it exists
+	if (m_font != NULL) {
+		// Free font
+		TTF_CloseFont(m_font);
+		m_font = NULL;
+	}
 }
 
 bool Texture::loadFromFile(std::string path) {
@@ -62,6 +71,38 @@ bool Texture::loadFromFile(std::string path) {
 	return true;
 }
 
+bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor) {
+	// Get rid of preexisting texture
+	free();
+
+	// Render text surface
+	SDL_Surface* textSurface = TTF_RenderText_Solid(m_font, textureText.c_str(), textColor);
+	if (textSurface == NULL) {
+		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+		return false;
+	}
+	else {
+		// Create texture from surface pixels
+
+		m_texture = m_graphicsEngine->createTexture(textSurface);
+		if (m_texture == NULL) {
+			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+			return false;
+		}
+		else {
+			//Get image dimensions
+			m_width = textSurface->w;
+			m_height = textSurface->h;
+		}
+
+		//Get rid of old surface
+		SDL_FreeSurface(textSurface);
+	}
+
+	// Return success
+	return true;
+}
+
 void Texture::free() {
 	//Free texture if it exists
 	if (m_texture != NULL) {
@@ -73,19 +114,30 @@ void Texture::free() {
 }
 
 void Texture::intializeSpriteClips() {
-	m_spriteClips[m_directionNb * m_animationNb];
+	//m_spriteClips[m_directionNb * m_animationNb];
 
 	int objWidth = m_width / m_animationNb;
 	int objHeight = m_height / m_directionNb;
+	SDL_Rect spriteClip;
 
 	for (int y = 0; y < m_directionNb; y++) {
 		for (int x = 0; x < m_animationNb; x++) {
+			/*
 			m_spriteClips[(y * m_animationNb) + x].x = x * objWidth;
 			m_spriteClips[(y * m_animationNb) + x].y = y * objHeight;
 			m_spriteClips[(y * m_animationNb) + x].w = objWidth;
-			m_spriteClips[(y * m_animationNb) + x].h = objHeight;
+			m_spriteClips[(y * m_animationNb) + x].h = objHeight;*/
+			
+			spriteClip.x = x * objWidth;
+			spriteClip.y = y * objHeight;
+			spriteClip.w = objWidth;
+			spriteClip.h = objHeight;
+			m_spriteClips.push_back(spriteClip);
 		}
 	}
+
+	// Free unused vector space
+	m_spriteClips.shrink_to_fit();
 }
 
 void Texture::setColor(Uint8 red, Uint8 green, Uint8 blue) {
@@ -108,7 +160,7 @@ void Texture::setAlpha(int alpha) {
 }
 
 void Texture::render(int x, int y, int lastMov, int frame) {
-	m_graphicsEngine->render(m_texture, x, y, &m_spriteClips[(lastMov * m_animationNb) + frame]);
+	m_graphicsEngine->render(m_texture, x, y, &m_spriteClips.at((lastMov * m_animationNb) + frame));
 }
 
 int Texture::getWidth() {

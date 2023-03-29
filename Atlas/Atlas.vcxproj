@@ -25,6 +25,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneElement.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
   </ItemGroup>
@@ -34,6 +35,7 @@
     <ClInclude Include="EventHandler.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="SceneElement.hpp" />
+    <ClInclude Include="Text.hpp" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="GraphicsEngine.hpp" />
   </ItemGroup>
@@ -97,8 +99,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Gaia\Atlas\lib\SDL2_image-2.6.3\include;C:\Gaia\Atlas\lib\SDL2-2.26.4\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Gaia\Atlas\lib\SDL2_image-2.6.3\lib\x64;C:\Gaia\Atlas\lib\SDL2-2.26.4\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Gaia\Atlas\lib\SDL2_ttf-2.20.2\include;C:\Gaia\Atlas\lib\SDL2_image-2.6.3\include;C:\Gaia\Atlas\lib\SDL2-2.26.4\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Gaia\Atlas\lib\SDL2_ttf-2.20.2\lib\x64;C:\Gaia\Atlas\lib\SDL2_image-2.6.3\lib\x64;C:\Gaia\Atlas\lib\SDL2-2.26.4\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -141,7 +143,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

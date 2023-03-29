@@ -6,12 +6,13 @@
 #include "EventHandler.hpp"
 #include "Player.hpp"
 #include "Environment.hpp"
+#include "Text.hpp"
 
 int main(int argc, char* args[]) {
 	// Create Window
 	GraphicsEngine* graphicsEngine = new GraphicsEngine(640, 480);
 	// Create player
-	Player* player = new Player(graphicsEngine, 240, 190, "resources/animated_character.png", 5, 5, 2);
+	Player* player = new Player(graphicsEngine, 240, 190, "resources/images/animated_character.png", 5, 5, 2);
 
 	//Create EventHandler
 	EventHandler* eventHandler = new EventHandler(player);
@@ -22,7 +23,10 @@ int main(int argc, char* args[]) {
 		return EXIT_FAILURE;
 	}
 
-	Environment* background = new Environment(graphicsEngine, 0, 0, "resources/background.png");
+	Environment* background = new Environment(graphicsEngine, 0, 0, "resources/images/background.png");
+
+	Text* text = new Text(graphicsEngine, 40, 400, "resources/fonts/lazy.ttf", 28, "Bienvenue sur ce jeu super genial !",
+		{ 0, 0, 0 });
 
 	// Main loop
 	while (!exitStatus) {
@@ -36,6 +40,9 @@ int main(int argc, char* args[]) {
 
 		// Render Foo' to the screen
 		player->display();
+
+		// Render text
+		text->display();
 
 		// Update screen
 		graphicsEngine->updateScreen();

@@ -1,7 +1,8 @@
 #include "Character.hpp"
 
 Character::Character(GraphicsEngine* graphicsEngine, int x, int y, std::string path, int speedX, int speedY,
-	int animationNb, int directionNb) : SceneElement(graphicsEngine, x, y, path, animationNb, directionNb) {
+	int animationNb, int directionNb) : SceneElement(x, y) {
+	createTexture(graphicsEngine, path, animationNb, directionNb);
 	m_speedX = speedX;
 	m_speedY = speedY;
 	m_lastMov = DOWN;

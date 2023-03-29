@@ -1,10 +1,11 @@
 #pragma once
 #include "GraphicsEngine.hpp"
+#include <vector>
 
 class Texture {
 	private:
 		// The actual hardware texture
-		SDL_Texture* m_texture;
+		SDL_Texture* m_texture = NULL;
 
 		// The Graphics Engine
 		GraphicsEngine* m_graphicsEngine;
@@ -19,17 +20,22 @@ class Texture {
 		int m_directionNb;
 		int m_animationNb;
 		// x, y, width, height
-		SDL_Rect m_spriteClips[];
+		std::vector<SDL_Rect> m_spriteClips;
+
+		TTF_Font* m_font = NULL;
 
 	public:
 		// Initializes variables
-		Texture(GraphicsEngine* graphicsEngine, int animationNb = 1, int directionNb = 1);
+		Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color, int animationNb = 1,
+			int directionNb = 1);
 		Texture(GraphicsEngine* graphicsEngine, std::string path, int animationNb = 1, int directionNb = 1);
 		// Deallocates memory
 		~Texture();
 
 		// Loads image at specified path
 		bool loadFromFile(std::string path);
+		// Creates image from font string
+		bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
 		// Deallocates texture
 		void free();
 
