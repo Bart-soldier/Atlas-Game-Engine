@@ -13,6 +13,13 @@ bool EventHandler::handleEvent() {
 			return true;
 		}
 
+		else if (eventHandler.type == SDL_MOUSEBUTTONDOWN) {
+			// Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+			m_player->move(x, y);
+		}
+
 		// User presses a key
 		else if (eventHandler.type == SDL_KEYDOWN) {
 			//Select surfaces based on key press

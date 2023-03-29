@@ -46,3 +46,9 @@ void Character::move(int direction) {
 		break;
 	}
 }
+
+void Character::move(int x, int y) {
+	m_posX = x;
+	m_posY = y;
+	m_lastMov = DOWN;
+}

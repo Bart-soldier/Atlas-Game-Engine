@@ -21,4 +21,5 @@ class Character : public SceneElement {
 			int animationNb, int directionNb = 4);
 		void display();
 		void move(int direction);
+		void move(int x, int y);
 };
