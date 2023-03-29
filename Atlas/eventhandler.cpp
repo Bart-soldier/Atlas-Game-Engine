@@ -20,6 +20,7 @@ bool EventHandler::handleEvent() {
 			m_player->move(x, y);
 		}
 
+		/*
 		// User presses a key
 		else if (eventHandler.type == SDL_KEYDOWN) {
 			//Select surfaces based on key press
@@ -43,7 +44,25 @@ bool EventHandler::handleEvent() {
 			default:
 				break;
 			}
-		}
+		}*/
+	}
+
+	// Handle event based on current keystate
+	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+	if (currentKeyStates[SDL_SCANCODE_UP]) {
+		m_player->move(UP);
+	}
+	
+	else if (currentKeyStates[SDL_SCANCODE_DOWN]) {
+		m_player->move(DOWN);
+	}
+	
+	else if (currentKeyStates[SDL_SCANCODE_LEFT]) {
+		m_player->move(LEFT);
+	}
+	
+	else if (currentKeyStates[SDL_SCANCODE_RIGHT]) {
+		m_player->move(RIGHT);
 	}
 	
 	return false;
