@@ -11,6 +11,14 @@ Character::Character(GraphicsEngine* graphicsEngine, int x, int y, std::string p
 	//m_texture->setBlendMode(SDL_BLENDMODE_BLEND);
 }
 
+Character::~Character() {
+	// Free the sound effect
+	if (m_walkingEffect != NULL) {
+		Mix_FreeChunk(m_walkingEffect);
+		m_walkingEffect = NULL;
+	}
+}
+
 void Character::display() {
 	m_texture->render(m_posX, m_posY, m_lastMov, m_frame);
 }
@@ -22,6 +30,10 @@ void Character::move(int direction) {
 	}
 	else {
 		m_frame = 0;
+	}
+
+	if (m_walkingEffect != NULL) {
+		Mix_PlayChannel(-1, m_walkingEffect, 0);
 	}
 
 	switch (direction) {
@@ -51,4 +63,11 @@ void Character::move(int x, int y) {
 	m_posX = x;
 	m_posY = y;
 	m_lastMov = DOWN;
+}
+
+void Character::setWalkingEffect(std::string path) {
+	m_walkingEffect = Mix_LoadWAV(path.c_str());
+	if (m_walkingEffect == NULL) {
+		printf("Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+	}
 }

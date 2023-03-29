@@ -13,6 +13,7 @@ int main(int argc, char* args[]) {
 	GraphicsEngine* graphicsEngine = new GraphicsEngine(640, 480);
 	// Create player
 	Player* player = new Player(graphicsEngine, 240, 190, "resources/images/animated_character.png", 1, 1, 2);
+	//player->setWalkingEffect("resources/audio/medium.wav");
 
 	//Create EventHandler
 	EventHandler* eventHandler = new EventHandler(player);
@@ -24,6 +25,8 @@ int main(int argc, char* args[]) {
 	}
 
 	Environment* background = new Environment(graphicsEngine, 0, 0, "resources/images/background.png");
+	background->setTheme("resources/audio/theme.wav");
+	background->playTheme();
 
 	Text* text = new Text(graphicsEngine, 40, 400, "resources/fonts/lazy.ttf", 28, "Bienvenue dans La Chasse au Tresor !",
 		{ 0, 0, 0 });

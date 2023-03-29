@@ -21,8 +21,6 @@ class GraphicsEngine {
 
 		bool m_exitStatus = false;
 
-		Mix_Music* testMusic = NULL;
-
 	public:
 		GraphicsEngine(int width, int height);
 		~GraphicsEngine();

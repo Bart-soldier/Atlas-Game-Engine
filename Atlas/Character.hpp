@@ -16,10 +16,14 @@ class Character : public SceneElement {
 
 		int m_frame = 0;
 
+		Mix_Chunk* m_walkingEffect = NULL;
+
 	public:
 		Character(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path, int speedX, int speedY,
 			int animationNb, int directionNb = 4);
+		~Character();
 		void display();
 		void move(int direction);
 		void move(int x, int y);
+		void setWalkingEffect(std::string path);
 };
