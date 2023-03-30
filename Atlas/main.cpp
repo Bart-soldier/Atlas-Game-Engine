@@ -25,8 +25,8 @@ int main(int argc, char* args[]) {
 	}
 
 	Environment* background = new Environment(graphicsEngine, 0, 0, "resources/images/background.png");
-	background->setTheme("resources/audio/theme.wav");
-	background->playTheme();
+	//background->setTheme("resources/audio/theme.wav");
+	//background->playTheme();
 
 	Text* text = new Text(graphicsEngine, 40, 400, "resources/fonts/lazy.ttf", 28, "Bienvenue dans La Chasse au Tresor !",
 		{ 0, 0, 0 });

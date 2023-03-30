@@ -15,6 +15,7 @@ class Character : public SceneElement {
 		int m_lastMov;
 
 		int m_frame = 0;
+		Uint32 m_timeSinceLastMov = 0;
 
 		Mix_Chunk* m_walkingEffect = NULL;
 

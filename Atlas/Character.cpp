@@ -24,12 +24,18 @@ void Character::display() {
 }
 
 void Character::move(int direction) {
+	Uint32 time = SDL_GetTicks();
+
 	if (direction == m_lastMov) {
-		m_frame++;
-		m_frame %= m_animationNb;
+		if (time - m_timeSinceLastMov >= 500) {
+			m_frame++;
+			m_frame %= m_animationNb;
+			m_timeSinceLastMov = time;
+		}
 	}
 	else {
 		m_frame = 0;
+		m_timeSinceLastMov = time;
 	}
 
 	if (m_walkingEffect != NULL) {
