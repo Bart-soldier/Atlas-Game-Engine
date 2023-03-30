@@ -8,6 +8,7 @@
 #include "Environment.hpp"
 #include "Text.hpp"
 #include "Timer.hpp"
+#include "Wall.hpp"
 
 //const int SCREEN_FPS = 60;
 //const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
@@ -32,7 +33,7 @@ bool initializeCore() {
 	}
 
 	// Create player
-	m_player = new Player(m_graphicsEngine, 240, 190, "resources/images/animated_character.png", 1, 1, 2);
+	m_player = new Player(m_graphicsEngine, 0, m_graphicsEngine->getHeight()/4, "resources/images/animated_character.png", 1, 1, 2);
 	//player->setWalkingEffect("resources/audio/medium.wav");
 
 	//Create EventHandler
@@ -53,6 +54,9 @@ void createSceneElements() {
 	m_sceneElements.push_back(new Environment(m_graphicsEngine, 0, 0, "resources/images/background.png"));
 	//background->setTheme("resources/audio/theme.wav");
 	//background->playTheme();
+
+	m_sceneElements.push_back(new Wall(m_graphicsEngine, m_graphicsEngine->getWidth() / 2, m_graphicsEngine->getHeight() / 2,
+		"resources/images/wall.png"));
 }
 
 void loop() {

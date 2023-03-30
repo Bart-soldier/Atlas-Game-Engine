@@ -30,6 +30,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.hpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="GraphicsEngine.hpp" />
     <ClInclude Include="Timer.hpp" />
+    <ClInclude Include="Wall.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
