@@ -12,73 +12,87 @@
 //const int SCREEN_FPS = 60;
 //const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
-int main(int argc, char* args[]) {
-	// Create Window
-	GraphicsEngine* graphicsEngine = new GraphicsEngine(640, 480);
+GraphicsEngine* m_graphicsEngine;
+EventHandler* m_eventHandler;
+Player* m_player;
+std::vector<SceneElement*> m_sceneElements;
+
+Text* m_fpsCounter;
+Timer m_fpsTimer;
+int m_countedFrames;
+
+int exitStatus = false;
+
+bool initializeCore() {
+	// Create Graphics Engine
+	m_graphicsEngine = new GraphicsEngine(640, 480);
+
+	if (m_graphicsEngine == NULL) {
+		return false;
+	}
+
 	// Create player
-	Player* player = new Player(graphicsEngine, 240, 190, "resources/images/animated_character.png", 1, 1, 2);
+	m_player = new Player(m_graphicsEngine, 240, 190, "resources/images/animated_character.png", 1, 1, 2);
 	//player->setWalkingEffect("resources/audio/medium.wav");
 
 	//Create EventHandler
-	EventHandler* eventHandler = new EventHandler(player);
+	m_eventHandler = new EventHandler(m_player);
 
-	// FPS Counter
-	Timer fpsTimer;
-	//Timer capTimer;
+	// Create FPS counter
+	m_fpsCounter = new Text(m_graphicsEngine, 0, 0, "resources/fonts/roboto/Roboto-Light.ttf", 28, "FPS = ",
+		{ 0, 0, 0 });
 	// Start counting frames per second
-	int countedFrames = 0;
-	fpsTimer.start();
+	m_fpsTimer.start();
+	m_countedFrames = 0;
 
-	int exitStatus = false;
+	return true;
+}
 
-	if (graphicsEngine == NULL) {
-		return EXIT_FAILURE;
-	}
-
-	Environment* background = new Environment(graphicsEngine, 0, 0, "resources/images/background.png");
+void createSceneElements() {
+	// Create scene elements
+	m_sceneElements.push_back(new Environment(m_graphicsEngine, 0, 0, "resources/images/background.png"));
 	//background->setTheme("resources/audio/theme.wav");
 	//background->playTheme();
+}
 
-	Text* text = new Text(graphicsEngine, 0, 0, "resources/fonts/roboto/Roboto-Light.ttf", 28, "FPS = ",
-		{ 0, 0, 0 });
+void loop() {
+	// Handle events on queue
+	exitStatus = m_eventHandler->handleEvent();
+
+	// Calculate and correct fps
+	float avgFPS = m_countedFrames / (m_fpsTimer.getTicks() / 1000.f);
+	if (avgFPS > 2000000) {
+		avgFPS = 0;
+	}
+	m_fpsCounter->setText("FPS = " + std::to_string((int)avgFPS));
+
+	m_graphicsEngine->clearScreen();
+
+	// Render every scene element
+	for (auto sceneElement = m_sceneElements.begin(); sceneElement != m_sceneElements.end(); ++sceneElement) {
+		(*sceneElement)->display();
+	}
+
+	// Render player
+	m_player->display();
+
+	// Render FPS counter
+	m_fpsCounter->display();
+
+	// Update screen
+	m_graphicsEngine->updateScreen();
+
+	++m_countedFrames;
+}
+
+int main(int argc, char* args[]) {
+	if (!initializeCore()) return EXIT_FAILURE;
+
+	createSceneElements();
 
 	// Main loop
 	while (!exitStatus) {
-		//capTimer.start();
-
-		// Handle events on queue
-		exitStatus = eventHandler->handleEvent();
-
-		//Calculate and correct fps
-		float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
-		if (avgFPS > 2000000) {
-			avgFPS = 0;
-		}
-		text->setText("FPS = " + std::to_string((int) avgFPS));
-
-		graphicsEngine->clearScreen();
-
-		// Render background texture to screen
-		background->display();
-
-		// Render Foo' to the screen
-		player->display();
-
-		// Render text
-		text->display();
-
-		// Update screen
-		graphicsEngine->updateScreen();
-
-		++countedFrames;
-
-		/*
-		// If frame finished early
-		int frameTicks = capTimer.getTicks();
-		if (frameTicks < SCREEN_TICKS_PER_FRAME) {
-			// Wait remaining time
-			SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
-		}*/
+		loop();
 	}
 
 	return EXIT_SUCCESS;
