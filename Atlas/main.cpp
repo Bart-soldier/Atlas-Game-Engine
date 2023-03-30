@@ -7,6 +7,7 @@
 #include "Player.hpp"
 #include "Environment.hpp"
 #include "Text.hpp"
+#include "Timer.hpp"
 
 int main(int argc, char* args[]) {
 	// Create Window
@@ -17,6 +18,12 @@ int main(int argc, char* args[]) {
 
 	//Create EventHandler
 	EventHandler* eventHandler = new EventHandler(player);
+
+	// FPS Counter
+	Timer fpsTimer;
+	// Start counting frames per second
+	int countedFrames = 0;
+	fpsTimer.start();
 
 	int exitStatus = false;
 

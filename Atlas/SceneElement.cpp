@@ -3,6 +3,11 @@
 SceneElement::SceneElement(int posX, int posY) {
 	m_posX = posX;
 	m_posY = posY;
+	m_width = 0;
+	m_height = 0;
+	m_texture = NULL;
+	m_directionNb = 0;
+	m_animationNb = 0;
 }
 
 void SceneElement::createTexture(GraphicsEngine* graphicsEngine, std::string path, int animationNb, int directionNb) {

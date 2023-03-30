@@ -5,12 +5,12 @@ class SceneElement {
 	protected:
 		int m_posX;
 		int m_posY;
-		int m_width = 0;
-		int m_height = 0;
+		int m_width;
+		int m_height;
 		Texture* m_texture;
 
-		int m_directionNb = 0;
-		int m_animationNb = 0;
+		int m_directionNb;
+		int m_animationNb;
 
 	public:
 		SceneElement(int posX, int posY);
