@@ -5,19 +5,17 @@ Texture::Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string tex
 	// Initialize
 	m_graphicsEngine = graphicsEngine;
 	m_font = font;
-	loadFromRenderedText(text, color);
 	m_animationNb = animationNb;
 	m_directionNb = directionNb;
-	intializeSpriteClips();
+	loadFromRenderedText(text, color);
 }
 
 Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int animationNb, int directionNb) {
 	// Initialize
 	m_graphicsEngine = graphicsEngine;
-	loadFromFile(path);
 	m_animationNb = animationNb;
 	m_directionNb = directionNb;
-	intializeSpriteClips();
+	loadFromFile(path);
 }
 
 Texture::~Texture() {
@@ -68,6 +66,9 @@ bool Texture::loadFromFile(std::string path) {
 
 	// Return success
 	m_texture = newTexture;
+
+	intializeSpriteClips();
+
 	return true;
 }
 
@@ -83,7 +84,6 @@ bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor)
 	}
 	else {
 		// Create texture from surface pixels
-
 		m_texture = m_graphicsEngine->createTexture(textSurface);
 		if (m_texture == NULL) {
 			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
@@ -99,6 +99,8 @@ bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor)
 		SDL_FreeSurface(textSurface);
 	}
 
+	intializeSpriteClips();
+
 	// Return success
 	return true;
 }
@@ -110,6 +112,7 @@ void Texture::free() {
 		m_texture = NULL;
 		m_width = 0;
 		m_height = 0;
+		m_spriteClips.clear();
 	}
 }
 

@@ -35,13 +35,20 @@ int main(int argc, char* args[]) {
 	//background->setTheme("resources/audio/theme.wav");
 	//background->playTheme();
 
-	Text* text = new Text(graphicsEngine, 40, 400, "resources/fonts/lazy.ttf", 28, "Bienvenue dans La Chasse au Tresor !",
+	Text* text = new Text(graphicsEngine, 0, 0, "resources/fonts/roboto/Roboto-Light.ttf", 28, "FPS = ",
 		{ 0, 0, 0 });
 
 	// Main loop
 	while (!exitStatus) {
 		// Handle events on queue
 		exitStatus = eventHandler->handleEvent();
+
+		//Calculate and correct fps
+		float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
+		if (avgFPS > 2000000) {
+			avgFPS = 0;
+		}
+		text->setText("FPS = " + std::to_string((int) avgFPS));
 
 		graphicsEngine->clearScreen();
 
@@ -56,6 +63,8 @@ int main(int argc, char* args[]) {
 
 		// Update screen
 		graphicsEngine->updateScreen();
+
+		++countedFrames;
 	}
 
 	return EXIT_SUCCESS;
