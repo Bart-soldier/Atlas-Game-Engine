@@ -7,6 +7,10 @@ Character::Character(GraphicsEngine* graphicsEngine, int x, int y, std::string p
 	m_speedY = speedY;
 	m_lastMov = DOWN;
 
+	m_frame = 0;
+	m_timeSinceLastMov = 0;
+	m_walkingEffect = NULL;
+
 	// Set standard alpha blending
 	//m_texture->setBlendMode(SDL_BLENDMODE_BLEND);
 }

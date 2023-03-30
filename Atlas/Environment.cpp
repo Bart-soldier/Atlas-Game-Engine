@@ -3,6 +3,7 @@
 Environment::Environment(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path)
 	: SceneElement(posX, posY) {
 	createTexture(graphicsEngine, path);
+	m_theme = NULL;
 }
 
 Environment::~Environment() {

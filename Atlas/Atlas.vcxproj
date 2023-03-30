@@ -28,6 +28,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.hpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="Text.hpp" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="GraphicsEngine.hpp" />
+    <ClInclude Include="Timer.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -14,10 +14,10 @@ class Character : public SceneElement {
 		int m_speedY;
 		int m_lastMov;
 
-		int m_frame = 0;
-		Uint32 m_timeSinceLastMov = 0;
+		int m_frame;
+		Uint32 m_timeSinceLastMov;
 
-		Mix_Chunk* m_walkingEffect = NULL;
+		Mix_Chunk* m_walkingEffect;
 
 	public:
 		Character(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path, int speedX, int speedY,

@@ -10,10 +10,10 @@
 class GraphicsEngine {
 	private:
 		// The window we'll be rendering to
-		SDL_Window* m_window = NULL;
+		SDL_Window* m_window;
 
 		// The window renderer
-		SDL_Renderer* m_renderer = NULL;
+		SDL_Renderer* m_renderer;
 
 		// Screen dimension constants
 		int m_width;

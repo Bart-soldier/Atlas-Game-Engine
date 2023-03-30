@@ -7,7 +7,7 @@ class SceneElement {
 		int m_posY;
 		int m_width = 0;
 		int m_height = 0;
-		Texture* m_texture = NULL;
+		Texture* m_texture;
 
 		int m_directionNb = 0;
 		int m_animationNb = 0;
