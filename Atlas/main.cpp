@@ -9,6 +9,9 @@
 #include "Text.hpp"
 #include "Timer.hpp"
 
+//const int SCREEN_FPS = 60;
+//const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+
 int main(int argc, char* args[]) {
 	// Create Window
 	GraphicsEngine* graphicsEngine = new GraphicsEngine(640, 480);
@@ -21,6 +24,7 @@ int main(int argc, char* args[]) {
 
 	// FPS Counter
 	Timer fpsTimer;
+	//Timer capTimer;
 	// Start counting frames per second
 	int countedFrames = 0;
 	fpsTimer.start();
@@ -40,6 +44,8 @@ int main(int argc, char* args[]) {
 
 	// Main loop
 	while (!exitStatus) {
+		//capTimer.start();
+
 		// Handle events on queue
 		exitStatus = eventHandler->handleEvent();
 
@@ -65,6 +71,14 @@ int main(int argc, char* args[]) {
 		graphicsEngine->updateScreen();
 
 		++countedFrames;
+
+		/*
+		// If frame finished early
+		int frameTicks = capTimer.getTicks();
+		if (frameTicks < SCREEN_TICKS_PER_FRAME) {
+			// Wait remaining time
+			SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
+		}*/
 	}
 
 	return EXIT_SUCCESS;
