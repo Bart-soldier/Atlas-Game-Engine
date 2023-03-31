@@ -25,14 +25,14 @@ int exitStatus = false;
 
 bool initializeCore() {
 	// Create Graphics Engine
-	m_graphicsEngine = new GraphicsEngine(640, 480);
+	m_graphicsEngine = new GraphicsEngine(640, 640);
 
 	if (m_graphicsEngine == NULL) {
 		return false;
 	}
 
 	// Create player
-	m_player = new Player(m_graphicsEngine, 0, m_graphicsEngine->getHeight()/4, "resources/images/animated_character.png", 1, 1, 2);
+	m_player = new Player(m_graphicsEngine, 1, 1, "resources/images/animated_character.png", 1, 1, 2);
 	//player->setWalkingEffect("resources/audio/medium.wav");
 
 	//Create EventHandler
@@ -78,7 +78,7 @@ void loop() {
 int main(int argc, char* args[]) {
 	if (!initializeCore()) return EXIT_FAILURE;
 
-	level1 = new Scene(m_graphicsEngine, 8, 8);
+	level1 = new Scene(m_graphicsEngine, 10, 10);
 	level1->testLevel();
 
 	// Main loop

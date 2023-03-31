@@ -4,8 +4,6 @@
 #include "Wall.hpp"
 #include "Environment.hpp"
 
-#define TILESIZE 16
-
 class Scene {
 	GraphicsEngine* m_graphicsEngine;
 	int m_width;

@@ -65,11 +65,11 @@ SDL_Texture* GraphicsEngine::createTexture(SDL_Surface* surface) {
 	return SDL_CreateTextureFromSurface(m_renderer, surface);
 }
 
-void GraphicsEngine::render(SDL_Texture* texture, int x, int y, SDL_Rect* clip) {
-	//Set rendering space and render to screen
-	SDL_Rect renderQuad = {x, y, m_width, m_height};
+void GraphicsEngine::render(SDL_Texture* texture, int x, int y, int width, int height, SDL_Rect* clip) {
+	// Set rendering space and scale to render to screen
+	SDL_Rect renderQuad = { x, y, width, height };
 
-	//Set clip rendering dimensions
+	// Set clip rendering dimensions
 	if (clip != NULL) {
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;

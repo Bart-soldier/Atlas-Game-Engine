@@ -7,12 +7,30 @@ Scene::Scene(GraphicsEngine* graphicsEngine, int width, int height) {
 }
 
 void Scene::testLevel() {
+	Texture* floor = new Texture(m_graphicsEngine, "resources/images/floor.png");
+	Texture* wall = new Texture(m_graphicsEngine, "resources/images/wall.png");
+
 	for (int y = 0; y < m_height; y++) {
 		for (int x = 0; x < m_width; x++) {
-			m_sceneElements.push_back(std::make_pair(new Environment(m_graphicsEngine, x * TILESIZE, y * TILESIZE,
-				"resources/images/floor.png"), nullptr));
+			if (x == 0 || x == m_height - 1 || y == 0 || y == m_width - 1) {
+				m_sceneElements.push_back(std::make_pair(new Environment(x, y), new Wall(x, y)));
+				m_sceneElements.back().first->setTexture(floor);
+				m_sceneElements.back().second->setTexture(wall);
+			}
+			else {
+				m_sceneElements.push_back(std::make_pair(new Environment(x, y), nullptr));
+				m_sceneElements.back().first->setTexture(floor);
+			}
 		}
 	}
+
+	int x = 5;
+	int y = 5;
+	m_sceneElements.at(x * m_width + y).second = new Wall(x, y);
+	m_sceneElements.at(x * m_width + y).second->setTexture(wall);
+
+	// Free unused vector space
+	m_sceneElements.shrink_to_fit();
 
 	/*
 	// Create scene elements

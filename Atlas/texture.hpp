@@ -5,16 +5,16 @@
 class Texture {
 	private:
 		// The actual hardware texture
-		SDL_Texture* m_texture = NULL;
+		SDL_Texture* m_texture;
 
 		// The Graphics Engine
 		GraphicsEngine* m_graphicsEngine;
 
 		// Image dimensions
-		int m_width = 0;
-		int m_height = 0;
+		int m_width;
+		int m_height;
 		// Alpha
-		Uint8 m_alpha = 255;
+		Uint8 m_alpha;
 
 		// Number of directions and animations
 		int m_directionNb;
@@ -23,6 +23,11 @@ class Texture {
 		std::vector<SDL_Rect> m_spriteClips;
 
 		TTF_Font* m_font = NULL;
+
+		// Deallocates texture
+		void free();
+		// Initialize Sprite Clips
+		void intializeSpriteClips();
 
 	public:
 		// Initializes variables
@@ -36,11 +41,6 @@ class Texture {
 		bool loadFromFile(std::string path);
 		// Creates image from font string
 		bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
-		// Deallocates texture
-		void free();
-
-		// Initialize Sprite Clips
-		void intializeSpriteClips();
 
 		// Set color modulation
 		void setColor(Uint8 red, Uint8 green, Uint8 blue);

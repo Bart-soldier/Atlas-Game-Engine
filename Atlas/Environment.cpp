@@ -6,6 +6,9 @@ Environment::Environment(GraphicsEngine* graphicsEngine, int posX, int posY, std
 	m_theme = NULL;
 }
 
+Environment::Environment(int posX, int posY) : SceneElement(posX, posY) {
+}
+
 Environment::~Environment() {
 	// Free the music
 	if (m_theme != NULL) {
