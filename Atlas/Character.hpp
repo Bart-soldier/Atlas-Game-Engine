@@ -22,6 +22,7 @@ class Character : public SceneElement {
 	public:
 		Character(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path, int speedX, int speedY,
 			int animationNb, int directionNb = 4);
+		Character(int posX, int posY, int speedX, int speedY);
 		~Character();
 		void display();
 		void move(int direction);

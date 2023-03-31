@@ -55,8 +55,14 @@ void createSceneElements() {
 	//background->setTheme("resources/audio/theme.wav");
 	//background->playTheme();
 
-	m_sceneElements.push_back(new Wall(m_graphicsEngine, m_graphicsEngine->getWidth() / 2, m_graphicsEngine->getHeight() / 2,
-		"resources/images/wall.png"));
+	Texture* wall = new Texture(m_graphicsEngine, "resources/images/wall.png");
+
+	m_sceneElements.push_back(new Wall(m_graphicsEngine->getWidth() / 2, m_graphicsEngine->getHeight() / 2));
+	m_sceneElements.back()->setTexture(wall);
+	m_sceneElements.push_back(new Wall(3 * m_graphicsEngine->getWidth() / 4, 3 * m_graphicsEngine->getHeight() / 4));
+	m_sceneElements.back()->setTexture(wall);
+	m_sceneElements.push_back(new Wall(3 * m_graphicsEngine->getWidth() / 4, m_graphicsEngine->getHeight() / 4));
+	m_sceneElements.back()->setTexture(wall);
 }
 
 void loop() {

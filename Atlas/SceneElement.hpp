@@ -18,5 +18,6 @@ class SceneElement {
 
 		void createTexture(GraphicsEngine* graphicsEngine, std::string path, int animationNb = 1, int directionNb = 1);
 		void createTexture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color);
+		void setTexture(Texture* texture, int animationNb = 1, int directionNb = 1);
 		virtual void display() = 0;
 };

@@ -5,6 +5,11 @@ Object::Object(GraphicsEngine* graphicsEngine, int posX, int posY, std::string p
 	createTexture(graphicsEngine, path);
 }
 
+Object::Object(int posX, int posY) : SceneElement(posX, posY) {
+}
+
 void Object::display() {
-	m_texture->render(m_posX, m_posY);
+	if (m_texture != NULL) {
+		m_texture->render(m_posX, m_posY);
+	}
 }

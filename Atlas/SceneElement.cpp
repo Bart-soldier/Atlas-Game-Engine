@@ -30,6 +30,16 @@ void SceneElement::createTexture(GraphicsEngine* graphicsEngine, TTF_Font* font,
 	m_height = m_texture->getHeight() / m_directionNb;
 }
 
+void SceneElement::setTexture(Texture* texture, int animationNb, int directionNb) {
+	m_texture = texture;
+
+	m_animationNb = animationNb;
+	m_directionNb = directionNb;
+
+	m_width = m_texture->getWidth() / m_animationNb;
+	m_height = m_texture->getHeight() / m_directionNb;
+}
+
 SceneElement::~SceneElement() {
 	if (m_texture != NULL) {
 		m_texture->free();

@@ -1,7 +1,7 @@
 #include "Character.hpp"
 
-Character::Character(GraphicsEngine* graphicsEngine, int x, int y, std::string path, int speedX, int speedY,
-	int animationNb, int directionNb) : SceneElement(x, y) {
+Character::Character(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path, int speedX, int speedY,
+	int animationNb, int directionNb) : SceneElement(posX, posY) {
 	createTexture(graphicsEngine, path, animationNb, directionNb);
 	m_speedX = speedX;
 	m_speedY = speedY;
@@ -15,6 +15,16 @@ Character::Character(GraphicsEngine* graphicsEngine, int x, int y, std::string p
 	//m_texture->setBlendMode(SDL_BLENDMODE_BLEND);
 }
 
+Character::Character(int posX, int posY, int speedX, int speedY) : SceneElement(posX, posY) {
+	m_speedX = speedX;
+	m_speedY = speedY;
+	m_lastMov = DOWN;
+	
+	m_frame = 0;
+	m_timeSinceLastMov = 0;
+	m_walkingEffect = NULL;
+}
+
 Character::~Character() {
 	// Free the sound effect
 	if (m_walkingEffect != NULL) {
@@ -24,7 +34,9 @@ Character::~Character() {
 }
 
 void Character::display() {
-	m_texture->render(m_posX, m_posY, m_lastMov, m_frame);
+	if (m_texture != NULL) {
+		m_texture->render(m_posX, m_posY, m_lastMov, m_frame);
+	}
 }
 
 void Character::move(int direction) {
