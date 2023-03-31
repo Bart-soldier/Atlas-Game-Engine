@@ -5,10 +5,9 @@
 #include "GraphicsEngine.hpp"
 #include "EventHandler.hpp"
 #include "Player.hpp"
-#include "Environment.hpp"
 #include "Text.hpp"
 #include "Timer.hpp"
-#include "Wall.hpp"
+#include "Scene.hpp"
 
 //const int SCREEN_FPS = 60;
 //const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
@@ -16,7 +15,7 @@
 GraphicsEngine* m_graphicsEngine;
 EventHandler* m_eventHandler;
 Player* m_player;
-std::vector<SceneElement*> m_sceneElements;
+Scene* level1;
 
 Text* m_fpsCounter;
 Timer m_fpsTimer;
@@ -49,22 +48,6 @@ bool initializeCore() {
 	return true;
 }
 
-void createSceneElements() {
-	// Create scene elements
-	m_sceneElements.push_back(new Environment(m_graphicsEngine, 0, 0, "resources/images/background.png"));
-	//background->setTheme("resources/audio/theme.wav");
-	//background->playTheme();
-
-	Texture* wall = new Texture(m_graphicsEngine, "resources/images/wall.png");
-
-	m_sceneElements.push_back(new Wall(m_graphicsEngine->getWidth() / 2, m_graphicsEngine->getHeight() / 2));
-	m_sceneElements.back()->setTexture(wall);
-	m_sceneElements.push_back(new Wall(3 * m_graphicsEngine->getWidth() / 4, 3 * m_graphicsEngine->getHeight() / 4));
-	m_sceneElements.back()->setTexture(wall);
-	m_sceneElements.push_back(new Wall(3 * m_graphicsEngine->getWidth() / 4, m_graphicsEngine->getHeight() / 4));
-	m_sceneElements.back()->setTexture(wall);
-}
-
 void loop() {
 	// Handle events on queue
 	exitStatus = m_eventHandler->handleEvent();
@@ -78,10 +61,7 @@ void loop() {
 
 	m_graphicsEngine->clearScreen();
 
-	// Render every scene element
-	for (auto sceneElement = m_sceneElements.begin(); sceneElement != m_sceneElements.end(); ++sceneElement) {
-		(*sceneElement)->display();
-	}
+	level1->display();
 
 	// Render player
 	m_player->display();
@@ -98,7 +78,8 @@ void loop() {
 int main(int argc, char* args[]) {
 	if (!initializeCore()) return EXIT_FAILURE;
 
-	createSceneElements();
+	level1 = new Scene(m_graphicsEngine, 8, 8);
+	level1->testLevel();
 
 	// Main loop
 	while (!exitStatus) {

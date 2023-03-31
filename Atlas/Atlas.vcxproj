@@ -25,6 +25,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneElement.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="EventHandler.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Scene.hpp" />
     <ClInclude Include="SceneElement.hpp" />
     <ClInclude Include="Text.hpp" />
     <ClInclude Include="Texture.hpp" />
