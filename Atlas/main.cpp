@@ -32,15 +32,18 @@ bool initializeCore() {
 	}
 
 	// Create player
-	m_player = new Player(m_graphicsEngine, 1, 1, "resources/images/animated_character.png", 1, 1, 2);
+	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/animated_character.png", 2, 4);
+	m_player = new Player(1, 1, 1, 1, playerImg);
+	
 	//player->setWalkingEffect("resources/audio/medium.wav");
 
 	//Create EventHandler
 	m_eventHandler = new EventHandler(m_player);
 
 	// Create FPS counter
-	m_fpsCounter = new Text(m_graphicsEngine, 0, 0, "resources/fonts/roboto/Roboto-Light.ttf", 28, "FPS = ",
-		{ 0, 0, 0 });
+	Texture* fpsTexture = new Texture(m_graphicsEngine, TTF_OpenFont("resources/fonts/roboto/Roboto-Light.ttf", 28),
+		"FPS = ", { 0, 0, 0 });
+	m_fpsCounter = new Text(0, 0, fpsTexture);
 	// Start counting frames per second
 	m_fpsTimer.start();
 	m_countedFrames = 0;
@@ -57,7 +60,7 @@ void loop() {
 	if (avgFPS > 2000000) {
 		avgFPS = 0;
 	}
-	m_fpsCounter->setText("FPS = " + std::to_string((int)avgFPS));
+	m_fpsCounter->setText("FPS = " + std::to_string((int)avgFPS), { 0, 0, 0 });
 
 	m_graphicsEngine->clearScreen();
 

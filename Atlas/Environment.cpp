@@ -1,12 +1,7 @@
 #include "Environment.hpp"
 
-Environment::Environment(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path)
-	: SceneElement(posX, posY) {
-	createTexture(graphicsEngine, path);
+Environment::Environment(int posX, int posY, Texture* texture) : SceneElement(posX, posY, texture) {
 	m_theme = NULL;
-}
-
-Environment::Environment(int posX, int posY) : SceneElement(posX, posY) {
 }
 
 Environment::~Environment() {

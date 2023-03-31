@@ -1,11 +1,6 @@
 #include "Object.hpp"
 
-Object::Object(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path)
-	: SceneElement(posX, posY) {
-	createTexture(graphicsEngine, path);
-}
-
-Object::Object(int posX, int posY) : SceneElement(posX, posY) {
+Object::Object(int posX, int posY, Texture* texture) : SceneElement(posX, posY, texture) {
 }
 
 void Object::display() {

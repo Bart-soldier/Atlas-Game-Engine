@@ -13,13 +13,12 @@ void Scene::testLevel() {
 	for (int y = 0; y < m_height; y++) {
 		for (int x = 0; x < m_width; x++) {
 			if (x == 0 || x == m_height - 1 || y == 0 || y == m_width - 1) {
-				m_sceneElements.push_back(std::make_pair(new Environment(x, y), new Wall(x, y)));
-				m_sceneElements.back().first->setTexture(floor);
-				m_sceneElements.back().second->setTexture(wall);
+				m_sceneElements.push_back(std::make_pair(new Environment(x, y, floor), new Wall(x, y, wall)));
+				//m_sceneElements.back().first->setTexture(floor);
+				//m_sceneElements.back().second->setTexture(wall);
 			}
 			else {
-				m_sceneElements.push_back(std::make_pair(new Environment(x, y), nullptr));
-				m_sceneElements.back().first->setTexture(floor);
+				m_sceneElements.push_back(std::make_pair(new Environment(x, y, floor), nullptr));
 			}
 		}
 	}
@@ -31,21 +30,6 @@ void Scene::testLevel() {
 
 	// Free unused vector space
 	m_sceneElements.shrink_to_fit();
-
-	/*
-	// Create scene elements
-	m_sceneElements.push_back(new Environment(m_graphicsEngine, 0, 0, "resources/images/background.png"));
-	//background->setTheme("resources/audio/theme.wav");
-	//background->playTheme();
-
-	Texture* wall = new Texture(m_graphicsEngine, "resources/images/wall.png");
-
-	m_sceneElements.push_back(new Wall(m_graphicsEngine->getWidth() / 2, m_graphicsEngine->getHeight() / 2));
-	m_sceneElements.back()->setTexture(wall);
-	m_sceneElements.push_back(new Wall(3 * m_graphicsEngine->getWidth() / 4, 3 * m_graphicsEngine->getHeight() / 4));
-	m_sceneElements.back()->setTexture(wall);
-	m_sceneElements.push_back(new Wall(3 * m_graphicsEngine->getWidth() / 4, m_graphicsEngine->getHeight() / 4));
-	m_sceneElements.back()->setTexture(wall);*/
 }
 
 void Scene::display() {

@@ -6,8 +6,7 @@ class Environment : public SceneElement {
 		Mix_Music* m_theme;
 
 	public:
-		Environment(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path);
-		Environment(int posX, int posY);
+		Environment(int posX, int posY, Texture* texture = nullptr);
 		~Environment();
 
 		void display();

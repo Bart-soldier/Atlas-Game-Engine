@@ -1,21 +1,6 @@
 #include "Character.hpp"
 
-Character::Character(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path, int speedX, int speedY,
-	int animationNb, int directionNb) : SceneElement(posX, posY) {
-	createTexture(graphicsEngine, path, animationNb, directionNb);
-	m_speedX = speedX;
-	m_speedY = speedY;
-	m_lastMov = DOWN;
-
-	m_frame = 0;
-	m_timeSinceLastMov = 0;
-	m_walkingEffect = NULL;
-
-	// Set standard alpha blending
-	//m_texture->setBlendMode(SDL_BLENDMODE_BLEND);
-}
-
-Character::Character(int posX, int posY, int speedX, int speedY) : SceneElement(posX, posY) {
+Character::Character(int posX, int posY, int speedX, int speedY, Texture* texture) : SceneElement(posX, posY, texture) {
 	m_speedX = speedX;
 	m_speedY = speedY;
 	m_lastMov = DOWN;
@@ -23,6 +8,9 @@ Character::Character(int posX, int posY, int speedX, int speedY) : SceneElement(
 	m_frame = 0;
 	m_timeSinceLastMov = 0;
 	m_walkingEffect = NULL;
+
+	// Set standard alpha blending
+	//m_texture->setBlendMode(SDL_BLENDMODE_BLEND);
 }
 
 Character::~Character() {

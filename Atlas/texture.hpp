@@ -55,5 +55,7 @@ class Texture {
 		int getWidth();
 		int getHeight();
 		Uint8 getAplha();
+		int getDirectionNb();
+		int getAnimationNb();
 };
 

@@ -208,3 +208,11 @@ int Texture::getHeight() {
 Uint8 Texture::getAplha() {
 	return m_alpha;
 }
+
+int Texture::getDirectionNb() {
+	return m_directionNb;
+}
+
+int Texture::getAnimationNb() {
+	return m_animationNb;
+}

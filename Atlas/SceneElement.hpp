@@ -13,10 +13,8 @@ class SceneElement {
 		int m_animationNb;
 
 	public:
-		SceneElement(int posX, int posY);
+		SceneElement(int posX, int posY, Texture* texture = nullptr);
 
-		void createTexture(GraphicsEngine* graphicsEngine, std::string path, int animationNb = 1, int directionNb = 1);
-		void createTexture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color);
-		void setTexture(Texture* texture, int animationNb = 1, int directionNb = 1);
+		void setTexture(Texture* texture);
 		virtual void display() = 0;
 };

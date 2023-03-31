@@ -3,7 +3,6 @@
 
 class Wall : public Object {
 	public:
-		Wall(GraphicsEngine* graphicsEngine, int posX, int posY, std::string path);
-		Wall(int posX, int posY);
+		Wall(int posX, int posY, Texture* texture = nullptr);
 };
 
