@@ -70,9 +70,6 @@ void loop() {
 
 	level1->display();
 
-	// Render player
-	m_player->display();
-
 	// Render FPS counter
 	m_fpsCounter->display();
 
@@ -87,6 +84,7 @@ int main(int argc, char* args[]) {
 
 	level1 = new Scene(m_graphicsEngine, 10, 10);
 	level1->testLevel();
+	level1->addPlayer(m_player);
 
 	// Main loop
 	while (!exitStatus) {

@@ -4,6 +4,11 @@ Scene::Scene(GraphicsEngine* graphicsEngine, int width, int height) {
 	m_graphicsEngine = graphicsEngine;
 	m_width = width;
 	m_height = height;
+	m_player = nullptr;
+}
+
+void Scene::addPlayer(Player* player) {
+	m_player = player;
 }
 
 void Scene::testLevel() {
@@ -32,6 +37,10 @@ void Scene::testLevel() {
 	m_sceneElements.shrink_to_fit();
 }
 
+void Scene::update() {
+
+}
+
 void Scene::display() {
 	// Render every scene element
 	for (auto pair = m_sceneElements.begin(); pair != m_sceneElements.end(); ++pair) {
@@ -42,5 +51,10 @@ void Scene::display() {
 			(pair->second)->display();
 		}
 		//(*sceneElement)->display();
+	}
+
+	// Render player
+	if (m_player != nullptr) {
+		m_player->display();
 	}
 }
