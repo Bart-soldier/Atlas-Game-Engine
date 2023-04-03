@@ -21,3 +21,19 @@ void SceneElement::setTexture(Texture* texture) {
 	m_width = m_texture->getWidth() / m_animationNb;
 	m_height = m_texture->getHeight() / m_directionNb;
 }
+
+int SceneElement::getPosX() {
+	return m_posX;
+}
+
+int SceneElement::getPosY() {
+	return m_posY;
+}
+
+int SceneElement::getWidth() {
+	return m_width;
+}
+
+int SceneElement::getHeight() {
+	return m_height;
+}

@@ -17,4 +17,8 @@ class SceneElement {
 
 		void setTexture(Texture* texture);
 		virtual void display() = 0;
+		int getPosX();
+		int getPosY();
+		int getWidth();
+		int getHeight();
 };

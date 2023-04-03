@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <stdlib.h>
 #include "GraphicsEngine.hpp"
+#include "GameplayEngine.hpp"
 #include "EventHandler.hpp"
 #include "Player.hpp"
 #include "Text.hpp"
@@ -16,6 +17,7 @@ GraphicsEngine* m_graphicsEngine;
 EventHandler* m_eventHandler;
 Player* m_player;
 Scene* level1;
+std::vector<std::pair<Environment*, Object*>>* m_sceneElements;
 
 Text* m_fpsCounter;
 Timer m_fpsTimer;
@@ -30,6 +32,8 @@ bool initializeCore() {
 	if (m_graphicsEngine == NULL) {
 		return false;
 	}
+
+	//m_grameplayEngine = new GameplayEngine(
 
 	// Create player
 	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/animated_character.png", 2, 4);
