@@ -7,6 +7,9 @@ Character::Character(int posX, int posY, int speedX, int speedY, Texture* textur
 	
 	m_frame = 0;
 	m_timeSinceLastMov = 0;
+
+	m_sceneElements = nullptr;
+
 	m_walkingEffect = NULL;
 
 	// Set standard alpha blending
@@ -29,50 +32,63 @@ void Character::display() {
 
 void Character::move(int direction) {
 	Uint32 time = SDL_GetTicks();
-
-	if (direction == m_lastMov) {
-		if (time - m_timeSinceLastMov >= 500) {
-			m_frame++;
-			m_frame %= m_animationNb;
-			m_timeSinceLastMov = time;
-		}
-	}
-	else {
-		m_frame = 0;
-		m_timeSinceLastMov = time;
-	}
-
-	if (m_walkingEffect != NULL) {
-		Mix_PlayChannel(-1, m_walkingEffect, 0);
-	}
+	int newX = m_posX;
+	int newY = m_posY;
+	int newMov = m_lastMov;
 
 	switch (direction) {
 	case UP:
-		m_posY -= m_speedY;
-		m_lastMov = UP;
+		newY -= m_speedY;
+		newMov = UP;
 		break;
 
 	case DOWN:
-		m_posY += m_speedY;
-		m_lastMov = DOWN;
+		newY += m_speedY;
+		newMov = DOWN;
 		break;
 
 	case LEFT:
-		m_posX -= m_speedX;
-		m_lastMov = LEFT;
+		newX -= m_speedX;
+		newMov = LEFT;
 		break;
 
 	case RIGHT:
-		m_posX += m_speedX;
-		m_lastMov = RIGHT;
+		newX += m_speedX;
+		newMov = RIGHT;
 		break;
+	}
+
+	if (!checkCollision(newX, newY)) {
+		m_posX = newX;
+		m_posY = newY;
+		m_lastMov = newMov;
+
+		if (direction == m_lastMov) {
+			if (time - m_timeSinceLastMov >= 500) {
+				m_frame++;
+				m_frame %= m_animationNb;
+				m_timeSinceLastMov = time;
+			}
+		}
+		else {
+			m_frame = 0;
+			m_timeSinceLastMov = time;
+		}
+
+		if (m_walkingEffect != NULL) {
+			Mix_PlayChannel(-1, m_walkingEffect, 0);
+		}
 	}
 }
 
 void Character::move(int x, int y) {
-	m_posX = x;
-	m_posY = y;
-	m_lastMov = DOWN;
+	if (!checkCollision(x, y)) {
+		m_posX = x;
+		m_posY = y;
+		m_lastMov = DOWN;
+		m_frame = 0;
+		m_timeSinceLastMov = SDL_GetTicks();
+	}
 }
 
 void Character::setWalkingEffect(std::string path) {

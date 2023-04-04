@@ -1,5 +1,7 @@
 #pragma once
 #include "SceneElement.hpp"
+#include "Environment.hpp"
+#include "Object.hpp"
 
 enum Directions {
 	UP,
@@ -23,6 +25,7 @@ class Character : public SceneElement {
 		Character(int posX, int posY, int speedX, int speedY, Texture* texture = nullptr);
 		~Character();
 		void display();
+
 		void move(int direction);
 		void move(int x, int y);
 		void setWalkingEffect(std::string path);

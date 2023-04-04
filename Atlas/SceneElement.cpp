@@ -9,7 +9,71 @@ SceneElement::SceneElement(int posX, int posY, Texture* texture) {
 	m_directionNb = 0;
 	m_animationNb = 0;
 
+	m_sceneElements = nullptr;
+	m_sceneElementsWidth = 0;
+
 	if (texture != nullptr) setTexture(texture);
+}
+
+bool SceneElement::checkCollision(int posX, int posY) {
+	// Get corresponding tile
+	int tile_x = posX/(TILESIZE * TILEFACTOR);
+	int e_x = tile_x * TILESIZE * TILEFACTOR;
+	int tile_y = posY/(TILESIZE * TILEFACTOR);
+	int e_y = tile_y * TILESIZE * TILEFACTOR;
+	int e_w = e_x + TILESIZE * TILEFACTOR;
+	int e_h = e_y + TILESIZE * TILEFACTOR;
+	//printf("e_x : x = %d, y = %d, w = %d, h = %d\n", e_x, e_y, e_w, e_h);
+	//printf("pos_x : x = %d, y = %d, w = %d, h = %d\n", posX, posY, posX + m_width, posY + m_height);
+	//printf("Test : x = %d, y = %d\n", tile_x, tile_y);
+
+	// Check destination
+	SceneElement* element = m_sceneElements->at(tile_y * m_sceneElementsWidth + tile_x).second;
+	if (element != nullptr) {
+		//handleCollision(element);
+		return true;
+	}
+
+	// Check right tile
+	if (posX + m_width > e_w) {
+		element = m_sceneElements->at(tile_y * m_sceneElementsWidth + tile_x + 1).second;
+		if (element != nullptr) {
+			//handleCollision(element);
+			return true;
+		}
+	}
+
+	// Check bottom tile
+	if (posY + m_height > e_h) {
+		element = m_sceneElements->at((tile_y + 1) * m_sceneElementsWidth + tile_x).second;
+		if (element != nullptr) {
+			//handleCollision(element);
+			return true;
+		}
+	}
+
+	// Check bottom right tile
+	if (posX + m_width > e_w && posY + m_height > e_h) {
+		element = m_sceneElements->at((tile_y + 1) * m_sceneElementsWidth + tile_x + 1).second;
+		if (element != nullptr) {
+			//handleCollision(element);
+			return true;
+		}
+	}
+
+	/*
+	if ((e_x <= m_posX && m_posX <= e_x + e_w) || (m_posX <= e_x && e_x <= m_posX + m_width)) {
+		if ((e_y <= m_posY && m_posY <= e_y + e_h) || (m_posY <= e_y && e_y <= m_posY + m_height)) {
+			//handleCollision(element);
+			printf("Collision!\n");
+			return true;
+		}
+	}*/
+
+	return false;
+}
+
+void SceneElement::handleCollision(SceneElement* element) {
 }
 
 void SceneElement::setTexture(Texture* texture) {
@@ -20,6 +84,11 @@ void SceneElement::setTexture(Texture* texture) {
 
 	m_width = m_texture->getWidth() / m_animationNb;
 	m_height = m_texture->getHeight() / m_directionNb;
+}
+
+void SceneElement::setSceneElements(std::vector<std::pair<SceneElement*, SceneElement*>>* sceneElements, int width) {
+	m_sceneElements = sceneElements;
+	m_sceneElementsWidth = width;
 }
 
 int SceneElement::getPosX() {

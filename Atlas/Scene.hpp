@@ -11,7 +11,7 @@ class Scene {
 		int m_width;
 		int m_height;
 
-		std::vector<std::pair<Environment*, Object*>> m_sceneElements;
+		std::vector<std::pair<SceneElement*, SceneElement*>> m_sceneElements;
 		Player* m_player;
 
 	public:

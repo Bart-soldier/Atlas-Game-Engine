@@ -1,7 +1,8 @@
-#pragma once
+/*#pragma once
 #include "SceneElement.hpp"
 
 namespace GameplayEngine {
-	bool checkColision(SceneElement* element1, SceneElement* element2);
-};
+	bool checkCollision(SceneElement* element1, SceneElement* element2);
+	std::vector<SceneElement*> neighborElements(SceneElement* element, std::vector<SceneElement*> sceneElements);
+};*/
 

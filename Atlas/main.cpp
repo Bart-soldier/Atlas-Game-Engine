@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <stdlib.h>
 #include "GraphicsEngine.hpp"
-#include "GameplayEngine.hpp"
 #include "EventHandler.hpp"
 #include "Player.hpp"
 #include "Text.hpp"

@@ -1,7 +1,7 @@
-#include "GameplayEngine.hpp"
+/*#include "GameplayEngine.hpp"
 
 namespace GameplayEngine {
-	bool checkColision(SceneElement* element1, SceneElement* element2) {
+	bool checkCollision(SceneElement* element1, SceneElement* element2) {
 		int e1_x = element1->getPosX();
 		int e1_y = element1->getPosY();
 		int e1_w = element1->getWidth();
@@ -20,4 +20,10 @@ namespace GameplayEngine {
 
 		return false;
 	}
-}
+
+	std::vector<SceneElement*> neighborElements(SceneElement* element, std::vector<SceneElement*> sceneElements) {
+		std::vector<SceneElement*> neighborElements;
+
+		return neighborElements;
+	}
+}*/

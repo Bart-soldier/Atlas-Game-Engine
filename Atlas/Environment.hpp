@@ -10,6 +10,7 @@ class Environment : public SceneElement {
 		~Environment();
 
 		void display();
+
 		void setTheme(std::string path);
 		void playTheme();
 };

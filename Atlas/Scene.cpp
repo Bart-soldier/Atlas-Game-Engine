@@ -9,6 +9,7 @@ Scene::Scene(GraphicsEngine* graphicsEngine, int width, int height) {
 
 void Scene::addPlayer(Player* player) {
 	m_player = player;
+	m_player->setSceneElements(&m_sceneElements, m_width);
 }
 
 void Scene::testLevel() {
@@ -28,10 +29,10 @@ void Scene::testLevel() {
 		}
 	}
 
-	int x = 5;
+	int x = 6;
 	int y = 5;
-	m_sceneElements.at(x * m_width + y).second = new Wall(x, y);
-	m_sceneElements.at(x * m_width + y).second->setTexture(wall);
+	m_sceneElements.at(y * m_width + x).second = new Wall(x, y);
+	m_sceneElements.at(y * m_width + x).second->setTexture(wall);
 
 	// Free unused vector space
 	m_sceneElements.shrink_to_fit();
