@@ -23,9 +23,6 @@ bool SceneElement::checkCollision(int posX, int posY) {
 	int e_y = tile_y * TILESIZE * TILEFACTOR;
 	int e_w = e_x + TILESIZE * TILEFACTOR;
 	int e_h = e_y + TILESIZE * TILEFACTOR;
-	//printf("e_x : x = %d, y = %d, w = %d, h = %d\n", e_x, e_y, e_w, e_h);
-	//printf("pos_x : x = %d, y = %d, w = %d, h = %d\n", posX, posY, posX + m_width, posY + m_height);
-	//printf("Test : x = %d, y = %d\n", tile_x, tile_y);
 
 	// Check destination
 	SceneElement* element = m_sceneElements->at(tile_y * m_sceneElementsWidth + tile_x).second;
