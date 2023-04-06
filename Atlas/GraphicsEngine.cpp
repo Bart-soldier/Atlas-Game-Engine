@@ -12,7 +12,8 @@ GraphicsEngine::GraphicsEngine(int width, int height) {
 	}
 	else {
 		//Create window
-		m_window = SDL_CreateWindow("Atlas Game Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
+		m_window = SDL_CreateWindow("Atlas Game Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			m_width, m_height, SDL_WINDOW_SHOWN);
 		if(m_window == NULL) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		}
@@ -80,7 +81,7 @@ void GraphicsEngine::render(SDL_Texture* texture, int x, int y, int width, int h
 
 void GraphicsEngine::clearScreen() {
 	// Clear screen
-	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_renderer);
 }
 

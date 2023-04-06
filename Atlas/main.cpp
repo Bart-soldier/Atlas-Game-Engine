@@ -16,7 +16,6 @@ GraphicsEngine* m_graphicsEngine;
 EventHandler* m_eventHandler;
 Player* m_player;
 Scene* level1;
-std::vector<std::pair<Environment*, Object*>>* m_sceneElements;
 
 Text* m_fpsCounter;
 Timer m_fpsTimer;
@@ -26,7 +25,7 @@ int exitStatus = false;
 
 bool initializeCore() {
 	// Create Graphics Engine
-	m_graphicsEngine = new GraphicsEngine(640, 640);
+	m_graphicsEngine = new GraphicsEngine(1280, 720);
 
 	if (m_graphicsEngine == NULL) {
 		return false;
@@ -35,7 +34,7 @@ bool initializeCore() {
 	//m_grameplayEngine = new GameplayEngine(
 
 	// Create player
-	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/animated_character.png", 2, 4);
+	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/drjonez.png", 4, 4);
 	m_player = new Player(1, 1, 1, 1, playerImg);
 	
 	//player->setWalkingEffect("resources/audio/medium.wav");
@@ -84,6 +83,8 @@ int main(int argc, char* args[]) {
 	level1 = new Scene(m_graphicsEngine, 10, 10);
 	level1->testLevel();
 	level1->addPlayer(m_player);
+	level1->setTheme("resources/audio/IndianaJones.wav");
+	//level1->playTheme();
 
 	// Main loop
 	while (!exitStatus) {

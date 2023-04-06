@@ -16,17 +16,17 @@ class Character : public SceneElement {
 		int m_speedY;
 		int m_lastMov;
 
-		int m_frame;
-		Uint32 m_timeSinceLastMov;
-
 		Mix_Chunk* m_walkingEffect;
 
 	public:
 		Character(int posX, int posY, int speedX, int speedY, Texture* texture = nullptr);
 		~Character();
-		void display();
 
+		void display() override;
+		bool checkCollision(int posX, int posY) override;
+		void handleCollision(SceneElement* element) override;
 		void move(int direction);
 		void move(int x, int y);
+
 		void setWalkingEffect(std::string path);
 };

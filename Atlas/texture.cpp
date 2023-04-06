@@ -94,12 +94,17 @@ bool Texture::loadFromFile(std::string path) {
 		return false;
 	}
 	else {
+		m_width = loadedSurface->w;
+		m_height = loadedSurface->h;
+		if (m_width < TILESIZE) m_width = TILESIZE;
+		if (m_height < TILESIZE) m_height = TILESIZE;
+
 		// Resize surface
 		SDL_Rect resizedRect;
 		resizedRect.x = 0;
 		resizedRect.y = 0;
-		resizedRect.w = m_animationNb * TILESIZE * TILEFACTOR;
-		resizedRect.h = m_directionNb * TILESIZE * TILEFACTOR;
+		resizedRect.w = m_width * TILEFACTOR;
+		resizedRect.h = m_height * TILEFACTOR;
 
 		SDL_Surface* resizedSurface = SDL_CreateRGBSurface(
 			loadedSurface->flags,

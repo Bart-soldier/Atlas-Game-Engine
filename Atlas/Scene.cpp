@@ -5,6 +5,15 @@ Scene::Scene(GraphicsEngine* graphicsEngine, int width, int height) {
 	m_width = width;
 	m_height = height;
 	m_player = nullptr;
+	m_theme = NULL;
+}
+
+Scene::~Scene() {
+	// Free the music
+	if (m_theme != NULL) {
+		Mix_FreeMusic(m_theme);
+		m_theme = NULL;
+	}
 }
 
 void Scene::addPlayer(Player* player) {
@@ -58,4 +67,20 @@ void Scene::display() {
 	if (m_player != nullptr) {
 		m_player->display();
 	}
+}
+
+void Scene::setTheme(std::string path) {
+	// Load music
+	m_theme = Mix_LoadMUS(path.c_str());
+	if (m_theme == NULL) {
+		printf("Failed to load theme! SDL_mixer Error: %s\n", Mix_GetError());
+	}
+}
+
+void Scene::playTheme() {
+	// Play the music
+	if (m_theme == NULL) {
+		printf("No music to play!");
+	}
+	else Mix_PlayMusic(m_theme, -1);
 }

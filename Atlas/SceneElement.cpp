@@ -6,8 +6,11 @@ SceneElement::SceneElement(int posX, int posY, Texture* texture) {
 	m_width = 0;
 	m_height = 0;
 	m_texture = NULL;
+
 	m_directionNb = 0;
 	m_animationNb = 0;
+	m_frame = 0;
+	m_timeSinceLastMov = 0;
 
 	m_sceneElements = nullptr;
 	m_sceneElementsWidth = 0;
@@ -15,47 +18,22 @@ SceneElement::SceneElement(int posX, int posY, Texture* texture) {
 	if (texture != nullptr) setTexture(texture);
 }
 
+void SceneElement::display() {
+	if (m_texture != NULL) {
+		m_texture->render(m_posX, m_posY);
+	}
+}
+
 bool SceneElement::checkCollision(int posX, int posY) {
 	// Get corresponding tile
 	int tile_x = posX/(TILESIZE * TILEFACTOR);
-	int e_x = tile_x * TILESIZE * TILEFACTOR;
 	int tile_y = posY/(TILESIZE * TILEFACTOR);
-	int e_y = tile_y * TILESIZE * TILEFACTOR;
-	int e_w = e_x + TILESIZE * TILEFACTOR;
-	int e_h = e_y + TILESIZE * TILEFACTOR;
+	SceneElement* element = m_sceneElements->at(tile_y * m_sceneElementsWidth + tile_x).second;
 
 	// Check destination
-	SceneElement* element = m_sceneElements->at(tile_y * m_sceneElementsWidth + tile_x).second;
 	if (element != nullptr) {
-		//handleCollision(element);
+		handleCollision(element);
 		return true;
-	}
-
-	// Check right tile
-	if (posX + m_width > e_w) {
-		element = m_sceneElements->at(tile_y * m_sceneElementsWidth + tile_x + 1).second;
-		if (element != nullptr) {
-			//handleCollision(element);
-			return true;
-		}
-	}
-
-	// Check bottom tile
-	if (posY + m_height > e_h) {
-		element = m_sceneElements->at((tile_y + 1) * m_sceneElementsWidth + tile_x).second;
-		if (element != nullptr) {
-			//handleCollision(element);
-			return true;
-		}
-	}
-
-	// Check bottom right tile
-	if (posX + m_width > e_w && posY + m_height > e_h) {
-		element = m_sceneElements->at((tile_y + 1) * m_sceneElementsWidth + tile_x + 1).second;
-		if (element != nullptr) {
-			//handleCollision(element);
-			return true;
-		}
 	}
 
 	/*
