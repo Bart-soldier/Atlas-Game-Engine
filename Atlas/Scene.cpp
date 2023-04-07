@@ -27,7 +27,7 @@ void Scene::testLevel() {
 
 	for (int y = 0; y < m_height; y++) {
 		for (int x = 0; x < m_width; x++) {
-			if (x == 0 || x == m_height - 1 || y == 0 || y == m_width - 1) {
+			if (x == 0 || x == m_width - 1 || y == 0 || y == m_height - 1) {
 				m_sceneElements.push_back(std::make_pair(new Environment(x, y, floor), new Wall(x, y, wall)));
 				//m_sceneElements.back().first->setTexture(floor);
 				//m_sceneElements.back().second->setTexture(wall);

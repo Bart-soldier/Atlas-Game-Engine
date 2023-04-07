@@ -25,8 +25,8 @@ class Character : public SceneElement {
 		void display() override;
 		bool checkCollision(int posX, int posY) override;
 		void handleCollision(SceneElement* element) override;
-		void move(int direction);
-		void move(int x, int y);
+		virtual void move(int direction);
+		virtual void move(int x, int y);
 
 		void setWalkingEffect(std::string path);
 };

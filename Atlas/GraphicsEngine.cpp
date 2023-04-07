@@ -5,6 +5,7 @@ GraphicsEngine::GraphicsEngine(int width, int height) {
 	m_renderer = NULL;
 	m_width = width;
 	m_height = height;
+	m_camera = NULL;
 
 	//Initialize SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
@@ -67,8 +68,10 @@ SDL_Texture* GraphicsEngine::createTexture(SDL_Surface* surface) {
 }
 
 void GraphicsEngine::render(SDL_Texture* texture, int x, int y, int width, int height, SDL_Rect* clip) {
-	// Set rendering space and scale to render to screen
+	// Set rendering space and scale to render to screen or camera
 	SDL_Rect renderQuad = { x, y, width, height };
+	if (m_camera != NULL) renderQuad = { x - m_camera->getPosX(), y - m_camera->getPosY(), m_camera->getWidth(),
+		m_camera->getHeight() };
 
 	// Set clip rendering dimensions
 	if (clip != NULL) {
@@ -134,4 +137,8 @@ bool GraphicsEngine::getExitStatus() {
 
 void GraphicsEngine::setExitStatus(bool exitStatus) {
 	m_exitStatus = exitStatus;
+}
+
+void GraphicsEngine::setCamera(Camera* camera) {
+	m_camera = camera;
 }

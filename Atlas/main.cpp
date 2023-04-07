@@ -11,6 +11,9 @@
 
 //const int SCREEN_FPS = 60;
 //const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+// Screen dimension constants
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 
 GraphicsEngine* m_graphicsEngine;
 EventHandler* m_eventHandler;
@@ -25,17 +28,21 @@ int exitStatus = false;
 
 bool initializeCore() {
 	// Create Graphics Engine
-	m_graphicsEngine = new GraphicsEngine(1280, 720);
+	m_graphicsEngine = new GraphicsEngine(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	if (m_graphicsEngine == NULL) {
 		return false;
 	}
+
+	Camera* camera = new Camera(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_graphicsEngine->setCamera(camera);
 
 	//m_grameplayEngine = new GameplayEngine(
 
 	// Create player
 	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/drjonez.png", 4, 4);
 	m_player = new Player(1, 1, 1, 1, playerImg);
+	m_player->setCamera(camera);
 	
 	//player->setWalkingEffect("resources/audio/medium.wav");
 
@@ -80,7 +87,7 @@ void loop() {
 int main(int argc, char* args[]) {
 	if (!initializeCore()) return EXIT_FAILURE;
 
-	level1 = new Scene(m_graphicsEngine, 10, 10);
+	level1 = new Scene(m_graphicsEngine, 30, 10);
 	level1->testLevel();
 	level1->addPlayer(m_player);
 	level1->setTheme("resources/audio/IndianaJones.wav");

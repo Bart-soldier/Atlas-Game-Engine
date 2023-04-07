@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string>
 #include <cmath>
+#include "Camera.hpp"
 
 #define TILESIZE 16
 #define TILEFACTOR 4
@@ -22,6 +23,9 @@ class GraphicsEngine {
 		int m_width;
 		int m_height;
 
+		// Camera
+		Camera* m_camera;
+
 		bool m_exitStatus = false;
 
 	public:
@@ -37,4 +41,5 @@ class GraphicsEngine {
 		int getHeight();
 		bool getExitStatus();
 		void setExitStatus(bool exitStatus);
+		void setCamera(Camera* camera);
 };
