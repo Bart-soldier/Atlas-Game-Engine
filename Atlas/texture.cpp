@@ -198,8 +198,8 @@ void Texture::setAlpha(int alpha) {
 	SDL_SetTextureAlphaMod(m_texture, m_alpha);
 }
 
-void Texture::render(int x, int y, int lastMov, int frame) {
-	m_graphicsEngine->render(m_texture, x, y, m_width, m_height, &m_spriteClips.at((lastMov * m_animationNb) + frame));
+void Texture::render(int x, int y, int lastMov, int frame, bool toCamera) {
+	m_graphicsEngine->render(m_texture, x, y, m_width, m_height, &m_spriteClips.at((lastMov * m_animationNb) + frame), toCamera);
 }
 
 int Texture::getWidth() {

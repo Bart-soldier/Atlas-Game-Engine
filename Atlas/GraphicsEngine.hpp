@@ -32,7 +32,7 @@ class GraphicsEngine {
 		GraphicsEngine(int width, int height);
 		~GraphicsEngine();
 		SDL_Texture* createTexture(SDL_Surface* surface);
-		void render(SDL_Texture* texture, int x, int y, int width, int height, SDL_Rect* clip = NULL);
+		void render(SDL_Texture* texture, int x, int y, int width, int height, SDL_Rect* clip = NULL, bool toCamera = true);
 		void clearScreen();
 		void updateScreen();
 		void drawRectangle();

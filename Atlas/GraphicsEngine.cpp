@@ -67,10 +67,10 @@ SDL_Texture* GraphicsEngine::createTexture(SDL_Surface* surface) {
 	return SDL_CreateTextureFromSurface(m_renderer, surface);
 }
 
-void GraphicsEngine::render(SDL_Texture* texture, int x, int y, int width, int height, SDL_Rect* clip) {
+void GraphicsEngine::render(SDL_Texture* texture, int x, int y, int width, int height, SDL_Rect* clip, bool toCamera) {
 	// Set rendering space and scale to render to screen or camera
 	SDL_Rect renderQuad = { x, y, width, height };
-	if (m_camera != NULL) renderQuad = { x - m_camera->getPosX(), y - m_camera->getPosY(), m_camera->getWidth(),
+	if (m_camera != NULL && toCamera) renderQuad = { x - m_camera->getPosX(), y - m_camera->getPosY(), m_camera->getWidth(),
 		m_camera->getHeight() };
 
 	// Set clip rendering dimensions

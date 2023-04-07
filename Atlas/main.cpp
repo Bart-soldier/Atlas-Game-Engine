@@ -69,7 +69,7 @@ void loop() {
 	if (avgFPS > 2000000) {
 		avgFPS = 0;
 	}
-	m_fpsCounter->setText("FPS = " + std::to_string((int)avgFPS), { 0, 0, 0 });
+	m_fpsCounter->setText("FPS = " + std::to_string((int)avgFPS), { 255, 255, 255 });
 
 	m_graphicsEngine->clearScreen();
 

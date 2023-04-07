@@ -49,7 +49,7 @@ class Texture {
 		// Set alpha modulation
 		void setAlpha(int alpha);
 		// Renders texture at given point
-		void render(int x, int y, int lastMov = 0, int frame = 0);
+		void render(int x, int y, int lastMov = 0, int frame = 0, bool toCamera = true);
 
 		// Gets image dimensions
 		int getWidth();
