@@ -11,17 +11,6 @@ const int SCREEN_HEIGHT = 720;
 const int TILESIZE = 16;
 const int TILEFACTOR = 4;
 
-/*enum Directions {
-	NORTH,
-	NORTHEAST,
-	EAST,
-	SOUTHEAST,
-	SOUTH,
-	SOUTHWEST,
-	WEST,
-	NORTHWEST
-};*/
-
 enum Directions {
 	NORTH,
 	EAST,
