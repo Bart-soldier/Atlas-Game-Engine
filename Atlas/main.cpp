@@ -8,12 +8,7 @@
 #include "Text.hpp"
 #include "Timer.hpp"
 #include "Scene.hpp"
-
-//const int SCREEN_FPS = 60;
-//const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
-// Screen dimension constants
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 720;
+#include "Constants.hpp"
 
 GraphicsEngine* m_graphicsEngine;
 EventHandler* m_eventHandler;
@@ -23,6 +18,9 @@ Scene* level1;
 Text* m_fpsCounter;
 Timer m_fpsTimer;
 int m_countedFrames;
+
+// FPS Caping
+Timer m_fpsCapTimer;
 
 int exitStatus = false;
 
@@ -41,7 +39,7 @@ bool initializeCore() {
 
 	// Create player
 	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/drjonez.png", 4, 4);
-	m_player = new Player(1, 1, 1, 1, playerImg);
+	m_player = new Player(1, 1, playerImg);
 	m_player->setCamera(camera);
 	
 	//player->setWalkingEffect("resources/audio/medium.wav");
@@ -61,8 +59,13 @@ bool initializeCore() {
 }
 
 void loop() {
+	// Start FPS cap timer
+	m_fpsCapTimer.start();
+
 	// Handle events on queue
 	exitStatus = m_eventHandler->handleEvent();
+
+	m_player->move();
 
 	// Calculate and correct fps
 	float avgFPS = m_countedFrames / (m_fpsTimer.getTicks() / 1000.f);
@@ -82,6 +85,13 @@ void loop() {
 	m_graphicsEngine->updateScreen();
 
 	++m_countedFrames;
+
+	// If frame finished early
+	int frameTicks = m_fpsCapTimer.getTicks();
+	if (frameTicks < TICKS_PER_FRAME) {
+		// Wait remaining time
+		SDL_Delay(TICKS_PER_FRAME - frameTicks);
+	}
 }
 
 int main(int argc, char* args[]) {

@@ -1,9 +1,11 @@
 #include "Character.hpp"
 
-Character::Character(int posX, int posY, int speedX, int speedY, Texture* texture) : SceneElement(posX, posY, texture) {
-	m_speedX = speedX;
-	m_speedY = speedY;
-	m_lastMov = DOWN;
+Character::Character(int posX, int posY, Texture* texture) : SceneElement(posX, posY, texture) {
+	m_speed = 2 * (TILESIZE * TILEFACTOR) / (FRAME_RATE);
+	m_speedX = 0;
+	m_speedY = 0;
+	m_isRunning = false;
+	m_direction = SOUTH;
 
 	m_sceneElements = nullptr;
 
@@ -21,9 +23,28 @@ Character::~Character() {
 	}
 }
 
+void Character::checkDirection(int direction) {
+	int newDirection = m_direction;
+
+	if (m_speedY < 0) newDirection = NORTH;
+	if (m_speedY > 0) newDirection = SOUTH;
+	if (m_speedX < 0) newDirection = WEST;
+	if (m_speedX > 0) newDirection = EAST;
+
+	if (newDirection != m_direction) {
+		m_frame = 0;
+		m_timeSinceLastMov = SDL_GetTicks();
+		m_direction = newDirection;
+	}
+
+	if (m_speedX == 0 && m_speedY == 0) {
+		if (m_frame % 2 != 0) m_frame -= m_frame % 2;
+	}
+}
+
 void Character::display() {
 	if (m_texture != NULL) {
-		m_texture->render(m_posX, m_posY, m_lastMov, m_frame);
+		m_texture->render(m_posX, m_posY, m_direction, m_frame);
 	}
 }
 
@@ -83,65 +104,95 @@ void Character::handleCollision(SceneElement* element) {
 	m_frame = 0;
 }
 
-void Character::move(int direction) {
-	Uint32 time = SDL_GetTicks();
-	int newX = m_posX;
-	int newY = m_posY;
-
+void Character::startMovement(int direction) {
 	switch (direction) {
-	case UP:
-		newY -= m_speedY;
-		m_lastMov = UP;
+	case NORTH:
+		m_speedY -= m_speed;
 		break;
 
-	case DOWN:
-		newY += m_speedY;
-		m_lastMov = DOWN;
+	case SOUTH:
+		m_speedY += m_speed;
 		break;
 
-	case LEFT:
-		newX -= m_speedX;
-		m_lastMov = LEFT;
+	case WEST:
+		m_speedX -= m_speed;
 		break;
 
-	case RIGHT:
-		newX += m_speedX;
-		m_lastMov = RIGHT;
-		break;
+	case EAST:
+		m_speedX += m_speed;
 	}
 
-	// Check collision at feet level
-	if (!checkCollision(newX, newY)) {
-		m_posX = newX;
-		m_posY = newY;
+	checkDirection(direction);
+}
 
-		if (direction == m_lastMov) {
+void Character::stopMovement(int direction) {
+	switch (direction) {
+	case NORTH:
+		m_speedY += m_speed;
+		break;
+
+	case SOUTH:
+		m_speedY -= m_speed;
+		break;
+
+	case WEST:
+		m_speedX += m_speed;
+		break;
+
+	case EAST:
+		m_speedX -= m_speed;
+	}
+
+	checkDirection(direction);
+}
+
+void Character::toggleRun() {
+	if (!m_isRunning) {
+		m_speed *= 3;
+		m_speedX *= 3;
+		m_speedY *= 3;
+	}
+	else {
+		m_speed /= 3;
+		m_speedX /= 3;
+		m_speedY /= 3;
+	}
+
+	m_isRunning = !m_isRunning;
+}
+
+void Character::move() {
+	if (m_speedX != 0 || m_speedY != 0) {
+		int newX = m_posX + m_speedX;
+		int newY = m_posY + m_speedY;
+
+		// Check collision at feet level
+		if (!checkCollision(newX, newY)) {
+			m_posX = newX;
+			m_posY = newY;
+
+			Uint32 time = SDL_GetTicks();
+
 			if (time - m_timeSinceLastMov >= 200) {
 				m_frame++;
 				m_frame %= m_animationNb;
 				m_timeSinceLastMov = time;
 			}
-		}
-		else {
-			m_frame = 0;
-			m_timeSinceLastMov = time;
-		}
 
-		if (m_walkingEffect != NULL) {
-			Mix_PlayChannel(-1, m_walkingEffect, 0);
+			if (m_walkingEffect != NULL) {
+				Mix_PlayChannel(-1, m_walkingEffect, 0);
+			}
 		}
 	}
 }
 
-void Character::move(int x, int y) {
-	if (!checkCollision(x, y)) {
-		m_posX = x;
-		m_posY = y;
-		m_lastMov = DOWN;
-		m_frame = 0;
-		m_timeSinceLastMov = SDL_GetTicks();
-	}
-}
+/*
+void Character::toggleRun() {
+	if (!m_isRunning) m_speed *= 2;
+	else m_speed /= 2;
+
+	m_isRunning = !m_isRunning;
+}*/
 
 void Character::setWalkingEffect(std::string path) {
 	m_walkingEffect = Mix_LoadWAV(path.c_str());

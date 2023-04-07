@@ -7,9 +7,7 @@
 #include <string>
 #include <cmath>
 #include "Camera.hpp"
-
-#define TILESIZE 16
-#define TILEFACTOR 4
+#include "Constants.hpp"
 
 class GraphicsEngine {
 	private:

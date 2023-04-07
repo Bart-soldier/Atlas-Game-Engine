@@ -20,8 +20,8 @@ GraphicsEngine::GraphicsEngine(int width, int height) {
 		}
 		else {
 			// Initialize renderer with vsync
-			m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-			//m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+			//m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 			if (m_renderer == NULL) {
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 			}

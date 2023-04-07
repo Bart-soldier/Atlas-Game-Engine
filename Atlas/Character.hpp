@@ -3,30 +3,31 @@
 #include "Environment.hpp"
 #include "Object.hpp"
 
-enum Directions {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-};
-
 class Character : public SceneElement {
 	protected:
-		int m_speedX;
-		int m_speedY;
-		int m_lastMov;
+		// Speed in pixel per frame
+		float m_speed;
+		float m_speedX;
+		float m_speedY;
+		bool m_isRunning;
+		int m_direction;
 
 		Mix_Chunk* m_walkingEffect;
 
+		void checkDirection(int direction);
+
+
 	public:
-		Character(int posX, int posY, int speedX, int speedY, Texture* texture = nullptr);
+		Character(int posX, int posY, Texture* texture = nullptr);
 		~Character();
 
 		void display() override;
 		bool checkCollision(int posX, int posY) override;
 		void handleCollision(SceneElement* element) override;
-		virtual void move(int direction);
-		virtual void move(int x, int y);
+		void startMovement(int direction);
+		void stopMovement(int direction);
+		void toggleRun();
+		virtual void move();
 
 		void setWalkingEffect(std::string path);
 };

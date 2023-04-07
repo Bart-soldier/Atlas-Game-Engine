@@ -18,52 +18,101 @@ bool EventHandler::handleEvent() {
 			// Get mouse position
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-			m_player->move(x, y);
+			//m_player->move(x, y);
 		}
 
 		/*
+		// If a key was pressed
+		if (eventHandler.type == SDL_KEYDOWN && eventHandler.key.repeat == 0) {
+			switch (eventHandler.key.keysym.sym) {
+				case SDLK_LSHIFT:
+					m_player->toggleRun();
+			}
+		}
+
+		// If a key was released
+		if (eventHandler.type == SDL_KEYUP && eventHandler.key.repeat == 0) {
+			switch (eventHandler.key.keysym.sym) {
+			case SDLK_LSHIFT:
+				m_player->toggleRun();
+			}
+		}*/
+
+		
 		// User presses a key
-		else if (eventHandler.type == SDL_KEYDOWN) {
-			//Select surfaces based on key press
+		else if (eventHandler.type == SDL_KEYDOWN && eventHandler.key.repeat == 0) {
 			switch (eventHandler.key.keysym.sym) {
 			case SDLK_UP:
-				m_player->move(UP);
+			case SDLK_z:
+				m_player->startMovement(NORTH);
 				break;
 
 			case SDLK_DOWN:
-				m_player->move(DOWN);
+			case SDLK_s:
+				m_player->startMovement(SOUTH);
 				break;
 
 			case SDLK_LEFT:
-				m_player->move(LEFT);
+			case SDLK_q:
+				m_player->startMovement(WEST);
 				break;
 
 			case SDLK_RIGHT:
-				m_player->move(RIGHT);
+			case SDLK_d:
+				m_player->startMovement(EAST);
 				break;
 
-			default:
-				break;
+			case SDLK_LSHIFT:
+				m_player->toggleRun();
 			}
-		}*/
+		}
+
+		// User releases a key
+		else if (eventHandler.type == SDL_KEYUP && eventHandler.key.repeat == 0) {
+			switch (eventHandler.key.keysym.sym) {
+			case SDLK_UP:
+			case SDLK_z:
+				m_player->stopMovement(NORTH);
+				break;
+
+			case SDLK_DOWN:
+			case SDLK_s:
+				m_player->stopMovement(SOUTH);
+				break;
+
+			case SDLK_LEFT:
+			case SDLK_q:
+				m_player->stopMovement(WEST);
+				break;
+
+			case SDLK_RIGHT:
+			case SDLK_d:
+				m_player->stopMovement(EAST);
+				break;
+
+			case SDLK_LSHIFT:
+				m_player->toggleRun();
+			}
+		}
 	}
 
+	/*
 	// Handle event based on current keystate
-	if (currentKeyStates[SDL_SCANCODE_UP]) {
+	if (currentKeyStates[SDL_SCANCODE_UP] || currentKeyStates[SDL_SCANCODE_W]) {
 		m_player->move(UP);
 	}
 	
-	else if (currentKeyStates[SDL_SCANCODE_DOWN]) {
+	else if (currentKeyStates[SDL_SCANCODE_DOWN] || currentKeyStates[SDL_SCANCODE_S]) {
 		m_player->move(DOWN);
 	}
 	
-	else if (currentKeyStates[SDL_SCANCODE_LEFT]) {
+	else if (currentKeyStates[SDL_SCANCODE_LEFT] || currentKeyStates[SDL_SCANCODE_A]) {
 		m_player->move(LEFT);
 	}
 	
-	else if (currentKeyStates[SDL_SCANCODE_RIGHT]) {
+	else if (currentKeyStates[SDL_SCANCODE_RIGHT] || currentKeyStates[SDL_SCANCODE_D]) {
 		m_player->move(RIGHT);
-	}
+	}*/
 	
 	return false;
 }

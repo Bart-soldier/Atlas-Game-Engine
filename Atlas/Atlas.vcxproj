@@ -38,11 +38,13 @@
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Character.hpp" />
+    <ClInclude Include="Constants.hpp" />
     <ClInclude Include="Environment.hpp" />
     <ClInclude Include="EventHandler.hpp" />
     <ClInclude Include="GameplayEngine.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="SceneElement.hpp" />
     <ClInclude Include="Text.hpp" />
@@ -50,6 +52,9 @@
     <ClInclude Include="GraphicsEngine.hpp" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="Wall.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Atlas.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
