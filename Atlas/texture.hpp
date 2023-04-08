@@ -17,8 +17,8 @@ class Texture {
 		Uint8 m_alpha;
 
 		// Number of directions and animations
-		int m_directionNb;
-		int m_animationNb;
+		int m_lineNb;
+		int m_columnNb;
 		// x, y, width, height
 		std::vector<SDL_Rect> m_spriteClips;
 
@@ -31,9 +31,9 @@ class Texture {
 
 	public:
 		// Initializes variables
-		Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color, int animationNb = 1,
-			int directionNb = 1);
-		Texture(GraphicsEngine* graphicsEngine, std::string path, int animationNb = 1, int directionNb = 1);
+		Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color, int columnNb = 1,
+			int lineNb = 1);
+		Texture(GraphicsEngine* graphicsEngine, std::string path, int columnNb = 1, int lineNb = 1);
 		// Deallocates memory
 		~Texture();
 

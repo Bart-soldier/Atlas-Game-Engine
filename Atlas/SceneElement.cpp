@@ -81,3 +81,8 @@ int SceneElement::getWidth() {
 int SceneElement::getHeight() {
 	return m_height;
 }
+
+void SceneElement::setPos(int x, int y) {
+	m_posX = x;
+	m_posY = y;
+}

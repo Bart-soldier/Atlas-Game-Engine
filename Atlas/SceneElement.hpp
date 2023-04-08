@@ -31,4 +31,5 @@ class SceneElement {
 		int getPosY();
 		int getWidth();
 		int getHeight();
+		void setPos(int x, int y);
 };

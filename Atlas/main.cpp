@@ -38,7 +38,7 @@ bool initializeCore() {
 	//m_grameplayEngine = new GameplayEngine(
 
 	// Create player
-	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/drjonez.png", 4, 4);
+	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/DrJonez.png", 4, 4);
 	m_player = new Player(1, 1, playerImg);
 	m_player->setCamera(camera);
 	
@@ -97,7 +97,7 @@ void loop() {
 int main(int argc, char* args[]) {
 	if (!initializeCore()) return EXIT_FAILURE;
 
-	level1 = new Scene(m_graphicsEngine, 30, 10);
+	level1 = new Scene(m_graphicsEngine);
 	level1->testLevel();
 	level1->addPlayer(m_player);
 	level1->setTheme("resources/audio/IndianaJones.wav");

@@ -1,7 +1,7 @@
 #include "Texture.hpp"
 
-Texture::Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color, int animationNb,
-	int directionNb) {
+Texture::Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color, int columnNb,
+	int lineNb) {
 	// Initialize
 	m_texture = NULL;
 	m_width = 0;
@@ -10,12 +10,12 @@ Texture::Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string tex
 
 	m_graphicsEngine = graphicsEngine;
 	m_font = font;
-	m_animationNb = animationNb;
-	m_directionNb = directionNb;
+	m_columnNb = columnNb;
+	m_lineNb = lineNb;
 	loadFromRenderedText(text, color);
 }
 
-Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int animationNb, int directionNb) {
+Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int columnNb, int lineNb) {
 	// Initialize
 	m_texture = NULL;
 	m_width = 0;
@@ -23,8 +23,8 @@ Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int animation
 	m_alpha = 255;
 
 	m_graphicsEngine = graphicsEngine;
-	m_animationNb = animationNb;
-	m_directionNb = directionNb;
+	m_columnNb = columnNb;
+	m_lineNb = lineNb;
 	loadFromFile(path);
 }
 
@@ -55,12 +55,12 @@ void Texture::free() {
 void Texture::intializeSpriteClips() {
 	//m_spriteClips[m_directionNb * m_animationNb];
 
-	int objWidth = m_width / m_animationNb;
-	int objHeight = m_height / m_directionNb;
+	int objWidth = m_width / m_columnNb;
+	int objHeight = m_height / m_lineNb;
 	SDL_Rect spriteClip;
 
-	for (int y = 0; y < m_directionNb; y++) {
-		for (int x = 0; x < m_animationNb; x++) {
+	for (int y = 0; y < m_lineNb; y++) {
+		for (int x = 0; x < m_columnNb; x++) {
 			/*
 			m_spriteClips[(y * m_animationNb) + x].x = x * objWidth;
 			m_spriteClips[(y * m_animationNb) + x].y = y * objHeight;
@@ -199,7 +199,7 @@ void Texture::setAlpha(int alpha) {
 }
 
 void Texture::render(int x, int y, int lastMov, int frame, bool toCamera) {
-	m_graphicsEngine->render(m_texture, x, y, m_width, m_height, &m_spriteClips.at((lastMov * m_animationNb) + frame), toCamera);
+	m_graphicsEngine->render(m_texture, x, y, m_width, m_height, &m_spriteClips.at((lastMov * m_columnNb) + frame), toCamera);
 }
 
 int Texture::getWidth() {
@@ -215,9 +215,9 @@ Uint8 Texture::getAplha() {
 }
 
 int Texture::getDirectionNb() {
-	return m_directionNb;
+	return m_lineNb;
 }
 
 int Texture::getAnimationNb() {
-	return m_animationNb;
+	return m_columnNb;
 }

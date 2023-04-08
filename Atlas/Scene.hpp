@@ -10,6 +10,8 @@ class Scene {
 		GraphicsEngine* m_graphicsEngine;
 		int m_width;
 		int m_height;
+		int m_entryX;
+		int m_entryY;
 
 		std::vector<std::pair<SceneElement*, SceneElement*>> m_sceneElements;
 		Player* m_player;
@@ -17,7 +19,7 @@ class Scene {
 		Mix_Music* m_theme;
 
 	public:
-		Scene(GraphicsEngine* graphicsEngine, int width, int height);
+		Scene(GraphicsEngine* graphicsEngine);
 		~Scene();
 		void addPlayer(Player* player);
 		void testLevel();
