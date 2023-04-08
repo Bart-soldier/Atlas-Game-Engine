@@ -4,20 +4,16 @@ Scene::Scene(GraphicsEngine* graphicsEngine) {
 	m_graphicsEngine = graphicsEngine;
 	m_width = 0;
 	m_height = 0;
-	m_player = nullptr;
 	m_theme = NULL;
-	m_entryX = 0;
-	m_entryY = 0;
+	m_entry = std::make_pair(0, 0);
 }
 
 Scene::Scene(GraphicsEngine* graphicsEngine, int width, int height) {
 	m_graphicsEngine = graphicsEngine;
 	m_width = width;
 	m_height = height;
-	m_player = nullptr;
 	m_theme = NULL;
-	m_entryX = 0;
-	m_entryY = 0;
+	m_entry = std::make_pair(0, 0);
 }
 
 Scene::~Scene() {
@@ -31,6 +27,7 @@ Scene::~Scene() {
 void Scene::initializeSceneElements() {
 	for (int y = 0; y < m_height; y++) {
 		for (int x = 0; x < m_width; x++) {
+			//m_sceneElements.push_back(std::make_pair(nullptr, nullptr));
 			m_sceneElements.push_back(std::make_pair(nullptr, nullptr));
 		}
 	}
@@ -43,18 +40,32 @@ std::pair<SceneElement*, SceneElement*> Scene::getSceneElement(int x, int y) {
 	return m_sceneElements.at(y * m_width + x);
 }
 
+SceneElement* Scene::getSceneElementBackground(int x, int y) {
+	return m_sceneElements.at(y * m_width + x).first;
+}
+
+SceneElement* Scene::getSceneElementForeground(int x, int y) {
+	return m_sceneElements.at(y * m_width + x).second;
+}
+
+std::vector<SceneElement*> Scene::getNeighborForegroundElements(int e_x, int e_y) {
+	std::vector<SceneElement*> neighborElements;
+
+	for (int y = e_y - 1; y <= e_y + 1; y++) {
+		for (int x = e_x - 1; x <= e_x + 1; x++) {
+			neighborElements.push_back(getSceneElementForeground(x, y));
+		}
+	}
+
+	return neighborElements;
+}
+
 void Scene::setSceneElementBackground(int x, int y, SceneElement* background) {
 	m_sceneElements.at(y * m_width + x).first = background;
 }
 
 void Scene::setSceneElementForeground(int x, int y, SceneElement* foreground) {
 	m_sceneElements.at(y * m_width + x).second = foreground;
-}
-
-void Scene::addPlayer(Player* player) {
-	m_player = player;
-	m_player->setSceneElements(&m_sceneElements, m_width);
-	m_player->setPos(m_entryX, m_entryY);
 }
 
 void Scene::testLevel() {
@@ -90,29 +101,41 @@ void Scene::testLevel() {
 	setSceneElementForeground(x, y, ark);
 	setSceneElementForeground(x + 1, y, ark);
 
-	m_entryX = (m_width - 1) * TILESIZE * TILEFACTOR / 2;
-	m_entryY = (m_height - 3) * TILESIZE * TILEFACTOR;
+	m_entry.first = (m_width - 1) * TILESIZE * TILEFACTOR / 2;
+	m_entry.second = (m_height - 3) * TILESIZE * TILEFACTOR;
+}
+
+void Scene::testLevel2() {
+	m_width = 20;
+	m_height = 20;
+
+	initializeSceneElements();
+
+	Texture* grass = new Texture(m_graphicsEngine, "resources/images/Grass.png");
+
+	for (int y = 0; y < m_height; y++) {
+		for (int x = 0; x < m_width; x++) {
+			setSceneElementBackground(x, y, new Environment(x, y, grass));
+		}
+	}
+
+	m_entry.first = (m_width - 1) * TILESIZE * TILEFACTOR / 2;
+	m_entry.second = (m_height - 3) * TILESIZE * TILEFACTOR;
 }
 
 void Scene::update() {
-
 }
 
 void Scene::display() {
 	// Render every scene element
 	for (auto pair = m_sceneElements.begin(); pair != m_sceneElements.end(); ++pair) {
 		if (pair->first != nullptr) {
-			(pair->first)->display();
+			pair->first->display();
 		}
 		if (pair->second != nullptr) {
-			(pair->second)->display();
+			pair->second->display();
 		}
 		//(*sceneElement)->display();
-	}
-
-	// Render player
-	if (m_player != nullptr) {
-		m_player->display();
 	}
 }
 
@@ -130,4 +153,8 @@ void Scene::playTheme() {
 		printf("No music to play!");
 	}
 	else Mix_PlayMusic(m_theme, -1);
+}
+
+std::pair<int, int> Scene::getEntry() {
+	return m_entry;
 }

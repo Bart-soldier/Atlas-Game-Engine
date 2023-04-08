@@ -20,24 +20,6 @@ bool EventHandler::handleEvent() {
 			SDL_GetMouseState(&x, &y);
 			//m_player->move(x, y);
 		}
-
-		/*
-		// If a key was pressed
-		if (eventHandler.type == SDL_KEYDOWN && eventHandler.key.repeat == 0) {
-			switch (eventHandler.key.keysym.sym) {
-				case SDLK_LSHIFT:
-					m_player->toggleRun();
-			}
-		}
-
-		// If a key was released
-		if (eventHandler.type == SDL_KEYUP && eventHandler.key.repeat == 0) {
-			switch (eventHandler.key.keysym.sym) {
-			case SDLK_LSHIFT:
-				m_player->toggleRun();
-			}
-		}*/
-
 		
 		// User presses a key
 		else if (eventHandler.type == SDL_KEYDOWN && eventHandler.key.repeat == 0) {

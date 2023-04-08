@@ -7,7 +7,7 @@ Character::Character(int posX, int posY, Texture* texture) : SceneElement(posX, 
 	m_isRunning = false;
 	m_direction = SOUTH;
 
-	m_sceneElements = nullptr;
+	m_scene = NULL;
 
 	m_walkingEffect = NULL;
 
@@ -48,60 +48,36 @@ void Character::display() {
 	}
 }
 
-bool Character::checkCollision(int posX, int posY) {
+SceneElement* Character::checkCollision(int posX, int posY) {
 	// Set feet level variables
-	int feetHeight = TILESIZE * TILEFACTOR / 2;
-	int feetY = posY + m_height - feetHeight;
-	int feetX = posX + 2 * TILEFACTOR;
-	int feetWidth = m_width - 4 * TILEFACTOR;
+	int e_x = posX + 2 * TILEFACTOR;
+	int e_w = m_width - 4 * TILEFACTOR;
+	int e_h = TILESIZE * TILEFACTOR / 2;
+	int e_y = posY + m_height - e_h;
 
 	// Get corresponding tile
-	int tile_x = feetX / (TILESIZE * TILEFACTOR);
-	int e_x = tile_x * TILESIZE * TILEFACTOR;
-	int tile_y = feetY / (TILESIZE * TILEFACTOR);
-	int e_y = tile_y * TILESIZE * TILEFACTOR;
-	int e_w = e_x + TILESIZE * TILEFACTOR;
-	int e_h = e_y + TILESIZE * TILEFACTOR;
-	SceneElement* element = m_sceneElements->at(tile_y * m_sceneElementsWidth + tile_x).second;
+	int tile_x = e_x / (TILESIZE * TILEFACTOR);
+	int tile_y = e_y / (TILESIZE * TILEFACTOR);
 
-	// Check destination
-	if (element != nullptr) {
-		handleCollision(element);
-		return true;
-	}
+	std::vector<SceneElement*> neighbors = m_scene->getNeighborForegroundElements(tile_x, tile_y);
 
-	// Check right tile
-	if (feetX + feetWidth > e_w) {
-		element = m_sceneElements->at(tile_y * m_sceneElementsWidth + tile_x + 1).second;
-		if (element != nullptr) {
-			handleCollision(element);
-			return true;
+	for (auto element = neighbors.begin(); element != neighbors.end(); ++element) {
+		if ((*element) != nullptr) {
+			int e2_x = (*element)->getPosX();
+			int e2_y = (*element)->getPosY();
+			int e2_w = (*element)->getWidth();
+			int e2_h = (*element)->getHeight();
+
+			if (GameplayEngine::checkCollision(e_x, e_y, e_w, e_h, e2_x, e2_y, e2_w, e2_h)) {
+				return *element;
+			}
 		}
 	}
 
-	// Check bottom tile
-	if (feetY + feetHeight > e_h) {
-		element = m_sceneElements->at((tile_y + 1) * m_sceneElementsWidth + tile_x).second;
-		if (element != nullptr) {
-			handleCollision(element);
-			return true;
-		}
-	}
-
-	// Check bottom right tile
-	if (feetX + feetWidth > e_w && feetY + feetHeight > e_h) {
-		element = m_sceneElements->at((tile_y + 1) * m_sceneElementsWidth + tile_x + 1).second;
-		if (element != nullptr) {
-			handleCollision(element);
-			return true;
-		}
-	}
-
-	return false;
+	return nullptr;
 }
 
 void Character::handleCollision(SceneElement* element) {
-	m_frame = 0;
 }
 
 void Character::startMovement(int direction) {
@@ -167,7 +143,8 @@ void Character::move() {
 		int newY = m_posY + m_speedY;
 
 		// Check collision at feet level
-		if (!checkCollision(newX, newY)) {
+		SceneElement* collision_e = checkCollision(newX, newY);
+		if (collision_e == nullptr) {
 			m_posX = newX;
 			m_posY = newY;
 
@@ -183,16 +160,19 @@ void Character::move() {
 				Mix_PlayChannel(-1, m_walkingEffect, 0);
 			}
 		}
+		else {
+			handleCollision(collision_e);
+		}
 	}
 }
 
-/*
-void Character::toggleRun() {
-	if (!m_isRunning) m_speed *= 2;
-	else m_speed /= 2;
+void Character::addToScene(Scene* scene) {
+	m_scene = scene;
 
-	m_isRunning = !m_isRunning;
-}*/
+	std::pair<int, int> entry = scene->getEntry();
+	m_posX = entry.first;
+	m_posY = entry.second;
+}
 
 void Character::setWalkingEffect(std::string path) {
 	m_walkingEffect = Mix_LoadWAV(path.c_str());

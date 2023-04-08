@@ -3,23 +3,19 @@
 #include "GraphicsEngine.hpp"
 #include "Wall.hpp"
 #include "Environment.hpp"
-#include "Player.hpp"
 
 class Scene {
 	private:
 		GraphicsEngine* m_graphicsEngine;
 		int m_width;
 		int m_height;
-		int m_entryX;
-		int m_entryY;
+		std::pair<int, int> m_entry;
 
 		std::vector<std::pair<SceneElement*, SceneElement*>> m_sceneElements;
-		Player* m_player;
 
 		Mix_Music* m_theme;
 
 		void initializeSceneElements();
-		std::pair<SceneElement*, SceneElement*> getSceneElement(int x, int y);
 		void setSceneElementBackground(int x, int y, SceneElement* background);
 		void setSceneElementForeground(int x, int y, SceneElement* foreground);
 
@@ -27,11 +23,17 @@ class Scene {
 		Scene(GraphicsEngine* graphicsEngine);
 		Scene(GraphicsEngine* graphicsEngine, int width, int height);
 		~Scene();
-		void addPlayer(Player* player);
 		void testLevel();
+		void testLevel2();
 		void update();
 		void display();
 		void setTheme(std::string path);
 		void playTheme();
+
+		std::pair<SceneElement*, SceneElement*> getSceneElement(int x, int y);
+		SceneElement* getSceneElementBackground(int x, int y);
+		SceneElement* getSceneElementForeground(int x, int y);
+		std::vector<SceneElement*> getNeighborForegroundElements(int e_x, int e_y);
+		std::pair<int, int> getEntry();
 };
 

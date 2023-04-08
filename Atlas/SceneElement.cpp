@@ -3,17 +3,14 @@
 SceneElement::SceneElement(int posX, int posY, Texture* texture) {
 	m_posX = posX * TILESIZE * TILEFACTOR;
 	m_posY = posY * TILESIZE * TILEFACTOR;
-	m_width = 0;
-	m_height = 0;
+	m_width = TILESIZE * TILEFACTOR;
+	m_height = TILESIZE * TILEFACTOR;
 	m_texture = NULL;
 
 	m_directionNb = 0;
 	m_animationNb = 0;
 	m_frame = 0;
 	m_timeSinceLastMov = 0;
-
-	m_sceneElements = nullptr;
-	m_sceneElementsWidth = 0;
 
 	if (texture != nullptr) setTexture(texture);
 }
@@ -23,7 +20,7 @@ void SceneElement::display() {
 		m_texture->render(m_posX, m_posY);
 	}
 }
-
+/*
 bool SceneElement::checkCollision(int posX, int posY) {
 	// Get corresponding tile
 	int tile_x = posX/(TILESIZE * TILEFACTOR);
@@ -44,12 +41,12 @@ bool SceneElement::checkCollision(int posX, int posY) {
 			return true;
 		}
 	}*/
-
+/*
 	return false;
 }
 
 void SceneElement::handleCollision(SceneElement* element) {
-}
+}*/
 
 void SceneElement::setTexture(Texture* texture) {
 	m_texture = texture;
@@ -59,11 +56,6 @@ void SceneElement::setTexture(Texture* texture) {
 
 	m_width = m_texture->getWidth() / m_animationNb;
 	m_height = m_texture->getHeight() / m_directionNb;
-}
-
-void SceneElement::setSceneElements(std::vector<std::pair<SceneElement*, SceneElement*>>* sceneElements, int width) {
-	m_sceneElements = sceneElements;
-	m_sceneElementsWidth = width;
 }
 
 int SceneElement::getPosX() {

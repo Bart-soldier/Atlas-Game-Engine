@@ -62,11 +62,6 @@ void loop() {
 	// Start FPS cap timer
 	m_fpsCapTimer.start();
 
-	// Handle events on queue
-	exitStatus = m_eventHandler->handleEvent();
-
-	m_player->move();
-
 	// Calculate and correct fps
 	float avgFPS = m_countedFrames / (m_fpsTimer.getTicks() / 1000.f);
 	if (avgFPS > 2000000) {
@@ -76,7 +71,16 @@ void loop() {
 
 	m_graphicsEngine->clearScreen();
 
+	// Handle events on queue
+	exitStatus = m_eventHandler->handleEvent();
+
+	level1->update();
+
 	level1->display();
+
+	m_player->move();
+
+	m_player->display();
 
 	// Render FPS counter
 	m_fpsCounter->display();
@@ -98,9 +102,9 @@ int main(int argc, char* args[]) {
 	if (!initializeCore()) return EXIT_FAILURE;
 
 	level1 = new Scene(m_graphicsEngine);
-	level1->testLevel();
-	level1->addPlayer(m_player);
-	level1->setTheme("resources/audio/IndianaJones.wav");
+	level1->testLevel2();
+	m_player->addToScene(level1);
+	//level1->setTheme("resources/audio/IndianaJones.wav");
 	//level1->playTheme();
 
 	// Main loop
