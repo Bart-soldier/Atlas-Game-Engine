@@ -1,8 +1,6 @@
 #pragma once
 #include "SceneElement.hpp"
 #include "Scene.hpp"
-#include "Environment.hpp"
-#include "Object.hpp"
 
 class Character : public SceneElement {
 	protected:

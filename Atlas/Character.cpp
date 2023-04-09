@@ -33,7 +33,7 @@ void Character::checkDirection(int direction) {
 
 	if (newDirection != m_direction) {
 		m_frame = 0;
-		m_timeSinceLastMov = SDL_GetTicks();
+		m_timeSinceLastFrame = SDL_GetTicks();
 		m_direction = newDirection;
 	}
 
@@ -150,10 +150,10 @@ void Character::move() {
 
 			Uint32 time = SDL_GetTicks();
 
-			if (time - m_timeSinceLastMov >= 200) {
+			if (time - m_timeSinceLastFrame >= 200) {
 				m_frame++;
-				m_frame %= m_animationNb;
-				m_timeSinceLastMov = time;
+				m_frame %= m_texture->getSpriteColumnNb();
+				m_timeSinceLastFrame = time;
 			}
 
 			if (m_walkingEffect != NULL) {

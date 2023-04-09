@@ -102,7 +102,7 @@ int main(int argc, char* args[]) {
 	if (!initializeCore()) return EXIT_FAILURE;
 
 	level1 = new Scene(m_graphicsEngine);
-	level1->testLevel2();
+	level1->testLevel();
 	m_player->addToScene(level1);
 	//level1->setTheme("resources/audio/IndianaJones.wav");
 	//level1->playTheme();

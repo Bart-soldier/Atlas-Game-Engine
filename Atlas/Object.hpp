@@ -3,11 +3,11 @@
 
 class Object : public SceneElement {
 	private:
-		int m_textureColumn;
-		int m_textureLine;
+		int m_spriteColumnIndex;
+		int m_spriteLineIndex;
 
 	public:
-		Object(int posX, int posY, Texture* texture = nullptr, int textureColumn = 0, int textureLine = 0);
+		Object(int posX, int posY, Texture* texture = nullptr, int spriteColumnIndex = 0, int spriteLineIndex = 0);
 		void display() override;
 };
 

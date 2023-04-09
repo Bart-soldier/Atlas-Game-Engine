@@ -16,24 +16,24 @@ class Texture {
 		// Alpha
 		Uint8 m_alpha;
 
-		// Number of directions and animations
-		int m_lineNb;
-		int m_columnNb;
-		// x, y, width, height
+		// Sprite info
+		int m_spriteLineNb;
+		int m_spriteColumnNb;
 		std::vector<SDL_Rect> m_spriteClips;
 
 		TTF_Font* m_font = NULL;
 
 		// Deallocates texture
 		void free();
+		void reset();
 		// Initialize Sprite Clips
 		void intializeSpriteClips();
 
 	public:
-		// Initializes variables
-		Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color, int columnNb = 1,
-			int lineNb = 1);
-		Texture(GraphicsEngine* graphicsEngine, std::string path, int columnNb = 1, int lineNb = 1);
+		// Text texture
+		Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color);
+		// Image texture
+		Texture(GraphicsEngine* graphicsEngine, std::string path, int spriteColumnNb = 1, int spriteLineNb = 1);
 		// Deallocates memory
 		~Texture();
 
@@ -49,13 +49,13 @@ class Texture {
 		// Set alpha modulation
 		void setAlpha(int alpha);
 		// Renders texture at given point
-		void render(int x, int y, int lastMov = 0, int frame = 0, bool toCamera = true);
+		void render(int x, int y, int spriteLineIndex = 0, int spriteColumnIndex = 0, bool toCamera = true);
 
 		// Gets image dimensions
 		int getWidth();
 		int getHeight();
 		Uint8 getAplha();
-		int getDirectionNb();
-		int getAnimationNb();
+		int getSpriteLineNb();
+		int getSpriteColumnNb();
 };
 

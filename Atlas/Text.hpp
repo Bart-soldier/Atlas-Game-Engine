@@ -1,5 +1,4 @@
 #pragma once
-
 #include "SceneElement.hpp"
 
 class Text : public SceneElement {

@@ -10,10 +10,8 @@ class SceneElement {
 		int m_height;
 		Texture* m_texture;
 
-		int m_directionNb;
-		int m_animationNb;
 		int m_frame;
-		Uint32 m_timeSinceLastMov;
+		Uint32 m_timeSinceLastFrame;
 
 	public:
 		SceneElement(int posX, int posY, Texture* texture = nullptr);

@@ -7,10 +7,8 @@ SceneElement::SceneElement(int posX, int posY, Texture* texture) {
 	m_height = TILESIZE * TILEFACTOR;
 	m_texture = NULL;
 
-	m_directionNb = 0;
-	m_animationNb = 0;
 	m_frame = 0;
-	m_timeSinceLastMov = 0;
+	m_timeSinceLastFrame = 0;
 
 	if (texture != nullptr) setTexture(texture);
 }
@@ -51,11 +49,8 @@ void SceneElement::handleCollision(SceneElement* element) {
 void SceneElement::setTexture(Texture* texture) {
 	m_texture = texture;
 
-	m_animationNb = m_texture->getAnimationNb();
-	m_directionNb = m_texture->getDirectionNb();
-
-	m_width = m_texture->getWidth() / m_animationNb;
-	m_height = m_texture->getHeight() / m_directionNb;
+	m_width = m_texture->getWidth() / m_texture->getSpriteColumnNb();
+	m_height = m_texture->getHeight() / m_texture->getSpriteLineNb();
 }
 
 int SceneElement::getPosX() {

@@ -1,30 +1,23 @@
 #include "Texture.hpp"
 
-Texture::Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color, int columnNb,
-	int lineNb) {
+Texture::Texture(GraphicsEngine* graphicsEngine, TTF_Font* font, std::string text, SDL_Color color) {
 	// Initialize
-	m_texture = NULL;
-	m_width = 0;
-	m_height = 0;
-	m_alpha = 255;
+	reset();
 
 	m_graphicsEngine = graphicsEngine;
 	m_font = font;
-	m_columnNb = columnNb;
-	m_lineNb = lineNb;
+	m_spriteColumnNb = 1;
+	m_spriteLineNb = 1;
 	loadFromRenderedText(text, color);
 }
 
-Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int columnNb, int lineNb) {
+Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int spriteColumnNb, int spriteLineNb) {
 	// Initialize
-	m_texture = NULL;
-	m_width = 0;
-	m_height = 0;
-	m_alpha = 255;
+	reset();
 
 	m_graphicsEngine = graphicsEngine;
-	m_columnNb = columnNb;
-	m_lineNb = lineNb;
+	m_spriteColumnNb = spriteColumnNb;
+	m_spriteLineNb = spriteLineNb;
 	loadFromFile(path);
 }
 
@@ -44,29 +37,28 @@ void Texture::free() {
 	//Free texture if it exists
 	if (m_texture != NULL) {
 		SDL_DestroyTexture(m_texture);
-		m_texture = NULL;
-		m_width = 0;
-		m_height = 0;
-		m_alpha = 255;
+		reset();
 		m_spriteClips.clear();
 	}
+}
+
+void Texture::reset() {
+	// Initialize
+	m_texture = NULL;
+	m_width = 0;
+	m_height = 0;
+	m_alpha = 255;
 }
 
 void Texture::intializeSpriteClips() {
 	//m_spriteClips[m_directionNb * m_animationNb];
 
-	int objWidth = m_width / m_columnNb;
-	int objHeight = m_height / m_lineNb;
+	int objWidth = m_width / m_spriteColumnNb;
+	int objHeight = m_height / m_spriteLineNb;
 	SDL_Rect spriteClip;
 
-	for (int y = 0; y < m_lineNb; y++) {
-		for (int x = 0; x < m_columnNb; x++) {
-			/*
-			m_spriteClips[(y * m_animationNb) + x].x = x * objWidth;
-			m_spriteClips[(y * m_animationNb) + x].y = y * objHeight;
-			m_spriteClips[(y * m_animationNb) + x].w = objWidth;
-			m_spriteClips[(y * m_animationNb) + x].h = objHeight;*/
-
+	for (int y = 0; y < m_spriteLineNb; y++) {
+		for (int x = 0; x < m_spriteColumnNb; x++) {
 			spriteClip.x = x * objWidth;
 			spriteClip.y = y * objHeight;
 			spriteClip.w = objWidth;
@@ -198,8 +190,9 @@ void Texture::setAlpha(int alpha) {
 	SDL_SetTextureAlphaMod(m_texture, m_alpha);
 }
 
-void Texture::render(int x, int y, int lastMov, int frame, bool toCamera) {
-	m_graphicsEngine->render(m_texture, x, y, m_width, m_height, &m_spriteClips.at((lastMov * m_columnNb) + frame), toCamera);
+void Texture::render(int x, int y, int spriteLineIndex, int spriteColumnIndex, bool toCamera) {
+	m_graphicsEngine->render(m_texture, x, y, m_width, m_height,
+		&m_spriteClips.at((spriteLineIndex * m_spriteColumnNb) + spriteColumnIndex), toCamera);
 }
 
 int Texture::getWidth() {
@@ -214,10 +207,10 @@ Uint8 Texture::getAplha() {
 	return m_alpha;
 }
 
-int Texture::getDirectionNb() {
-	return m_lineNb;
+int Texture::getSpriteLineNb() {
+	return m_spriteLineNb;
 }
 
-int Texture::getAnimationNb() {
-	return m_columnNb;
+int Texture::getSpriteColumnNb() {
+	return m_spriteColumnNb;
 }

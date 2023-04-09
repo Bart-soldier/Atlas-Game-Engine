@@ -3,6 +3,6 @@
 
 class Wall : public Object {
 	public:
-		Wall(int posX, int posY, Texture* texture = nullptr, int textureColumn = 0, int textureLine = 0);
+		Wall(int posX, int posY, Texture* texture = nullptr, int spriteColumnIndex = 0, int spriteLineIndex = 0);
 };
 
