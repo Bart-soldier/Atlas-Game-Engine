@@ -2,6 +2,6 @@
 #include "SceneElement.hpp"
 
 namespace GameplayEngine {
-	bool checkCollision(int e1_x, int e1_y, int e1_w, int e1_h, int e2_x, int e2_y, int e2_w, int e2_h);
+	bool checkCollision(float e1_x, float e1_y, float e1_w, float e1_h, float e2_x, float e2_y, float e2_w, float e2_h);
 };
 

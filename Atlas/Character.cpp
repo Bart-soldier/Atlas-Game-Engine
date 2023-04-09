@@ -50,14 +50,16 @@ void Character::display() {
 
 SceneElement* Character::checkCollision(int posX, int posY) {
 	// Set feet level variables
-	int e_x = posX + 2 * TILEFACTOR;
-	int e_w = m_width - 4 * TILEFACTOR;
-	int e_h = TILESIZE * TILEFACTOR / 2;
-	int e_y = posY + m_height - e_h;
+	float e_x = (posX + m_width / 8);
+	float e_y = (posY + 3 * m_height / 4);
+	float e_w = 3 * m_width / 4;
+	float e_h = m_height / 4;
 
 	// Get corresponding tile
-	int tile_x = e_x / (TILESIZE * TILEFACTOR);
-	int tile_y = e_y / (TILESIZE * TILEFACTOR);
+	int tile_x = static_cast<int>(e_x / (TILESIZE * TILEFACTOR));
+	int tile_y = static_cast<int>(e_y / (TILESIZE * TILEFACTOR));
+
+	printf("Me: x = %f, y = %f, w = %f, h = %f\n", e_x, e_y, e_w, e_h);
 
 	std::vector<SceneElement*> neighbors = m_scene->getNeighborForegroundElements(tile_x, tile_y);
 
@@ -67,8 +69,10 @@ SceneElement* Character::checkCollision(int posX, int posY) {
 			int e2_y = (*element)->getPosY();
 			int e2_w = (*element)->getWidth();
 			int e2_h = (*element)->getHeight();
+			printf("Neighbor: x = %d, y = %d, w = %d, h = %d\n", e2_x, e2_y, e2_w, e2_h);
 
 			if (GameplayEngine::checkCollision(e_x, e_y, e_w, e_h, e2_x, e2_y, e2_w, e2_h)) {
+				printf("true\n");
 				return *element;
 			}
 		}
