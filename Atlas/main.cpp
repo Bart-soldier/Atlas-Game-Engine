@@ -35,7 +35,6 @@ bool initializeCore() {
 	Camera* camera = new Camera(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	m_graphicsEngine->setCamera(camera);
 
-	//m_grameplayEngine = new GameplayEngine(
 
 	// Create player
 	Texture* playerImg = new Texture(m_graphicsEngine, "resources/images/DrJonez.png", 4, 4);
@@ -91,10 +90,10 @@ void loop() {
 	++m_countedFrames;
 
 	// If frame finished early
-	int frameTicks = m_fpsCapTimer.getTicks();
+	Uint32 frameTicks = m_fpsCapTimer.getTicks();
 	if (frameTicks < TICKS_PER_FRAME) {
 		// Wait remaining time
-		SDL_Delay(TICKS_PER_FRAME - frameTicks);
+		SDL_Delay(static_cast<Uint32>(TICKS_PER_FRAME - frameTicks));
 	}
 }
 

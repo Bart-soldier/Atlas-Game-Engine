@@ -139,8 +139,8 @@ void Character::toggleRun() {
 
 void Character::move() {
 	if (m_speedX != 0 || m_speedY != 0) {
-		int newX = m_posX + m_speedX;
-		int newY = m_posY + m_speedY;
+		int newX = static_cast<int>(m_posX + m_speedX);
+		int newY = static_cast<int>(m_posY + m_speedY);
 
 		// Check collision at feet level
 		SceneElement* collision_e = checkCollision(newX, newY);
