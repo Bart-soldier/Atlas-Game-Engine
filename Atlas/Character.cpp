@@ -96,27 +96,12 @@ void Character::handleCollision(SceneElement* element) {
 	int e_w = element->getWidth();
 	int e_h = element->getHeight();
 
-	printf("Me : x = %d, y = %d, w = %d, h = %d\n", m_posX, m_posY, m_width, m_height);
-	printf("Him : x = %d, y = %d, w = %d, h = %d\n", e_x, e_y, e_w, e_h);
-
 	if ((m_posY <= e_y && e_y < m_posY + m_height) || (e_y <= m_posY && m_posY < e_y + e_h)) {
 		m_posX = (m_posX < e_x) ? e_x - m_width : e_x + e_w;
 	}
 
 	if ((m_posX <= e_x && e_x < m_posX + m_width) || (e_x <= m_posX && m_posX < e_x + e_w)) {
 		m_posY = (m_posY < e_y) ? e_y - m_height : e_y + e_h;
-	}
-
-	Uint32 time = SDL_GetTicks();
-
-	if (time - m_timeSinceLastFrame >= 200) {
-		m_frame++;
-		m_frame %= m_texture->getSpriteColumnNb();
-		m_timeSinceLastFrame = time;
-	}
-
-	if (m_walkingEffect != NULL) {
-		Mix_PlayChannel(-1, m_walkingEffect, 0);
 	}
 }
 
@@ -178,32 +163,44 @@ void Character::toggleRun() {
 }
 
 void Character::move() {
-	if (m_speedX != 0 || m_speedY != 0) {
-		int newX = static_cast<int>(m_posX + m_speedX);
-		int newY = static_cast<int>(m_posY + m_speedY);
+	bool moved = false;
 
-		// Check collision at feet level
-		SceneElement* collision_e = checkCollision(newX, newY);
+	if (m_speedX != 0) {
+		int newX = static_cast<int>(m_posX + m_speedX);
+		SceneElement* collision_e = checkCollision(newX, m_posY);
+
 		if (collision_e == nullptr) {
 			m_posX = newX;
-			m_posY = newY;
-
-			Uint32 time = SDL_GetTicks();
-
-			if (time - m_timeSinceLastFrame >= 200) {
-				m_frame++;
-				m_frame %= m_texture->getSpriteColumnNb();
-				m_timeSinceLastFrame = time;
-			}
-
-			if (m_walkingEffect != NULL) {
-				Mix_PlayChannel(-1, m_walkingEffect, 0);
-			}
+			moved = true;
 		}
-		else {
-			handleCollision(collision_e);
+		else handleCollision(collision_e);
+	}
+
+	if (m_speedY != 0) {
+		int newY = static_cast<int>(m_posY + m_speedY);
+		SceneElement* collision_e = checkCollision(m_posX, newY);
+
+		if (collision_e == nullptr) {
+			m_posY = newY;
+			moved = true;
+		}
+		else handleCollision(collision_e);
+	}
+
+	if (moved) {
+		Uint32 time = SDL_GetTicks();
+
+		if (time - m_timeSinceLastFrame >= 200) {
+			m_frame++;
+			m_frame %= m_texture->getSpriteColumnNb();
+			m_timeSinceLastFrame = time;
+		}
+
+		if (m_walkingEffect != NULL) {
+			Mix_PlayChannel(-1, m_walkingEffect, 0);
 		}
 	}
+	else if (m_frame % 2 != 0) m_frame -= m_frame % 2;
 }
 
 void Character::addToScene(Scene* scene) {
