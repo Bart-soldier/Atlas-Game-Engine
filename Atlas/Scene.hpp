@@ -11,6 +11,8 @@ class Scene {
 		int m_height;
 		std::pair<int, int> m_entry;
 
+		bool m_isInterior;
+
 		std::vector<std::pair<Environment*, Object*>> m_sceneElements;
 
 		Mix_Music* m_theme;
@@ -23,7 +25,7 @@ class Scene {
 		Scene(GraphicsEngine* graphicsEngine);
 		Scene(GraphicsEngine* graphicsEngine, int width, int height);
 		~Scene();
-		void testLevel();
+		void testLevel1();
 		void testLevel2();
 		void update();
 		void display();
@@ -35,5 +37,8 @@ class Scene {
 		SceneElement* getSceneElementForeground(int x, int y);
 		std::vector<SceneElement*> getNeighborForegroundElements(int e_x, int e_y);
 		std::pair<int, int> getEntry();
+		int getWidth();
+		int getHeight();
+		bool isInterior();
 };
 

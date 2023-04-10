@@ -10,7 +10,7 @@ class Camera {
 	public:
 		Camera(int posX, int posY, int width, int height);
 
-		void centerOn(int x, int y, int width, int height);
+		void centerOn(int x, int y, int width, int height, int maxWidth = -1, int maxHeight = -1);
 
 		int getPosX();
 		int getPosY();

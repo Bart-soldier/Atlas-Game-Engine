@@ -7,9 +7,17 @@ Camera::Camera(int posX, int posY, int width, int height) {
 	m_height = height;
 }
 
-void Camera::centerOn(int x, int y, int width, int height) {
+void Camera::centerOn(int x, int y, int width, int height, int maxWidth, int maxHeight) {
 	m_posX = (x + width / 2) - m_width / 2;
 	m_posY = (y + height / 2) - m_height / 2;
+	
+	if (maxWidth != -1 && maxHeight != -1) {
+		m_posX = (m_posX < 0) ? 0 : m_posX;
+		m_posX = (maxWidth < m_posX + m_width) ? maxWidth - m_width : m_posX;
+
+		m_posY = (m_posY < 0) ? 0 : m_posY;
+		m_posY = (maxHeight < m_posY + m_height) ? maxHeight - m_height : m_posY;
+	}
 }
 
 int Camera::getPosX() {
@@ -43,4 +51,3 @@ void Camera::setWidth(int width) {
 void Camera::setHeight(int height) {
 	m_height = height;
 }
-

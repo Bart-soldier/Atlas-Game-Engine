@@ -6,6 +6,7 @@ Scene::Scene(GraphicsEngine* graphicsEngine) {
 	m_height = 0;
 	m_theme = NULL;
 	m_entry = std::make_pair(0, 0);
+	m_isInterior = false;
 }
 
 Scene::Scene(GraphicsEngine* graphicsEngine, int width, int height) {
@@ -14,6 +15,7 @@ Scene::Scene(GraphicsEngine* graphicsEngine, int width, int height) {
 	m_height = height;
 	m_theme = NULL;
 	m_entry = std::make_pair(0, 0);
+	m_isInterior = false;
 }
 
 Scene::~Scene() {
@@ -67,9 +69,10 @@ void Scene::setSceneElementForeground(int x, int y, Object* foreground) {
 	m_sceneElements.at(y * m_width + x).second = foreground;
 }
 
-void Scene::testLevel() {
+void Scene::testLevel1() {
 	m_width = 10;
 	m_height = 20;
+	m_isInterior = true;
 
 	initializeSceneElements();
 
@@ -107,16 +110,19 @@ void Scene::testLevel() {
 }
 
 void Scene::testLevel2() {
-	m_width = 20;
+	m_width = 30;
 	m_height = 20;
+	m_isInterior = false;
 
 	initializeSceneElements();
 
 	Texture* grass = new Texture(m_graphicsEngine, "resources/images/Grass.png");
+	Texture* darkGrass = new Texture(m_graphicsEngine, "resources/images/DarkGrass.png");
 
 	for (int y = 0; y < m_height; y++) {
 		for (int x = 0; x < m_width; x++) {
-			setSceneElementBackground(x, y, new Environment(x, y, grass));
+			if(x == 0 || y == 0 || x == m_width - 1 || y == m_height - 1) setSceneElementForeground(x, y, new Wall(x, y, darkGrass));
+			else setSceneElementBackground(x, y, new Environment(x, y, grass));
 		}
 	}
 
@@ -162,4 +168,16 @@ void Scene::playTheme() {
 
 std::pair<int, int> Scene::getEntry() {
 	return m_entry;
+}
+
+int Scene::getWidth() {
+	return m_width;
+}
+
+int Scene::getHeight() {
+	return m_height;
+}
+
+bool Scene::isInterior() {
+	return m_isInterior;
 }

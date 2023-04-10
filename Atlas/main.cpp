@@ -13,7 +13,7 @@
 GraphicsEngine* m_graphicsEngine;
 EventHandler* m_eventHandler;
 Player* m_player;
-Scene* level1;
+Scene* level;
 
 Text* m_fpsCounter;
 Timer m_fpsTimer;
@@ -73,9 +73,9 @@ void loop() {
 	// Handle events on queue
 	exitStatus = m_eventHandler->handleEvent();
 
-	level1->update();
+	level->update();
 
-	level1->display();
+	level->display();
 
 	m_player->move();
 
@@ -100,9 +100,9 @@ void loop() {
 int main(int argc, char* args[]) {
 	if (!initializeCore()) return EXIT_FAILURE;
 
-	level1 = new Scene(m_graphicsEngine);
-	level1->testLevel();
-	m_player->addToScene(level1);
+	level = new Scene(m_graphicsEngine);
+	level->testLevel1();
+	m_player->addToScene(level);
 	//level1->setTheme("resources/audio/IndianaJones.wav");
 	//level1->playTheme();
 
