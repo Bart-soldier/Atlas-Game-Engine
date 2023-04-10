@@ -12,6 +12,7 @@ class Character : public SceneElement {
 		int m_direction;
 
 		Scene* m_scene;
+		int m_currentScene;
 
 		Mix_Chunk* m_walkingEffect;
 
@@ -29,7 +30,9 @@ class Character : public SceneElement {
 		void stopMovement(int direction);
 		void toggleRun();
 		virtual void move();
-		void addToScene(Scene* scene);
+		void addToScene(Scene* scene, int currentScene);
 
 		void setWalkingEffect(std::string path);
+
+		int getCurrentScene();
 };

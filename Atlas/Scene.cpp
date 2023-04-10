@@ -37,16 +37,14 @@ void Scene::initializeSceneElements() {
 	m_sceneElements.shrink_to_fit();
 }
 
-std::pair<SceneElement*, SceneElement*> Scene::getSceneElement(int x, int y) {
-	return m_sceneElements.at(y * m_width + x);
+Environment* Scene::getSceneElementBackground(int x, int y) {
+	if (x >= 0 && x < m_width && y >= 0 && y < m_height) return m_sceneElements.at(y * m_width + x).first;
+	else return nullptr;
 }
 
-SceneElement* Scene::getSceneElementBackground(int x, int y) {
-	return m_sceneElements.at(y * m_width + x).first;
-}
-
-SceneElement* Scene::getSceneElementForeground(int x, int y) {
-	return m_sceneElements.at(y * m_width + x).second;
+Object* Scene::getSceneElementForeground(int x, int y) {
+	if (x >= 0 && x < m_width && y >= 0 && y < m_height) return m_sceneElements.at(y * m_width + x).second;
+	else return nullptr;
 }
 
 std::vector<SceneElement*> Scene::getNeighborForegroundElements(int e_x, int e_y) {
@@ -70,6 +68,37 @@ void Scene::setSceneElementForeground(int x, int y, Object* foreground) {
 }
 
 void Scene::testLevel1() {
+	m_width = 30;
+	m_height = 20;
+	m_isInterior = false;
+
+	initializeSceneElements();
+
+	Texture* grass = new Texture(m_graphicsEngine, "resources/images/Grass.png");
+	Texture* darkGrass = new Texture(m_graphicsEngine, "resources/images/DarkGrass.png");
+
+	for (int y = 0; y < m_height; y++) {
+		for (int x = 0; x < m_width; x++) {
+			if (x == 0 || y == 0 || x == m_width - 1 || y == m_height - 1) setSceneElementForeground(x, y, new Wall(x, y, darkGrass));
+			else setSceneElementBackground(x, y, new Environment(x, y, grass));
+		}
+	}
+
+	Texture* tombWall = new Texture(m_graphicsEngine, "resources/images/TombExterior.png", 2);
+
+	int x = m_width / 2;
+	int y = 4;
+	setSceneElementForeground(x, y, new Wall(x, y, tombWall));
+	x++;
+	setSceneElementForeground(x, y, new Door(x, y, 1, tombWall, 1));
+	x++;
+	setSceneElementForeground(x, y, new Wall(x, y, tombWall));
+
+	m_entry.first = (m_width - 1) * TILESIZE * TILEFACTOR / 2;
+	m_entry.second = (m_height - 3) * TILESIZE * TILEFACTOR;
+}
+
+void Scene::testLevel2() {
 	m_width = 10;
 	m_height = 20;
 	m_isInterior = true;
@@ -82,17 +111,17 @@ void Scene::testLevel1() {
 	for (int y = 0; y < m_height; y++) {
 		for (int x = 0; x < m_width; x++) {
 			if (y == 0 || y == 1 || y == 2) {
-				if (x == 0) setSceneElementForeground(x, y, new Wall(x, y, tomb, y, 0));
-				else if(x == m_width - 1) setSceneElementForeground(x, y, new Wall(x, y, tomb, y, 2));
-				else setSceneElementForeground(x, y, new Wall(x, y, tomb, y, 1));
+				if (x == 0) setSceneElementForeground(x, y, new Wall(x, y, tomb, 0, y));
+				else if(x == m_width - 1) setSceneElementForeground(x, y, new Wall(x, y, tomb, 2, y));
+				else setSceneElementForeground(x, y, new Wall(x, y, tomb, 1, y));
 			}
 			else if (y == m_height - 1) {
-				if (x == 0) setSceneElementForeground(x, y, new Wall(x, y, tomb, 3, 0));
-				else if (x == m_width - 1) setSceneElementForeground(x, y, new Wall(x, y, tomb, 3, 2));
-				else setSceneElementForeground(x, y, new Wall(x, y, tomb, 3, 1));
+				if (x == 0) setSceneElementForeground(x, y, new Wall(x, y, tomb, 0, 3));
+				else if (x == m_width - 1) setSceneElementForeground(x, y, new Wall(x, y, tomb, 2, 3));
+				else setSceneElementForeground(x, y, new Wall(x, y, tomb, 1, 3));
 			}
-			else if (x == 0) setSceneElementForeground(x, y, new Wall(x, y, tomb, 1, 0));
-			else if (x == m_width - 1) setSceneElementForeground(x, y, new Wall(x, y, tomb, 1, 2));
+			else if (x == 0) setSceneElementForeground(x, y, new Wall(x, y, tomb, 0, 1));
+			else if (x == m_width - 1) setSceneElementForeground(x, y, new Wall(x, y, tomb, 2, 1));
 			else setSceneElementBackground(x, y, new Environment(x, y, sand));
 		}
 	}
@@ -101,30 +130,9 @@ void Scene::testLevel1() {
 	int y = 4;
 	Relic* ark = new Relic(x, y, new Texture(m_graphicsEngine, "resources/images/ArkCovenant.png"));
 	setSceneElementForeground(x, y, ark);
-	//setSceneElementForeground(x + 1, y, ark);
+	setSceneElementForeground(x + 1, y, ark);
 	//setSceneElementForeground(x, y + 1, ark);
 	//setSceneElementForeground(x + 1, y + 1, ark);
-
-	m_entry.first = (m_width - 1) * TILESIZE * TILEFACTOR / 2;
-	m_entry.second = (m_height - 3) * TILESIZE * TILEFACTOR;
-}
-
-void Scene::testLevel2() {
-	m_width = 30;
-	m_height = 20;
-	m_isInterior = false;
-
-	initializeSceneElements();
-
-	Texture* grass = new Texture(m_graphicsEngine, "resources/images/Grass.png");
-	Texture* darkGrass = new Texture(m_graphicsEngine, "resources/images/DarkGrass.png");
-
-	for (int y = 0; y < m_height; y++) {
-		for (int x = 0; x < m_width; x++) {
-			if(x == 0 || y == 0 || x == m_width - 1 || y == m_height - 1) setSceneElementForeground(x, y, new Wall(x, y, darkGrass));
-			else setSceneElementBackground(x, y, new Environment(x, y, grass));
-		}
-	}
 
 	m_entry.first = (m_width - 1) * TILESIZE * TILEFACTOR / 2;
 	m_entry.second = (m_height - 3) * TILESIZE * TILEFACTOR;

@@ -3,6 +3,7 @@
 #include "Wall.hpp"
 #include "Environment.hpp"
 #include "Relic.hpp"
+#include "Door.hpp"
 
 class Scene {
 	private:
@@ -32,9 +33,8 @@ class Scene {
 		void setTheme(std::string path);
 		void playTheme();
 
-		std::pair<SceneElement*, SceneElement*> getSceneElement(int x, int y);
-		SceneElement* getSceneElementBackground(int x, int y);
-		SceneElement* getSceneElementForeground(int x, int y);
+		Environment* getSceneElementBackground(int x, int y);
+		Object* getSceneElementForeground(int x, int y);
 		std::vector<SceneElement*> getNeighborForegroundElements(int e_x, int e_y);
 		std::pair<int, int> getEntry();
 		int getWidth();

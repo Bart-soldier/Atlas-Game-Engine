@@ -8,6 +8,8 @@ class Player : public Character {
 	public:
 		Player(int posX, int posY, Texture* texture = nullptr);
 		void move() override;
+		bool checkInteractable(int x, int y);
+
 		void setCamera(Camera* camera);
 };
 

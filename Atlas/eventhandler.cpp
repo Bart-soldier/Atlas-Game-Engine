@@ -18,6 +18,7 @@ bool EventHandler::handleEvent() {
 			// Get mouse position
 			int x, y;
 			SDL_GetMouseState(&x, &y);
+			if(m_player->checkInteractable(x, y)) printf("TRUE\n");
 			//m_player->move(x, y);
 		}
 		

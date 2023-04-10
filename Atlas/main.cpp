@@ -13,7 +13,8 @@
 GraphicsEngine* m_graphicsEngine;
 EventHandler* m_eventHandler;
 Player* m_player;
-Scene* level;
+std::vector<Scene*> m_scenes;
+int m_currentScene;
 
 Text* m_fpsCounter;
 Timer m_fpsTimer;
@@ -54,6 +55,8 @@ bool initializeCore() {
 	m_fpsTimer.start();
 	m_countedFrames = 0;
 
+	m_currentScene = 0;
+
 	return true;
 }
 
@@ -68,14 +71,21 @@ void loop() {
 	}
 	m_fpsCounter->setText("FPS = " + std::to_string((int)avgFPS), { 255, 255, 255 });
 
-	m_graphicsEngine->clearScreen();
-
 	// Handle events on queue
 	exitStatus = m_eventHandler->handleEvent();
 
-	level->update();
+	// Check if player has changed scene
+	int currentScene = m_player->getCurrentScene();
+	if (currentScene != m_currentScene) {
+		m_currentScene = currentScene;
+		m_player->addToScene(m_scenes.at(m_currentScene), currentScene);
+	}
 
-	level->display();
+	m_graphicsEngine->clearScreen();
+
+	m_scenes.at(m_currentScene)->update();
+
+	m_scenes.at(m_currentScene)->display();
 
 	m_player->move();
 
@@ -100,9 +110,12 @@ void loop() {
 int main(int argc, char* args[]) {
 	if (!initializeCore()) return EXIT_FAILURE;
 
-	level = new Scene(m_graphicsEngine);
-	level->testLevel1();
-	m_player->addToScene(level);
+	m_scenes.push_back(new Scene(m_graphicsEngine));
+	m_scenes.back()->testLevel1();
+	m_scenes.push_back(new Scene(m_graphicsEngine));
+	m_scenes.back()->testLevel2();
+
+	m_player->addToScene(m_scenes.at(m_currentScene), m_currentScene);
 	//level1->setTheme("resources/audio/IndianaJones.wav");
 	//level1->playTheme();
 

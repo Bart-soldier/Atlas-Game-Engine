@@ -10,6 +10,8 @@ SceneElement::SceneElement(int posX, int posY, Texture* texture) {
 	m_frame = 0;
 	m_timeSinceLastFrame = 0;
 
+	bool m_isInteractable = false;
+
 	if (texture != nullptr) setTexture(texture);
 }
 
@@ -53,6 +55,9 @@ void SceneElement::setTexture(Texture* texture) {
 	m_height = m_texture->getHeight() / m_texture->getSpriteLineNb();
 }
 
+void SceneElement::activate() {
+}
+
 int SceneElement::getPosX() {
 	return m_posX;
 }
@@ -72,4 +77,8 @@ int SceneElement::getHeight() {
 void SceneElement::setPos(int x, int y) {
 	m_posX = x;
 	m_posY = y;
+}
+
+bool SceneElement::isInteractable() {
+	return m_isInteractable;
 }

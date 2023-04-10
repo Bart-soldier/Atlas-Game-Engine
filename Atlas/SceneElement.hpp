@@ -1,6 +1,5 @@
 #pragma once
 #include "Texture.hpp"
-#include "GameplayEngine.hpp"
 
 class SceneElement {
 	protected:
@@ -13,6 +12,8 @@ class SceneElement {
 		int m_frame;
 		Uint32 m_timeSinceLastFrame;
 
+		bool m_isInteractable;
+
 	public:
 		SceneElement(int posX, int posY, Texture* texture = nullptr);
 
@@ -22,9 +23,12 @@ class SceneElement {
 
 		void setTexture(Texture* texture);
 
+		virtual void activate();
+
 		int getPosX();
 		int getPosY();
 		int getWidth();
 		int getHeight();
 		void setPos(int x, int y);
+		bool isInteractable();
 };

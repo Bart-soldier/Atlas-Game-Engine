@@ -16,6 +16,7 @@ class Camera {
 		int getPosY();
 		int getWidth();
 		int getHeight();
+
 		void setPosX(int posX);
 		void setPosY(int posY);
 		void setWidth(int width);

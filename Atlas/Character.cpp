@@ -11,6 +11,7 @@ Character::Character(int posX, int posY, Texture* texture) : SceneElement(posX, 
 	m_direction = SOUTH;
 
 	m_scene = NULL;
+	m_currentScene = -1;
 
 	m_walkingEffect = NULL;
 
@@ -69,7 +70,7 @@ void Character::display() {
 }
 
 SceneElement* Character::checkCollision(int posX, int posY) {
-	SDL_Rect hitBox = { posX, posY, m_width, m_height };
+	SDL_Rect e1_hb = { posX, posY, m_width, m_height };
 
 	// Get corresponding tile
 	int tile_x = posX / (TILESIZE * TILEFACTOR);
@@ -80,10 +81,11 @@ SceneElement* Character::checkCollision(int posX, int posY) {
 
 	for (auto element = neighbors.begin(); element != neighbors.end(); ++element) {
 		if ((*element) != nullptr) {
-			SDL_Rect e_hitBox = { (*element)->getPosX(), (*element)->getPosY(), (*element)->getWidth(), (*element)->getHeight() };
-			if (GameplayEngine::checkCollision(hitBox, e_hitBox)) {
+			SDL_Rect e2_hb = { (*element)->getPosX(), (*element)->getPosY(), (*element)->getWidth(), (*element)->getHeight() };
+			
+			if (((e2_hb.x <= e1_hb.x && e1_hb.x < e2_hb.x + e2_hb.w) || (e1_hb.x <= e2_hb.x && e2_hb.x < e1_hb.x + e1_hb.w))
+				&& ((e2_hb.y <= e1_hb.y && e1_hb.y < e2_hb.y + e2_hb.h) || (e1_hb.y <= e2_hb.y && e2_hb.y < e1_hb.y + e1_hb.h))) 
 				return *element;
-			}
 		}
 	}
 
@@ -203,8 +205,9 @@ void Character::move() {
 	else if (m_frame % 2 != 0) m_frame -= m_frame % 2;
 }
 
-void Character::addToScene(Scene* scene) {
+void Character::addToScene(Scene* scene, int currentScene) {
 	m_scene = scene;
+	m_currentScene = currentScene;
 
 	std::pair<int, int> entry = scene->getEntry();
 	m_posX = entry.first;
@@ -216,4 +219,8 @@ void Character::setWalkingEffect(std::string path) {
 	if (m_walkingEffect == NULL) {
 		printf("Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 	}
+}
+
+int Character::getCurrentScene() {
+	return m_currentScene;
 }
