@@ -91,39 +91,21 @@ SceneElement* Character::checkCollision(int posX, int posY) {
 }
 
 void Character::handleCollision(SceneElement* element) {
-	/*int e_x = element->getPosX();
+	int e_x = element->getPosX();
 	int e_y = element->getPosY();
 	int e_w = element->getWidth();
 	int e_h = element->getHeight();
 
-	//printf("Me : x = %d, y = %d, w = %d, h = %d\n", m_hitBox.x, m_hitBox.y, m_hitBox.w, m_hitBox.h);
-	//printf("Him : x = %d, y = %d, w = %d, h = %d\n", e_x, e_y, e_w, e_h);
+	printf("Me : x = %d, y = %d, w = %d, h = %d\n", m_posX, m_posY, m_width, m_height);
+	printf("Him : x = %d, y = %d, w = %d, h = %d\n", e_x, e_y, e_w, e_h);
 
-	if ((m_hitBox.y <= e_y && e_y < m_hitBox.y + m_hitBox.h) || (e_y <= m_hitBox.y && m_hitBox.y < e_y + e_h)) {
-		if (m_hitBox.x < e_x) {
-			m_posX = e_x - m_hitBox.w - (m_width - m_hitBox.w) / 2;
-		}
-		else {
-			m_posX = e_x + m_hitBox.w + (m_width - m_hitBox.w) / 2;
-		}
+	if ((m_posY <= e_y && e_y < m_posY + m_height) || (e_y <= m_posY && m_posY < e_y + e_h)) {
+		m_posX = (m_posX < e_x) ? e_x - m_width : e_x + e_w;
 	}
 
-	//m_hitBox.x = m_posX + m_width / 8;
-	//m_hitBox.y = m_posY + m_height / 4;
-	//m_hitBox.w = static_cast<int>(3 * m_width / 4);
-	//m_hitBox.h = static_cast<int>(m_height / 4);
-
-	if ((m_hitBox.x <= e_x && e_x < m_hitBox.x + m_hitBox.w) || (e_x <= m_hitBox.x && m_hitBox.x < e_x + e_w)) {
-		if (m_hitBox.y < e_y) {
-			m_posY = e_y - m_hitBox.h;
-		}
-		else {
-			m_posY = e_y + m_hitBox.h;
-		}
+	if ((m_posX <= e_x && e_x < m_posX + m_width) || (e_x <= m_posX && m_posX < e_x + e_w)) {
+		m_posY = (m_posY < e_y) ? e_y - m_height : e_y + e_h;
 	}
-
-
-	updateHitBox();
 
 	Uint32 time = SDL_GetTicks();
 
@@ -135,7 +117,7 @@ void Character::handleCollision(SceneElement* element) {
 
 	if (m_walkingEffect != NULL) {
 		Mix_PlayChannel(-1, m_walkingEffect, 0);
-	}*/
+	}
 }
 
 void Character::startMovement(int direction) {
