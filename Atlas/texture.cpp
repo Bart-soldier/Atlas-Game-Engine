@@ -191,7 +191,10 @@ void Texture::setAlpha(int alpha) {
 }
 
 void Texture::render(int x, int y, int spriteLineIndex, int spriteColumnIndex, bool toCamera) {
-	m_graphicsEngine->render(m_texture, x, y, m_width, m_height,
+	int spriteWidth = m_width / m_spriteColumnNb;
+	int spriteHeight = m_height / m_spriteLineNb;
+
+	m_graphicsEngine->render(m_texture, x, y, spriteWidth, spriteHeight,
 		&m_spriteClips.at((spriteLineIndex * m_spriteColumnNb) + spriteColumnIndex), toCamera);
 }
 

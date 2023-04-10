@@ -1,8 +1,8 @@
 #pragma once
-
 #include "GraphicsEngine.hpp"
 #include "Wall.hpp"
 #include "Environment.hpp"
+#include "Relic.hpp"
 
 class Scene {
 	private:
@@ -11,13 +11,13 @@ class Scene {
 		int m_height;
 		std::pair<int, int> m_entry;
 
-		std::vector<std::pair<SceneElement*, SceneElement*>> m_sceneElements;
+		std::vector<std::pair<Environment*, Object*>> m_sceneElements;
 
 		Mix_Music* m_theme;
 
 		void initializeSceneElements();
-		void setSceneElementBackground(int x, int y, SceneElement* background);
-		void setSceneElementForeground(int x, int y, SceneElement* foreground);
+		void setSceneElementBackground(int x, int y, Environment* background);
+		void setSceneElementForeground(int x, int y, Object* foreground);
 
 	public:
 		Scene(GraphicsEngine* graphicsEngine);

@@ -70,8 +70,12 @@ SDL_Texture* GraphicsEngine::createTexture(SDL_Surface* surface) {
 void GraphicsEngine::render(SDL_Texture* texture, int x, int y, int width, int height, SDL_Rect* clip, bool toCamera) {
 	// Set rendering space and scale to render to screen or camera
 	SDL_Rect renderQuad = { x, y, width, height };
-	if (m_camera != NULL && toCamera) renderQuad = { x - m_camera->getPosX(), y - m_camera->getPosY(), m_camera->getWidth(),
-		m_camera->getHeight() };
+
+	// Depth perspective
+	if (height > TILESIZE * TILEFACTOR) renderQuad.y -= height - TILESIZE * TILEFACTOR;
+
+	if (m_camera != NULL && toCamera) renderQuad = { renderQuad.x - m_camera->getPosX(), renderQuad.y - m_camera->getPosY(),
+		m_camera->getWidth(), m_camera->getHeight() };
 
 	// Set clip rendering dimensions
 	if (clip != NULL) {

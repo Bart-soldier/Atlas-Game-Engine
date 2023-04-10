@@ -16,6 +16,7 @@ class Character : public SceneElement {
 		Mix_Chunk* m_walkingEffect;
 
 		void checkDirection(int direction);
+		void updateHitBox();
 
 
 	public:

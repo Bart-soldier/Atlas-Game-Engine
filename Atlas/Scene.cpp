@@ -59,11 +59,11 @@ std::vector<SceneElement*> Scene::getNeighborForegroundElements(int e_x, int e_y
 	return neighborElements;
 }
 
-void Scene::setSceneElementBackground(int x, int y, SceneElement* background) {
+void Scene::setSceneElementBackground(int x, int y, Environment* background) {
 	m_sceneElements.at(y * m_width + x).first = background;
 }
 
-void Scene::setSceneElementForeground(int x, int y, SceneElement* foreground) {
+void Scene::setSceneElementForeground(int x, int y, Object* foreground) {
 	m_sceneElements.at(y * m_width + x).second = foreground;
 }
 
@@ -96,9 +96,11 @@ void Scene::testLevel() {
 
 	int x = 4;
 	int y = 4;
-	Wall* ark = new Wall(x, y, new Texture(m_graphicsEngine, "resources/images/ArkCovenant.png"));
+	Relic* ark = new Relic(x, y, new Texture(m_graphicsEngine, "resources/images/ArkCovenant.png"));
 	setSceneElementForeground(x, y, ark);
-	setSceneElementForeground(x + 1, y, ark);
+	//setSceneElementForeground(x + 1, y, ark);
+	//setSceneElementForeground(x, y + 1, ark);
+	//setSceneElementForeground(x + 1, y + 1, ark);
 
 	m_entry.first = (m_width - 1) * TILESIZE * TILEFACTOR / 2;
 	m_entry.second = (m_height - 3) * TILESIZE * TILEFACTOR;
@@ -127,10 +129,14 @@ void Scene::update() {
 
 void Scene::display() {
 	// Render every scene element
+	// Because of perspective, render background first, then foreground
 	for (auto pair = m_sceneElements.begin(); pair != m_sceneElements.end(); ++pair) {
 		if (pair->first != nullptr) {
 			pair->first->display();
 		}
+		//(*sceneElement)->display();
+	}
+	for (auto pair = m_sceneElements.begin(); pair != m_sceneElements.end(); ++pair) {
 		if (pair->second != nullptr) {
 			pair->second->display();
 		}

@@ -27,6 +27,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Relic.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneElement.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="GameplayEngine.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Relic.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="SceneElement.hpp" />
