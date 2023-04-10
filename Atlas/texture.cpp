@@ -53,16 +53,16 @@ void Texture::reset() {
 void Texture::intializeSpriteClips() {
 	//m_spriteClips[m_directionNb * m_animationNb];
 
-	int objWidth = m_width / m_spriteColumnNb;
-	int objHeight = m_height / m_spriteLineNb;
+	m_objWidth = m_width / m_spriteColumnNb;
+	m_objHeight = m_height / m_spriteLineNb;
 	SDL_Rect spriteClip;
 
 	for (int y = 0; y < m_spriteLineNb; y++) {
 		for (int x = 0; x < m_spriteColumnNb; x++) {
-			spriteClip.x = x * objWidth;
-			spriteClip.y = y * objHeight;
-			spriteClip.w = objWidth;
-			spriteClip.h = objHeight;
+			spriteClip.x = x * m_objWidth;
+			spriteClip.y = y * m_objHeight;
+			spriteClip.w = m_objWidth;
+			spriteClip.h = m_objHeight;
 			m_spriteClips.push_back(spriteClip);
 		}
 	}
@@ -190,11 +190,15 @@ void Texture::setAlpha(int alpha) {
 	SDL_SetTextureAlphaMod(m_texture, m_alpha);
 }
 
-void Texture::render(int x, int y, int spriteLineIndex, int spriteColumnIndex, bool toCamera) {
-	int spriteWidth = m_width / m_spriteColumnNb;
-	int spriteHeight = m_height / m_spriteLineNb;
+void Texture::render(int x, int y, int width, int height, int spriteLineIndex, int spriteColumnIndex, bool toCamera) {
+	int newX = x;
+	int newY = y;
 
-	m_graphicsEngine->render(m_texture, x, y, spriteWidth, spriteHeight,
+	// Depth perspective
+	if (m_objWidth > width) newX -= (m_objWidth - width) / 2;
+	if (m_objHeight > height) newY -= (m_objHeight - height);
+
+	m_graphicsEngine->render(m_texture, newX, newY, m_objWidth, m_objHeight,
 		&m_spriteClips.at((spriteLineIndex * m_spriteColumnNb) + spriteColumnIndex), toCamera);
 }
 

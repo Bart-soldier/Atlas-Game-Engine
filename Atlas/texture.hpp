@@ -10,6 +10,10 @@ class Texture {
 		// The Graphics Engine
 		GraphicsEngine* m_graphicsEngine;
 
+		// Object dimension
+		int m_objWidth;
+		int m_objHeight;
+
 		// Image dimensions
 		int m_width;
 		int m_height;
@@ -49,7 +53,7 @@ class Texture {
 		// Set alpha modulation
 		void setAlpha(int alpha);
 		// Renders texture at given point
-		void render(int x, int y, int spriteLineIndex = 0, int spriteColumnIndex = 0, bool toCamera = true);
+		void render(int x, int y, int width, int height, int spriteLineIndex = 0, int spriteColumnIndex = 0, bool toCamera = true);
 
 		// Gets image dimensions
 		int getWidth();

@@ -71,9 +71,6 @@ void GraphicsEngine::render(SDL_Texture* texture, int x, int y, int width, int h
 	// Set rendering space and scale to render to screen or camera
 	SDL_Rect renderQuad = { x, y, width, height };
 
-	// Depth perspective
-	if (height > TILESIZE * TILEFACTOR) renderQuad.y -= height - TILESIZE * TILEFACTOR;
-
 	if (m_camera != NULL && toCamera) renderQuad = { renderQuad.x - m_camera->getPosX(), renderQuad.y - m_camera->getPosY(),
 		m_camera->getWidth(), m_camera->getHeight() };
 

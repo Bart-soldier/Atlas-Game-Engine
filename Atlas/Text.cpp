@@ -5,7 +5,7 @@ Text::Text(int posX, int posY, Texture* texture) : SceneElement(posX, posY, text
 
 void Text::display() {
 	if (m_texture != NULL) {
-		m_texture->render(m_posX, m_posY, 0, 0, false);
+		m_texture->render(m_posX, m_posY, m_width, m_height, 0, 0, false);
 	}
 }
 

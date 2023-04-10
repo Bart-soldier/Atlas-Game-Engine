@@ -1,16 +1,14 @@
 #include "Character.hpp"
 
 Character::Character(int posX, int posY, Texture* texture) : SceneElement(posX, posY, texture) {
+	m_height = m_height / 4;
+	m_width = 3 * m_width / 4;
+
 	m_speed = 2 * (TILESIZE * TILEFACTOR) / (FRAME_RATE);
 	m_speedX = 0;
 	m_speedY = 0;
 	m_isRunning = false;
 	m_direction = SOUTH;
-
-	// Set feet level hitbox
-	updateHitBox();
-	m_hitBox.w = static_cast<int>(3 * m_width / 4);
-	m_hitBox.h = static_cast<int>(m_height / 4);
 
 	m_scene = NULL;
 
@@ -47,18 +45,13 @@ void Character::checkDirection(int direction) {
 	}
 }
 
-void Character::updateHitBox() {
-	m_hitBox.x = m_posX + m_width / 8;
-	m_hitBox.y = m_posY + m_height / 4;
-}
-
 void Character::display() {
 	if (m_texture != NULL) {
-		m_texture->render(m_posX, m_posY, m_direction, m_frame);
+		m_texture->render(m_posX, m_posY, m_width, m_height, m_direction, m_frame);
 
 		// Set feet level corresponding tile
-		int tile_x = m_hitBox.x / (TILESIZE * TILEFACTOR);
-		int tile_y = m_hitBox.y / (TILESIZE * TILEFACTOR);
+		int tile_x = m_posX / (TILESIZE * TILEFACTOR);
+		int tile_y = m_posY / (TILESIZE * TILEFACTOR);
 
 		// Get all neighbors
 		std::vector<SceneElement*> neighbors = m_scene->getNeighborForegroundElements(tile_x, tile_y);
@@ -76,25 +69,19 @@ void Character::display() {
 }
 
 SceneElement* Character::checkCollision(int posX, int posY) {
-	// Get hypothetical hitbox
-	int e_x = (posX + m_width / 8);
-	int e_y = (posY + m_height / 4);
-	SDL_Rect hitBox = m_hitBox;
-	hitBox.x = e_x;
-	hitBox.y = e_y;
-	hitBox.w = m_hitBox.w;
-	hitBox.h = m_hitBox.h;
+	SDL_Rect hitBox = { posX, posY, m_width, m_height };
 
-	// Set feet level corresponding tile
-	int tile_x = e_x / (TILESIZE * TILEFACTOR);
-	int tile_y = e_y / (TILESIZE * TILEFACTOR);
+	// Get corresponding tile
+	int tile_x = posX / (TILESIZE * TILEFACTOR);
+	int tile_y = posY / (TILESIZE * TILEFACTOR);
 
 	// Get all neighbors of correponding tile
 	std::vector<SceneElement*> neighbors = m_scene->getNeighborForegroundElements(tile_x, tile_y);
 
 	for (auto element = neighbors.begin(); element != neighbors.end(); ++element) {
 		if ((*element) != nullptr) {
-			if (GameplayEngine::checkCollision(hitBox, (*element)->getHitBox())) {
+			SDL_Rect e_hitBox = { (*element)->getPosX(), (*element)->getPosY(), (*element)->getWidth(), (*element)->getHeight() };
+			if (GameplayEngine::checkCollision(hitBox, e_hitBox)) {
 				return *element;
 			}
 		}
@@ -218,7 +205,6 @@ void Character::move() {
 		if (collision_e == nullptr) {
 			m_posX = newX;
 			m_posY = newY;
-			updateHitBox();
 
 			Uint32 time = SDL_GetTicks();
 
