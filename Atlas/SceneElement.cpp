@@ -7,6 +7,11 @@ SceneElement::SceneElement(int posX, int posY, Texture* texture) {
 	m_height = TILESIZE * TILEFACTOR;
 	m_texture = NULL;
 
+	m_hitBox.x = m_posX;
+	m_hitBox.y = m_posY;
+	m_hitBox.w = m_width;
+	m_hitBox.h = m_height;
+
 	m_frame = 0;
 	m_timeSinceLastFrame = 0;
 
@@ -51,6 +56,9 @@ void SceneElement::setTexture(Texture* texture) {
 
 	m_width = m_texture->getWidth() / m_texture->getSpriteColumnNb();
 	m_height = m_texture->getHeight() / m_texture->getSpriteLineNb();
+
+	m_hitBox.w = m_width;
+	m_hitBox.h = m_height;
 }
 
 int SceneElement::getPosX() {
@@ -67,6 +75,10 @@ int SceneElement::getWidth() {
 
 int SceneElement::getHeight() {
 	return m_height;
+}
+
+SDL_Rect SceneElement::getHitBox() {
+	return m_hitBox;
 }
 
 void SceneElement::setPos(int x, int y) {

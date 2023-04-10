@@ -1,9 +1,13 @@
 #include "GameplayEngine.hpp"
+#include <stdio.h>
 
 namespace GameplayEngine {
-	bool checkCollision(float e1_x, float e1_y, float e1_w, float e1_h, float e2_x, float e2_y, float e2_w, float e2_h) {
-		if ((e2_x <= e1_x && e1_x < e2_x + e2_w) || (e1_x <= e2_x && e2_x < e1_x + e1_w)) {
-			if ((e2_y <= e1_y && e1_y < e2_y + e2_h) || (e1_y <= e2_y && e2_y < e1_y + e1_h)) {
+	bool checkCollision(SDL_Rect e1_hb, SDL_Rect e2_hb) {
+		printf("e1: x = %d, y = %d, w = %d, h = %d\n", e1_hb.x, e1_hb.y, e1_hb.w, e1_hb.h);
+		printf("e2: x = %d, y = %d, w = %d, h = %d\n", e2_hb.x, e2_hb.y, e2_hb.w, e2_hb.h);
+
+		if ((e2_hb.x <= e1_hb.x && e1_hb.x < e2_hb.x + e2_hb.w) || (e1_hb.x <= e2_hb.x && e2_hb.x < e1_hb.x + e1_hb.w)) {
+			if ((e2_hb.y <= e1_hb.y && e1_hb.y < e2_hb.y + e2_hb.h) || (e1_hb.y <= e2_hb.y && e2_hb.y < e1_hb.y + e1_hb.h)) {
 				return true;
 			}
 		}

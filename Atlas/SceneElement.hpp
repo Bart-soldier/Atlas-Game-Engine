@@ -10,6 +10,8 @@ class SceneElement {
 		int m_height;
 		Texture* m_texture;
 
+		SDL_Rect m_hitBox;
+
 		int m_frame;
 		Uint32 m_timeSinceLastFrame;
 
@@ -26,5 +28,6 @@ class SceneElement {
 		int getPosY();
 		int getWidth();
 		int getHeight();
+		SDL_Rect getHitBox();
 		void setPos(int x, int y);
 };

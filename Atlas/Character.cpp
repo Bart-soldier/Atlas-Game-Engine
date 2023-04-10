@@ -7,6 +7,12 @@ Character::Character(int posX, int posY, Texture* texture) : SceneElement(posX, 
 	m_isRunning = false;
 	m_direction = SOUTH;
 
+	// Set feet level hitbox
+	m_hitBox.x = static_cast<int>(m_posX + m_width / 8);
+	m_hitBox.y = static_cast<int>(m_posY + 3 * m_height / 4);
+	m_hitBox.w = static_cast<int>(3 * m_width / 4);
+	m_hitBox.h = static_cast<int>(m_height / 4);
+
 	m_scene = NULL;
 
 	m_walkingEffect = NULL;
@@ -49,29 +55,25 @@ void Character::display() {
 }
 
 SceneElement* Character::checkCollision(int posX, int posY) {
-	// Set feet level variables
+	// Get hypothetical hitbox
 	float e_x = (posX + m_width / 8);
 	float e_y = (posY + 3 * m_height / 4);
-	float e_w = 3 * m_width / 4;
-	float e_h = m_height / 4;
+	SDL_Rect hitBox = m_hitBox;
+	hitBox.x = static_cast<int>(e_x);
+	hitBox.y = static_cast<int>(e_y);
 
-	// Get corresponding tile
+	printf("Me: x = %d, y = %d, w = %d, h = %d\n", hitBox.x, hitBox.y, hitBox.w, hitBox.h);
+
+	// Set feet level corresponding tile
 	int tile_x = static_cast<int>(e_x / (TILESIZE * TILEFACTOR));
 	int tile_y = static_cast<int>(e_y / (TILESIZE * TILEFACTOR));
 
-	printf("Me: x = %f, y = %f, w = %f, h = %f\n", e_x, e_y, e_w, e_h);
-
+	// Get all neighbors of correponding tile
 	std::vector<SceneElement*> neighbors = m_scene->getNeighborForegroundElements(tile_x, tile_y);
 
 	for (auto element = neighbors.begin(); element != neighbors.end(); ++element) {
 		if ((*element) != nullptr) {
-			int e2_x = (*element)->getPosX();
-			int e2_y = (*element)->getPosY();
-			int e2_w = (*element)->getWidth();
-			int e2_h = (*element)->getHeight();
-			printf("Neighbor: x = %d, y = %d, w = %d, h = %d\n", e2_x, e2_y, e2_w, e2_h);
-
-			if (GameplayEngine::checkCollision(e_x, e_y, e_w, e_h, e2_x, e2_y, e2_w, e2_h)) {
+			if (GameplayEngine::checkCollision(hitBox, (*element)->getHitBox())) {
 				printf("true\n");
 				return *element;
 			}
@@ -151,6 +153,8 @@ void Character::move() {
 		if (collision_e == nullptr) {
 			m_posX = newX;
 			m_posY = newY;
+			m_hitBox.x = m_posX;
+			m_hitBox.y = m_posY;
 
 			Uint32 time = SDL_GetTicks();
 

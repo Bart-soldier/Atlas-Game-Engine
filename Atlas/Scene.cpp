@@ -27,7 +27,6 @@ Scene::~Scene() {
 void Scene::initializeSceneElements() {
 	for (int y = 0; y < m_height; y++) {
 		for (int x = 0; x < m_width; x++) {
-			//m_sceneElements.push_back(std::make_pair(nullptr, nullptr));
 			m_sceneElements.push_back(std::make_pair(nullptr, nullptr));
 		}
 	}
@@ -53,7 +52,7 @@ std::vector<SceneElement*> Scene::getNeighborForegroundElements(int e_x, int e_y
 
 	for (int y = e_y - 1; y <= e_y + 1; y++) {
 		for (int x = e_x - 1; x <= e_x + 1; x++) {
-			neighborElements.push_back(getSceneElementForeground(x, y));
+			if(x >= 0 && x < m_width && y >= 0 && y < m_height) neighborElements.push_back(getSceneElementForeground(x, y));
 		}
 	}
 
