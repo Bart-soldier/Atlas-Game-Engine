@@ -11,8 +11,6 @@ class Character : public SceneElement {
 		bool m_isRunning;
 		int m_direction;
 
-		Scene* m_scene;
-
 		Mix_Chunk* m_walkingEffect;
 
 		void checkDirection(int direction);
@@ -23,15 +21,12 @@ class Character : public SceneElement {
 		~Character();
 
 		void display() override;
-		SceneElement* checkCollision(int posX, int posY);
+		SceneElement* checkCollision(int posX, int posY, std::vector<SceneElement*> neighbors);
 		void handleCollision(SceneElement* element);
 		void startMovement(int direction);
 		void stopMovement(int direction);
 		void toggleRun();
-		virtual void move();
-		void addToScene(Scene* scene);
+		virtual void move(std::vector<SceneElement*> neighbors);
 
 		void setWalkingEffect(std::string path);
-
-		Scene* getScene();
 };

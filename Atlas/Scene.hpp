@@ -32,6 +32,7 @@ class Scene {
 		void display();
 		void setTheme(std::string path);
 		void playTheme();
+		void stopTheme();
 
 		Environment* getSceneElementBackground(int x, int y);
 		Object* getSceneElementForeground(int x, int y);

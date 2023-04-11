@@ -10,8 +10,6 @@ Character::Character(int posX, int posY, Texture* texture) : SceneElement(posX, 
 	m_isRunning = false;
 	m_direction = SOUTH;
 
-	m_scene = NULL;
-
 	m_walkingEffect = NULL;
 
 	// Set standard alpha blending
@@ -46,37 +44,11 @@ void Character::checkDirection(int direction) {
 }
 
 void Character::display() {
-	if (m_texture != NULL) {
-		m_texture->render(m_posX, m_posY, m_width, m_height, m_direction, m_frame);
-
-		// Set feet level corresponding tile
-		int tile_x = m_posX / (TILESIZE * TILEFACTOR);
-		int tile_y = m_posY / (TILESIZE * TILEFACTOR);
-
-		// Get all neighbors
-		std::vector<SceneElement*> neighbors = m_scene->getNeighborForegroundElements(tile_x, tile_y);
-
-		for (auto element = neighbors.begin(); element != neighbors.end(); ++element) {
-			if ((*element) != nullptr) {
-				//printf("Their : x = %d", (*element)->getPosY());
-				if ((*element)->getPosY() > m_posY) {
-					//printf("true\n");
-					(*element)->display();
-				}
-			}
-		}
-	}
+	if (m_texture != NULL) m_texture->render(m_posX, m_posY, m_width, m_height, m_direction, m_frame);
 }
 
-SceneElement* Character::checkCollision(int posX, int posY) {
+SceneElement* Character::checkCollision(int posX, int posY, std::vector<SceneElement*> neighbors) {
 	SDL_Rect e1_hb = { posX, posY, m_width, m_height };
-
-	// Get corresponding tile
-	int tile_x = posX / (TILESIZE * TILEFACTOR);
-	int tile_y = posY / (TILESIZE * TILEFACTOR);
-
-	// Get all neighbors of correponding tile
-	std::vector<SceneElement*> neighbors = m_scene->getNeighborForegroundElements(tile_x, tile_y);
 
 	for (auto element = neighbors.begin(); element != neighbors.end(); ++element) {
 		if ((*element) != nullptr) {
@@ -163,12 +135,12 @@ void Character::toggleRun() {
 	m_isRunning = !m_isRunning;
 }
 
-void Character::move() {
+void Character::move(std::vector<SceneElement*> neighbors) {
 	bool moved = false;
 
 	if (m_speedX != 0) {
 		int newX = static_cast<int>(m_posX + m_speedX);
-		SceneElement* collision_e = checkCollision(newX, m_posY);
+		SceneElement* collision_e = checkCollision(newX, m_posY, neighbors);
 
 		if (collision_e == nullptr) {
 			m_posX = newX;
@@ -179,7 +151,7 @@ void Character::move() {
 
 	if (m_speedY != 0) {
 		int newY = static_cast<int>(m_posY + m_speedY);
-		SceneElement* collision_e = checkCollision(m_posX, newY);
+		SceneElement* collision_e = checkCollision(m_posX, newY, neighbors);
 
 		if (collision_e == nullptr) {
 			m_posY = newY;
@@ -204,21 +176,9 @@ void Character::move() {
 	else if (m_frame % 2 != 0) m_frame -= m_frame % 2;
 }
 
-void Character::addToScene(Scene* scene) {
-	m_scene = scene;
-
-	std::pair<int, int> entry = scene->getEntry();
-	m_posX = entry.first;
-	m_posY = entry.second;
-}
-
 void Character::setWalkingEffect(std::string path) {
 	m_walkingEffect = Mix_LoadWAV(path.c_str());
 	if (m_walkingEffect == NULL) {
 		printf("Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 	}
-}
-
-Scene* Character::getScene() {
-	return m_scene;
 }

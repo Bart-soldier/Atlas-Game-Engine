@@ -9,5 +9,6 @@ class Object : public SceneElement {
 	public:
 		Object(int posX, int posY, Texture* texture = nullptr, int spriteColumnIndex = 0, int spriteLineIndex = 0);
 		void display() override;
+		virtual std::pair<int, int> interact();
 };
 

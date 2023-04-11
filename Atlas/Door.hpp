@@ -3,12 +3,10 @@
 
 class Door : public Object {
 	private:
-		int m_toSceneIndex;
+		int m_destination;
 
 	public:
-		Door(int posX, int posY, int toSceneIndex, Texture* texture = nullptr, int spriteColumnIndex = 0, int spriteLineIndex = 0);
+		Door(int posX, int posY, int destination, Texture* texture = nullptr, int spriteColumnIndex = 0, int spriteLineIndex = 0);
 
-		void activate() override;
-
-		int getToSceneIndex();
+		std::pair<int, int> interact() override;
 };

@@ -36,8 +36,8 @@ void GameplayEngine::handleEvent() {
 			// Get mouse position
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-			if (checkInteractable(x, y)) printf("TRUE\n");
-			//m_player->move(x, y);
+			Object* object = checkInteractable(x, y);
+			if (object != nullptr) interact(object->interact());
 		}
 
 		// User presses a key
@@ -117,7 +117,13 @@ void GameplayEngine::handleEvent() {
 }
 
 void GameplayEngine::movePlayer() {
-	m_player->move();
+	// Get corresponding tile
+	int tile_x = m_player->getPosX() / (TILESIZE * TILEFACTOR);
+	int tile_y = m_player->getPosY() / (TILESIZE * TILEFACTOR);
+
+	std::vector<SceneElement*> neighbors = m_scenes.at(m_currentScene)->getNeighborForegroundElements(tile_x, tile_y);
+
+	m_player->move(neighbors);
 
 	Camera* camera = m_graphicsEngine->getCamera();
 	Scene* currentScene = m_scenes.at(m_currentScene);
@@ -130,7 +136,20 @@ void GameplayEngine::movePlayer() {
 	}
 }
 
-bool GameplayEngine::checkInteractable(int x, int y) {
+void GameplayEngine::enterScene() {
+	// Place player
+	std::pair<int, int> entryPoint = m_scenes.at(m_currentScene)->getEntry();
+	m_player->setPos(entryPoint.first, entryPoint.second);
+
+	// Play music
+	m_scenes.at(m_currentScene)->playTheme();
+}
+
+void GameplayEngine::leaveScene() {
+	m_scenes.at(m_currentScene)->stopTheme();
+}
+
+Object* GameplayEngine::checkInteractable(int x, int y) {
 	Camera* camera = m_graphicsEngine->getCamera();
 	int posX = m_player->getPosX();
 	int posY = m_player->getPosY();
@@ -147,10 +166,20 @@ bool GameplayEngine::checkInteractable(int x, int y) {
 
 		Object* object = m_scenes.at(m_currentScene)->getSceneElementForeground(gridX, gridY);
 
-		if (object != nullptr) return object->isInteractable();
+		if (object != nullptr) {
+			if(object->isInteractable()) return object;
+		}
 	}
 
-	return false;
+	return nullptr;
+}
+
+void GameplayEngine::interact(std::pair<int, int> interaction) {
+	if (interaction.first = CHANGE_SCENE) {
+		leaveScene();
+		m_currentScene = interaction.second;
+		enterScene();
+	}
 }
 
 void GameplayEngine::gameLoop() {
@@ -180,13 +209,6 @@ void GameplayEngine::update() {
 	// Handle events on queue
 	handleEvent();
 
-	// Check if player has changed scene
-	/*int currentScene = m_player->getCurrentScene();
-	if (currentScene != m_currentScene) {
-		m_currentScene = currentScene;
-		m_player->addToScene(m_scenes.at(m_currentScene));
-	}*/
-
 	m_scenes.at(m_currentScene)->update();
 
 	movePlayer();
@@ -207,15 +229,19 @@ void GameplayEngine::display() {
 }
 
 void GameplayEngine::startGame() {
+	// Tomb exterior
 	m_scenes.push_back(new Scene(m_graphicsEngine));
 	m_scenes.back()->testLevel1();
+	m_scenes.back()->setTheme("resources/audio/IndianaJones.wav");
+
+	// Tomb interior
 	m_scenes.push_back(new Scene(m_graphicsEngine));
 	m_scenes.back()->testLevel2();
-	m_currentScene = 0;
+	m_scenes.back()->setTheme("resources/audio/Tomb.wav");
 
-	m_player->addToScene(m_scenes.at(m_currentScene));
-	//level1->setTheme("resources/audio/IndianaJones.wav");
-	//level1->playTheme();
+	// Start at tomb exterior
+	m_currentScene = 0;
+	enterScene();
 
 	// Main loop
 	while (!m_exitStatus && m_currentScene != -1) {

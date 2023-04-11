@@ -174,6 +174,14 @@ void Scene::playTheme() {
 	else Mix_PlayMusic(m_theme, -1);
 }
 
+void Scene::stopTheme() {
+	// Stop the music
+	if (m_theme == NULL) {
+		printf("No music to stop!");
+	}
+	else Mix_HaltMusic();
+}
+
 std::pair<int, int> Scene::getEntry() {
 	return m_entry;
 }

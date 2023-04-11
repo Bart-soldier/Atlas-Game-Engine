@@ -17,3 +17,8 @@ enum Directions {
 	SOUTH,
 	WEST
 };
+
+enum Interactions {
+	NONE,
+	CHANGE_SCENE
+};

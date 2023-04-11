@@ -9,3 +9,7 @@ Object::Object(int posX, int posY, Texture* texture, int spriteColumnIndex, int 
 void Object::display() {
 	m_texture->render(m_posX, m_posY, m_width, m_height, m_spriteLineIndex, m_spriteColumnIndex);
 }
+
+std::pair<int, int> Object::interact() {
+	return std::make_pair(NONE, 0);
+}

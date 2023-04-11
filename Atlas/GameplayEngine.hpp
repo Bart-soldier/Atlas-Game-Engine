@@ -1,4 +1,6 @@
 #pragma once
+#include <typeinfo>
+
 #include "GraphicsEngine.hpp"
 #include "Player.hpp"
 #include "Text.hpp"
@@ -24,8 +26,12 @@ class GameplayEngine {
 
 		void handleEvent();
 		void movePlayer();
-		bool checkInteractable(int x, int y);
-		//void interact();
+
+		void enterScene();
+		void leaveScene();
+
+		Object* checkInteractable(int x, int y);
+		void interact(std::pair<int, int> interaction);
 
 		void gameLoop();
 		void update();
