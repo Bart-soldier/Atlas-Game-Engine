@@ -37,6 +37,7 @@ class Scene {
 		Environment* getSceneElementBackground(int x, int y);
 		Object* getSceneElementForeground(int x, int y);
 		std::vector<SceneElement*> getNeighborForegroundElements(int e_x, int e_y);
+		void setEntry(std::pair<int, int> entry);
 		std::pair<int, int> getEntry();
 		int getWidth();
 		int getHeight();

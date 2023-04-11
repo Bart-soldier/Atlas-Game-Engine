@@ -146,7 +146,11 @@ void GameplayEngine::enterScene() {
 }
 
 void GameplayEngine::leaveScene() {
+	// Stop music
 	m_scenes.at(m_currentScene)->stopTheme();
+
+	// Change entry
+	m_scenes.at(m_currentScene)->setEntry(std::make_pair(m_player->getPosX(), m_player->getPosY()));
 }
 
 Object* GameplayEngine::checkInteractable(int x, int y) {
@@ -160,7 +164,7 @@ Object* GameplayEngine::checkInteractable(int x, int y) {
 	int diffY = (trueY > posY) ? trueY - posY : posY - trueY;
 
 	// If object is within reach
-	if (diffX <= 2 * TILESIZE * TILEFACTOR && diffY < 2 * TILESIZE * TILEFACTOR) {
+	if (diffX <= 1.5 * TILESIZE * TILEFACTOR && diffY < 1.5 * TILESIZE * TILEFACTOR) {
 		int gridX = trueX / (TILESIZE * TILEFACTOR);
 		int gridY = trueY / (TILESIZE * TILEFACTOR);
 

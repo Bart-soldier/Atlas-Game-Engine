@@ -126,13 +126,18 @@ void Scene::testLevel2() {
 		}
 	}
 
+	// Ark
 	int x = 4;
 	int y = 4;
 	Relic* ark = new Relic(x, y, new Texture(m_graphicsEngine, "resources/images/ArkCovenant.png"));
 	setSceneElementForeground(x, y, ark);
 	setSceneElementForeground(x + 1, y, ark);
-	//setSceneElementForeground(x, y + 1, ark);
-	//setSceneElementForeground(x + 1, y + 1, ark);
+
+	// Exit door
+	x = 4;
+	y = m_height - 1;
+	Door* door = new Door(x, y, 0, new Texture(m_graphicsEngine, "resources/images/Door.png"));
+	setSceneElementForeground(x, y, door);
 
 	m_entry.first = (m_width - 1) * TILESIZE * TILEFACTOR / 2;
 	m_entry.second = (m_height - 3) * TILESIZE * TILEFACTOR;
@@ -196,4 +201,8 @@ int Scene::getHeight() {
 
 bool Scene::isInterior() {
 	return m_isInterior;
+}
+
+void Scene::setEntry(std::pair<int, int> entry) {
+	m_entry = entry;
 }

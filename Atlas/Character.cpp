@@ -122,14 +122,14 @@ void Character::stopMovement(int direction) {
 
 void Character::toggleRun() {
 	if (!m_isRunning) {
-		m_speed *= 30;
-		m_speedX *= 30;
-		m_speedY *= 30;
+		m_speed *= 3;
+		m_speedX *= 3;
+		m_speedY *= 3;
 	}
 	else {
-		m_speed /= 30;
-		m_speedX /= 30;
-		m_speedY /= 30;
+		m_speed /= 3;
+		m_speedX /= 3;
+		m_speedY /= 3;
 	}
 
 	m_isRunning = !m_isRunning;
