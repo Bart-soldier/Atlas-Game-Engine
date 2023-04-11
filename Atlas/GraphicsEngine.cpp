@@ -143,3 +143,7 @@ void GraphicsEngine::setExitStatus(bool exitStatus) {
 void GraphicsEngine::setCamera(Camera* camera) {
 	m_camera = camera;
 }
+
+Camera* GraphicsEngine::getCamera() {
+	if (m_camera != NULL) return m_camera;
+}

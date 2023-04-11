@@ -11,7 +11,6 @@ Character::Character(int posX, int posY, Texture* texture) : SceneElement(posX, 
 	m_direction = SOUTH;
 
 	m_scene = NULL;
-	m_currentScene = -1;
 
 	m_walkingEffect = NULL;
 
@@ -205,9 +204,8 @@ void Character::move() {
 	else if (m_frame % 2 != 0) m_frame -= m_frame % 2;
 }
 
-void Character::addToScene(Scene* scene, int currentScene) {
+void Character::addToScene(Scene* scene) {
 	m_scene = scene;
-	m_currentScene = currentScene;
 
 	std::pair<int, int> entry = scene->getEntry();
 	m_posX = entry.first;
@@ -221,6 +219,6 @@ void Character::setWalkingEffect(std::string path) {
 	}
 }
 
-int Character::getCurrentScene() {
-	return m_currentScene;
+Scene* Character::getScene() {
+	return m_scene;
 }

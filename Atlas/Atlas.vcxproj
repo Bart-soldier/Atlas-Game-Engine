@@ -23,7 +23,6 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="GameplayEngine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -43,7 +42,6 @@
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="Door.hpp" />
     <ClInclude Include="Environment.hpp" />
-    <ClInclude Include="EventHandler.hpp" />
     <ClInclude Include="GameplayEngine.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Player.hpp" />

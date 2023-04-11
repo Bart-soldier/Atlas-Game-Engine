@@ -40,4 +40,6 @@ class GraphicsEngine {
 		bool getExitStatus();
 		void setExitStatus(bool exitStatus);
 		void setCamera(Camera* camera);
+
+		Camera* getCamera();
 };
