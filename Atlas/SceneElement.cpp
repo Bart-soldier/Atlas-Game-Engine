@@ -10,7 +10,8 @@ SceneElement::SceneElement(int posX, int posY, Texture* texture) {
 	m_frame = 0;
 	m_timeSinceLastFrame = 0;
 
-	bool m_isInteractable = false;
+	m_isInteractable = false;
+	m_toCamera = true;
 
 	if (texture != nullptr) setTexture(texture);
 }
@@ -79,6 +80,10 @@ int SceneElement::getWidth() {
 
 int SceneElement::getHeight() {
 	return m_height;
+}
+
+Texture* SceneElement::getTexture() {
+	return m_texture;
 }
 
 void SceneElement::setPos(int x, int y) {

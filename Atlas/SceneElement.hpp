@@ -13,6 +13,7 @@ class SceneElement {
 		Uint32 m_timeSinceLastFrame;
 
 		bool m_isInteractable;
+		bool m_toCamera;
 
 	public:
 		SceneElement(int posX, int posY, Texture* texture = nullptr);
@@ -30,6 +31,7 @@ class SceneElement {
 		int getPosY();
 		int getWidth();
 		int getHeight();
+		Texture* getTexture();
 		void setPos(int x, int y);
 		bool isInteractable();
 };

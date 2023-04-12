@@ -24,6 +24,7 @@ class Texture {
 		int m_spriteLineNb;
 		int m_spriteColumnNb;
 		std::vector<SDL_Rect> m_spriteClips;
+		std::string m_path;
 
 		TTF_Font* m_font = NULL;
 
@@ -45,6 +46,8 @@ class Texture {
 		bool loadFromFile(std::string path);
 		// Creates image from font string
 		bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
+
+		bool resize(int width, int height);
 
 		// Set color modulation
 		void setColor(Uint8 red, Uint8 green, Uint8 blue);

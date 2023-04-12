@@ -18,6 +18,7 @@ Texture::Texture(GraphicsEngine* graphicsEngine, std::string path, int spriteCol
 	m_graphicsEngine = graphicsEngine;
 	m_spriteColumnNb = spriteColumnNb;
 	m_spriteLineNb = spriteLineNb;
+	m_path = path;
 	loadFromFile(path);
 }
 
@@ -117,6 +118,71 @@ bool Texture::loadFromFile(std::string path) {
 		newTexture = m_graphicsEngine->createTexture(resizedSurface);
 		if (newTexture == NULL) {
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+			return false;
+		}
+		else {
+			// Get image dimensions
+			m_width = resizedSurface->w;
+			m_height = resizedSurface->h;
+		}
+
+		// Get rid of old loaded surfaces
+		SDL_FreeSurface(loadedSurface);
+		SDL_FreeSurface(resizedSurface);
+	}
+
+	// Return success
+	m_texture = newTexture;
+
+	intializeSpriteClips();
+
+	return true;
+}
+
+bool Texture::resize(int width, int height) {
+	//Get rid of preexisting texture
+	free();
+
+	//The final texture
+	SDL_Texture* newTexture = NULL;
+
+	// Load image at specified path
+	SDL_Surface* loadedSurface = IMG_Load(m_path.c_str());
+
+	if (loadedSurface == NULL) {
+		printf("Unable to load image %s! SDL_image Error: %s\n", m_path.c_str(), IMG_GetError());
+		return false;
+	}
+	else {
+		m_width = width;
+		m_height = height;
+
+		// Resize surface
+		SDL_Rect resizedRect;
+		resizedRect.x = 0;
+		resizedRect.y = 0;
+		resizedRect.w = m_width * TILEFACTOR;
+		resizedRect.h = m_height * TILEFACTOR;
+
+		SDL_Surface* resizedSurface = SDL_CreateRGBSurface(
+			loadedSurface->flags,
+			resizedRect.w,
+			resizedRect.h,
+			loadedSurface->format->BitsPerPixel,
+			loadedSurface->format->Rmask,
+			loadedSurface->format->Gmask,
+			loadedSurface->format->Bmask,
+			loadedSurface->format->Amask);
+
+		SDL_BlitScaled(loadedSurface, NULL, resizedSurface, &resizedRect);
+
+		// Color key image
+		SDL_SetColorKey(resizedSurface, SDL_TRUE, SDL_MapRGB(resizedSurface->format, 0, 0xFF, 0xFF));
+
+		// Create texture from surface pixels
+		newTexture = m_graphicsEngine->createTexture(resizedSurface);
+		if (newTexture == NULL) {
+			printf("Unable to create texture from %s! SDL Error: %s\n", m_path.c_str(), SDL_GetError());
 			return false;
 		}
 		else {

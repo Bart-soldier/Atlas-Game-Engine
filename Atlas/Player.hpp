@@ -9,8 +9,9 @@ class Player : public Character {
 	public:
 		Player(int posX, int posY, Texture* texture = nullptr);
 
-		void createInventory(Texture* texture, int space);
-		bool addToInventory(Object* object);
 		void display() override;
+
+		void setInventory(Texture* texture, int space);
+		Inventory* getInventory();
 };
 

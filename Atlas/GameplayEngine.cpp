@@ -9,7 +9,7 @@ GameplayEngine::GameplayEngine(GraphicsEngine* graphicsEngine) {
 
 	// Create player
 	m_player = new Player(1, 1, new Texture(m_graphicsEngine, "resources/images/DrJonez.png", 4, 4));
-	m_player->createInventory(new Texture(m_graphicsEngine, "resources/images/Inventory.png"), 10);
+	m_player->setInventory(new Texture(m_graphicsEngine, "resources/images/Inventory.png"), 10);
 	//player->setWalkingEffect("resources/audio/medium.wav");
 
 	// Create FPS counter
@@ -188,7 +188,7 @@ void GameplayEngine::interact(Object* object) {
 		enterScene();
 	}
 	if (interaction.first == ADD_INVENTORY) {
-		m_player->addToInventory(object);
+		m_player->getInventory()->add(object);
 		int tileX = object->getPosX() / (TILESIZE * TILEFACTOR);
 		int tileY = object->getPosY() / (TILESIZE * TILEFACTOR);
 		m_scenes.at(m_currentScene)->removeForeground(tileX, tileY);

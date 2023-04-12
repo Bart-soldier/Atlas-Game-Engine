@@ -20,6 +20,7 @@ void Inventory::display() {
 bool Inventory::add(Object* object) {
 	if (m_inventory.size() < m_space) {
 		m_inventory.push_back(object);
+		m_inventory.back()->getTexture()->resize(TILESIZE, TILESIZE);
 		return true;
 	}
 	
