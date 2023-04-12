@@ -18,6 +18,7 @@ class SceneElement {
 		SceneElement(int posX, int posY, Texture* texture = nullptr);
 
 		virtual void display();
+		virtual void display(int posX, int posY, int width, int height, bool toCamera);
 		//virtual bool checkCollision(int posX, int posY);
 		//virtual void handleCollision(SceneElement* element);
 

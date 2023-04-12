@@ -7,9 +7,17 @@ Object::Object(int posX, int posY, Texture* texture, int spriteColumnIndex, int 
 }
 
 void Object::display() {
-	m_texture->render(m_posX, m_posY, m_width, m_height, m_spriteLineIndex, m_spriteColumnIndex);
+	if (m_texture != NULL) {
+		m_texture->render(m_posX, m_posY, m_width, m_height, m_spriteLineIndex, m_spriteColumnIndex);
+	}
+}
+
+void Object::display(int posX, int posY, int width, int height, bool toCamera) {
+	if (m_texture != NULL) {
+		m_texture->render(posX, posY, width, height, m_spriteLineIndex, m_spriteColumnIndex, toCamera);
+	}
 }
 
 std::pair<int, int> Object::interact() {
-	return std::make_pair(NONE, 0);
+	return std::make_pair(NONE, -1);
 }

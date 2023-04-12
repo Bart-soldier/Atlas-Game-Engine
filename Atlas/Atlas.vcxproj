@@ -24,6 +24,7 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="GameplayEngine.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Door.hpp" />
     <ClInclude Include="Environment.hpp" />
     <ClInclude Include="GameplayEngine.hpp" />
+    <ClInclude Include="Inventory.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Relic.hpp" />

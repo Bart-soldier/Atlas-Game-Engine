@@ -9,6 +9,7 @@ GameplayEngine::GameplayEngine(GraphicsEngine* graphicsEngine) {
 
 	// Create player
 	m_player = new Player(1, 1, new Texture(m_graphicsEngine, "resources/images/DrJonez.png", 4, 4));
+	m_player->createInventory(new Texture(m_graphicsEngine, "resources/images/Inventory.png"), 10);
 	//player->setWalkingEffect("resources/audio/medium.wav");
 
 	// Create FPS counter
@@ -37,7 +38,7 @@ void GameplayEngine::handleEvent() {
 			int x, y;
 			SDL_GetMouseState(&x, &y);
 			Object* object = checkInteractable(x, y);
-			if (object != nullptr) interact(object->interact());
+			if (object != nullptr) interact(object);
 		}
 
 		// User presses a key
@@ -168,7 +169,7 @@ Object* GameplayEngine::checkInteractable(int x, int y) {
 		int gridX = trueX / (TILESIZE * TILEFACTOR);
 		int gridY = trueY / (TILESIZE * TILEFACTOR);
 
-		Object* object = m_scenes.at(m_currentScene)->getSceneElementForeground(gridX, gridY);
+		Object* object = m_scenes.at(m_currentScene)->getForeground(gridX, gridY);
 
 		if (object != nullptr) {
 			if(object->isInteractable()) return object;
@@ -178,11 +179,19 @@ Object* GameplayEngine::checkInteractable(int x, int y) {
 	return nullptr;
 }
 
-void GameplayEngine::interact(std::pair<int, int> interaction) {
-	if (interaction.first = CHANGE_SCENE) {
+void GameplayEngine::interact(Object* object) {
+	std::pair<int, int> interaction = object->interact();
+
+	if (interaction.first == CHANGE_SCENE) {
 		leaveScene();
 		m_currentScene = interaction.second;
 		enterScene();
+	}
+	if (interaction.first == ADD_INVENTORY) {
+		m_player->addToInventory(object);
+		int tileX = object->getPosX() / (TILESIZE * TILEFACTOR);
+		int tileY = object->getPosY() / (TILESIZE * TILEFACTOR);
+		m_scenes.at(m_currentScene)->removeForeground(tileX, tileY);
 	}
 }
 

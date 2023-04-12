@@ -31,7 +31,7 @@ class GameplayEngine {
 		void leaveScene();
 
 		Object* checkInteractable(int x, int y);
-		void interact(std::pair<int, int> interaction);
+		void interact(Object* object);
 
 		void gameLoop();
 		void update();

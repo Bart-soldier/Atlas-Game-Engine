@@ -37,14 +37,22 @@ void Scene::initializeSceneElements() {
 	m_sceneElements.shrink_to_fit();
 }
 
-Environment* Scene::getSceneElementBackground(int x, int y) {
+Environment* Scene::getBackground(int x, int y) {
 	if (x >= 0 && x < m_width && y >= 0 && y < m_height) return m_sceneElements.at(y * m_width + x).first;
 	else return nullptr;
 }
 
-Object* Scene::getSceneElementForeground(int x, int y) {
+Object* Scene::getForeground(int x, int y) {
 	if (x >= 0 && x < m_width && y >= 0 && y < m_height) return m_sceneElements.at(y * m_width + x).second;
 	else return nullptr;
+}
+
+void Scene::removeBackground(int x, int y) {
+	if (x >= 0 && x < m_width && y >= 0 && y < m_height) m_sceneElements.at(y * m_width + x).first = nullptr;
+}
+
+void Scene::removeForeground(int x, int y) {
+	if (x >= 0 && x < m_width && y >= 0 && y < m_height) m_sceneElements.at(y * m_width + x).second = nullptr;
 }
 
 std::vector<SceneElement*> Scene::getNeighborForegroundElements(int e_x, int e_y) {
@@ -52,7 +60,7 @@ std::vector<SceneElement*> Scene::getNeighborForegroundElements(int e_x, int e_y
 
 	for (int y = e_y - 1; y <= e_y + 1; y++) {
 		for (int x = e_x - 1; x <= e_x + 1; x++) {
-			if(x >= 0 && x < m_width && y >= 0 && y < m_height) neighborElements.push_back(getSceneElementForeground(x, y));
+			if(x >= 0 && x < m_width && y >= 0 && y < m_height) neighborElements.push_back(getForeground(x, y));
 		}
 	}
 
@@ -131,7 +139,6 @@ void Scene::testLevel2() {
 	int y = 4;
 	Relic* ark = new Relic(x, y, new Texture(m_graphicsEngine, "resources/images/ArkCovenant.png"));
 	setSceneElementForeground(x, y, ark);
-	setSceneElementForeground(x + 1, y, ark);
 
 	// Exit door
 	x = 4;

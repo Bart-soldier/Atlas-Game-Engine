@@ -20,5 +20,6 @@ enum Directions {
 
 enum Interactions {
 	NONE,
-	CHANGE_SCENE
+	CHANGE_SCENE,
+	ADD_INVENTORY
 };

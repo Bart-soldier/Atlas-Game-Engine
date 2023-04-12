@@ -20,6 +20,13 @@ void SceneElement::display() {
 		m_texture->render(m_posX, m_posY, m_width, m_height);
 	}
 }
+
+void SceneElement::display(int posX, int posY, int width, int height, bool toCamera) {
+	if (m_texture != NULL) {
+		m_texture->render(posX, posY, width, height, 0, 0, toCamera);
+	}
+}
+
 /*
 bool SceneElement::checkCollision(int posX, int posY) {
 	// Get corresponding tile

@@ -34,9 +34,12 @@ class Scene {
 		void playTheme();
 		void stopTheme();
 
-		Environment* getSceneElementBackground(int x, int y);
-		Object* getSceneElementForeground(int x, int y);
+		Environment* getBackground(int x, int y);
+		Object* getForeground(int x, int y);
+		void removeBackground(int x, int y);
+		void removeForeground(int x, int y);
 		std::vector<SceneElement*> getNeighborForegroundElements(int e_x, int e_y);
+
 		void setEntry(std::pair<int, int> entry);
 		std::pair<int, int> getEntry();
 		int getWidth();
