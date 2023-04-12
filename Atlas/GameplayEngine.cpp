@@ -9,7 +9,7 @@ GameplayEngine::GameplayEngine(GraphicsEngine* graphicsEngine) {
 
 	// Create player
 	m_player = new Player(1, 1, new Texture(m_graphicsEngine, "resources/images/DrJonez.png", 4, 4));
-	m_player->setInventory(new Texture(m_graphicsEngine, "resources/images/Inventory.png"), 10);
+	m_player->setInventory(new Texture(m_graphicsEngine, "resources/images/Inventory.png", 2), 10);
 	//player->setWalkingEffect("resources/audio/medium.wav");
 
 	// Create FPS counter
@@ -24,16 +24,16 @@ GameplayEngine::GameplayEngine(GraphicsEngine* graphicsEngine) {
 }
 
 void GameplayEngine::handleEvent() {
-	SDL_Event eventHandler;
+	SDL_Event event;
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
-	while (SDL_PollEvent(&eventHandler) != 0) {
+	while (SDL_PollEvent(&event) != 0) {
 		// User requests quit
-		if (eventHandler.type == SDL_QUIT) {
+		if (event.type == SDL_QUIT) {
 			m_exitStatus = true;
 		}
 
-		else if (eventHandler.type == SDL_MOUSEBUTTONDOWN) {
+		else if (event.type == SDL_MOUSEBUTTONDOWN) {
 			// Get mouse position
 			int x, y;
 			SDL_GetMouseState(&x, &y);
@@ -41,9 +41,18 @@ void GameplayEngine::handleEvent() {
 			if (object != nullptr) interact(object);
 		}
 
+		else if (event.type == SDL_MOUSEWHEEL) {
+			if (event.wheel.y > 0)  {
+				m_player->getInventory()->decrement();
+			}
+			else if (event.wheel.y < 0) {
+				m_player->getInventory()->increment();
+			}
+		}
+
 		// User presses a key
-		else if (eventHandler.type == SDL_KEYDOWN && eventHandler.key.repeat == 0) {
-			switch (eventHandler.key.keysym.sym) {
+		else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
+			switch (event.key.keysym.sym) {
 			case SDLK_UP:
 			case SDLK_z:
 				m_player->startMovement(NORTH);
@@ -70,8 +79,8 @@ void GameplayEngine::handleEvent() {
 		}
 
 		// User releases a key
-		else if (eventHandler.type == SDL_KEYUP && eventHandler.key.repeat == 0) {
-			switch (eventHandler.key.keysym.sym) {
+		else if (event.type == SDL_KEYUP && event.key.repeat == 0) {
+			switch (event.key.keysym.sym) {
 			case SDLK_UP:
 			case SDLK_z:
 				m_player->stopMovement(NORTH);

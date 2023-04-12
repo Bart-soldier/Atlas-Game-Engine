@@ -7,6 +7,7 @@ class Inventory {
 		Texture* m_texture;
 		std::vector<Object*> m_inventory;
 		int m_space;
+		int m_current;
 
 		int m_posX;
 		int m_posY;
@@ -15,5 +16,7 @@ class Inventory {
 		Inventory(Texture* texture, int space);
 		void display();
 		bool add(Object* object);
+		void increment();
+		void decrement();
 };
 
